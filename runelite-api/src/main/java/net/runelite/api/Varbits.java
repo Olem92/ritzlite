@@ -375,6 +375,11 @@ public enum Varbits
 	QUEST_THE_HAND_IN_THE_SAND(1527),
 
 	/**
+	 * member Quest varbits, these don't hold the completion value.
+	 */
+	QUEST_THE_FEUD(334), // 14 = able to pickpocket
+
+	/**
 	 * Daily Tasks (Collection availability)
 	 */
 	DAILY_HERB_BOXES_COLLECTED(3961),

@@ -30,9 +30,8 @@ import net.runelite.api.ClanMember;
 
 @Value
 @AllArgsConstructor
-class ClanMemberActivity
-{
-	private ClanActivityType activityType;
-	private ClanMember member;
-	private Integer tick;
+class ClanMemberActivity {
+    private ClanActivityType activityType;
+    private ClanMember member;
+    private Integer tick;
 }
