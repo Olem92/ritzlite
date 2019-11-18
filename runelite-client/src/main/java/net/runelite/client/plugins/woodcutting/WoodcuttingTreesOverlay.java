@@ -28,6 +28,7 @@ package net.runelite.client.plugins.woodcutting;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import javax.inject.Inject;
+
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.client.game.ItemManager;
@@ -36,46 +37,39 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 
-class WoodcuttingTreesOverlay extends Overlay
-{
-	private final Client client;
-	private final WoodcuttingConfig config;
-	private final ItemManager itemManager;
-	private final WoodcuttingPlugin plugin;
+class WoodcuttingTreesOverlay extends Overlay {
+    private final Client client;
+    private final WoodcuttingConfig config;
+    private final ItemManager itemManager;
+    private final WoodcuttingPlugin plugin;
 
-	@Inject
-	private WoodcuttingTreesOverlay(final Client client, final WoodcuttingConfig config, final ItemManager itemManager, final WoodcuttingPlugin plugin)
-	{
-		this.client = client;
-		this.config = config;
-		this.itemManager = itemManager;
-		this.plugin = plugin;
-		setLayer(OverlayLayer.ABOVE_SCENE);
-		setPosition(OverlayPosition.DYNAMIC);
-	}
+    @Inject
+    private WoodcuttingTreesOverlay(final Client client, final WoodcuttingConfig config, final ItemManager itemManager, final WoodcuttingPlugin plugin) {
+        this.client = client;
+        this.config = config;
+        this.itemManager = itemManager;
+        this.plugin = plugin;
+        setLayer(OverlayLayer.ABOVE_SCENE);
+        setPosition(OverlayPosition.DYNAMIC);
+    }
 
-	@Override
-	public Dimension render(Graphics2D graphics)
-	{
-		if (plugin.getSession() == null || !config.showRedwoodTrees())
-		{
-			return null;
-		}
+    @Override
+    public Dimension render(Graphics2D graphics) {
+        if (plugin.getSession() == null || !config.showRedwoodTrees()) {
+            return null;
+        }
 
-		Axe axe = plugin.getAxe();
-		if (axe == null)
-		{
-			return null;
-		}
+        Axe axe = plugin.getAxe();
+        if (axe == null) {
+            return null;
+        }
 
-		for (GameObject treeObject : plugin.getTreeObjects())
-		{
-			if (treeObject.getWorldLocation().distanceTo(client.getLocalPlayer().getWorldLocation()) <= 12)
-			{
-				OverlayUtil.renderImageLocation(client, graphics, treeObject.getLocalLocation(), itemManager.getImage(axe.getItemId()), 120);
-			}
-		}
+        for (GameObject treeObject : plugin.getTreeObjects()) {
+            if (treeObject.getWorldLocation().distanceTo(client.getLocalPlayer().getWorldLocation()) <= 12) {
+                OverlayUtil.renderImageLocation(client, graphics, treeObject.getLocalLocation(), itemManager.getImage(axe.getItemId()), 120);
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

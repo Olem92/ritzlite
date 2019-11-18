@@ -147,6 +147,8 @@ public class EasySwapPlugin extends Plugin {
             swapper.markForSwap("Monastery Teleport", option, target);
         }
 
+
+
         if (config.getSwapEssencePouch()) {
             if (isEssencePouch(target)) {
                 Widget widgetBankTitleBar = client.getWidget(WidgetInfo.BANK_TITLE_BAR);

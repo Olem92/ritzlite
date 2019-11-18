@@ -18,7 +18,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.util.Text;
 
 @PluginDescriptor(
-        name = "Abyssal Sire",
+        name = "[R] Abyssal Sire",
         description = "Left-click to walk under Spawns and Scions at Abyssal Sire",
         tags = {"sire", "abyssal", "scion", "spawn"}
 )
