@@ -28,9 +28,8 @@ import lombok.Value;
 import net.runelite.api.MessageNode;
 
 @Value
-class ClanJoinMessage
-{
-	private final MessageNode messageNode;
-	private final int getMessageId;
-	private final int tick;
+class ClanJoinMessage {
+    private final MessageNode messageNode;
+    private final int getMessageId;
+    private final int tick;
 }

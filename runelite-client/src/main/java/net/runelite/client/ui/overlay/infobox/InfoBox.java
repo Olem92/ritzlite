@@ -31,9 +31,16 @@ import lombok.Getter;
 import lombok.Setter;
 import net.runelite.client.plugins.Plugin;
 
+import java.awt.Color;
+import java.awt.Image;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import net.runelite.client.plugins.Plugin;
+
 public abstract class InfoBox
 {
-	@Getter(AccessLevel.PACKAGE)
+	@Getter(AccessLevel.PUBLIC)
 	private final Plugin plugin;
 
 	@Getter

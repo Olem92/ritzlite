@@ -35,18 +35,17 @@ import net.runelite.api.coords.LocalPoint;
  * once (ie. AoE from Lizardman Shaman).
  */
 @Data
-public class ProjectileMoved
-{
-	/**
-	 * The projectile being moved.
-	 */
-	private Projectile projectile;
-	/**
-	 * The target location of the projectile.
-	 */
-	private LocalPoint position;
-	/**
-	 * The z-axis target location of the projectile.
-	 */
-	private int z;
+public class ProjectileMoved {
+    /**
+     * The projectile being moved.
+     */
+    private Projectile projectile;
+    /**
+     * The target location of the projectile.
+     */
+    private LocalPoint position;
+    /**
+     * The z-axis target location of the projectile.
+     */
+    private int z;
 }
