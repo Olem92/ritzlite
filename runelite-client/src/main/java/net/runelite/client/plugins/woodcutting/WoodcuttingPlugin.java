@@ -1,7 +1,30 @@
+/*
+ * Copyright (c) 2017, Seth <Sethtroll3@gmail.com>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package net.runelite.client.plugins.woodcutting;
 
 import com.google.inject.Provides;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -9,7 +32,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.runelite.api.ChatMessageType;
@@ -34,164 +56,187 @@ import net.runelite.client.plugins.xptracker.XpTrackerPlugin;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 @PluginDescriptor(
-        name = "Woodcutting",
-        description = "Show woodcutting statistics and/or bird nest notifications",
-        tags = {"birds", "nest", "notifications", "overlay", "skilling", "wc"}
+		name = "Woodcutting",
+		description = "Show woodcutting statistics and/or bird nest notifications",
+		tags = {"birds", "nest", "notifications", "overlay", "skilling", "wc"}
 )
 @PluginDependency(XpTrackerPlugin.class)
-public class WoodcuttingPlugin extends Plugin {
-    @Inject
-    private Notifier notifier;
+public class WoodcuttingPlugin extends Plugin
+{
+	@Inject
+	private Notifier notifier;
 
-    @Inject
-    private Client client;
+	@Inject
+	private Client client;
 
-    @Inject
-    private OverlayManager overlayManager;
+	@Inject
+	private OverlayManager overlayManager;
 
-    @Inject
-    private WoodcuttingOverlay overlay;
+	@Inject
+	private WoodcuttingOverlay overlay;
 
-    @Inject
-    private WoodcuttingTreesOverlay treesOverlay;
+	@Inject
+	private WoodcuttingTreesOverlay treesOverlay;
 
-    @Inject
-    private WoodcuttingConfig config;
+	@Inject
+	private WoodcuttingConfig config;
 
-    @Getter
-    private WoodcuttingSession session;
+	@Getter
+	private WoodcuttingSession session;
 
-    @Getter
-    private Axe axe;
+	@Getter
+	private Axe axe;
 
-    @Getter
-    private final Set<GameObject> treeObjects = new HashSet<>();
+	@Getter
+	private final Set<GameObject> treeObjects = new HashSet<>();
 
-    @Inject
-    private WoodcuttingTimersOverlay timersOverlay;
+	@Inject
+	private WoodcuttingTimersOverlay timersOverlay;
 
-    @Getter(AccessLevel.PACKAGE)
-    private final List<TreeRespawn> respawns = new ArrayList<>();
-    private boolean recentlyLoggedIn;
+	@Getter(AccessLevel.PACKAGE)
+	private final List<TreeRespawn> respawns = new ArrayList<>();
+	private boolean recentlyLoggedIn;
 
-    @Provides
-    WoodcuttingConfig getConfig(ConfigManager configManager) {
-        return configManager.getConfig(WoodcuttingConfig.class);
-    }
+	@Provides
+	WoodcuttingConfig getConfig(ConfigManager configManager)
+	{
+		return configManager.getConfig(WoodcuttingConfig.class);
+	}
 
-    @Override
-    protected void startUp() throws Exception {
-        overlayManager.add(overlay);
-        overlayManager.add(treesOverlay);
-        overlayManager.add(timersOverlay);
-    }
+	@Override
+	protected void startUp() throws Exception
+	{
+		overlayManager.add(overlay);
+		overlayManager.add(treesOverlay);
+		overlayManager.add(timersOverlay);
+	}
 
-    @Override
-    protected void shutDown() throws Exception {
-        overlayManager.remove(overlay);
-        overlayManager.remove(treesOverlay);
-        overlayManager.remove(timersOverlay);
-        respawns.clear();
-        treeObjects.clear();
-        session = null;
-        axe = null;
-    }
+	@Override
+	protected void shutDown() throws Exception
+	{
+		overlayManager.remove(overlay);
+		overlayManager.remove(treesOverlay);
+		overlayManager.remove(timersOverlay);
+		respawns.clear();
+		treeObjects.clear();
+		session = null;
+		axe = null;
+	}
 
-    @Subscribe
-    public void onGameTick(GameTick gameTick) {
-        recentlyLoggedIn = false;
+	@Subscribe
+	public void onGameTick(GameTick gameTick)
+	{
+		recentlyLoggedIn = false;
 
-        if (session == null || session.getLastLogCut() == null) {
-            return;
-        }
+		if (session == null || session.getLastLogCut() == null)
+		{
+			return;
+		}
 
-        Duration statTimeout = Duration.ofMinutes(config.statTimeout());
-        Duration sinceCut = Duration.between(session.getLastLogCut(), Instant.now());
+		Duration statTimeout = Duration.ofMinutes(config.statTimeout());
+		Duration sinceCut = Duration.between(session.getLastLogCut(), Instant.now());
 
-        if (sinceCut.compareTo(statTimeout) >= 0) {
-            session = null;
-            axe = null;
-        }
-    }
+		if (sinceCut.compareTo(statTimeout) >= 0)
+		{
+			session = null;
+			axe = null;
+		}
+	}
 
-    @Subscribe
-    public void onChatMessage(ChatMessage event) {
-        if (event.getType() == ChatMessageType.SPAM || event.getType() == ChatMessageType.GAMEMESSAGE) {
-            if (event.getMessage().startsWith("You get some") && (event.getMessage().endsWith("logs.") || event.getMessage().endsWith("mushrooms."))) {
-                if (session == null) {
-                    session = new WoodcuttingSession();
-                }
+	@Subscribe
+	public void onChatMessage(ChatMessage event)
+	{
+		if (event.getType() == ChatMessageType.SPAM || event.getType() == ChatMessageType.GAMEMESSAGE)
+		{
+			if (event.getMessage().startsWith("You get some") && (event.getMessage().endsWith("logs.") || event.getMessage().endsWith("mushrooms.")))
+			{
+				if (session == null)
+				{
+					session = new WoodcuttingSession();
+				}
 
-                session.setLastLogCut();
-            }
+				session.setLastLogCut();
+			}
 
-            if (event.getMessage().contains("A bird's nest falls out of the tree") && config.showNestNotification()) {
-                notifier.notify("A bird nest has spawned!");
-            }
-        }
-    }
+			if (event.getMessage().contains("A bird's nest falls out of the tree") && config.showNestNotification())
+			{
+				notifier.notify("A bird nest has spawned!");
+			}
+		}
+	}
 
-    @Subscribe
-    public void onGameObjectSpawned(final GameObjectSpawned event) {
-        GameObject gameObject = event.getGameObject();
-        Tree tree = Tree.findTree(gameObject.getId());
+	@Subscribe
+	public void onGameObjectSpawned(final GameObjectSpawned event)
+	{
+		GameObject gameObject = event.getGameObject();
+		Tree tree = Tree.findTree(gameObject.getId());
 
-        if (tree != null) {
-            treeObjects.add(gameObject);
-        }
-    }
+		if (tree != null)
+		{
+			treeObjects.add(gameObject);
+		}
+	}
 
-    @Subscribe
-    public void onGameObjectDespawned(final GameObjectDespawned event) {
-        if (client.getGameState() != GameState.LOGGED_IN || recentlyLoggedIn) {
-            return;
-        }
+	@Subscribe
+	public void onGameObjectDespawned(final GameObjectDespawned event)
+	{
+		if (client.getGameState() != GameState.LOGGED_IN || recentlyLoggedIn)
+		{
+			return;
+		}
 
-        final GameObject object = event.getGameObject();
+		final GameObject object = event.getGameObject();
 
-        Tree tree = Tree.findTree(object.getId());
-        if (tree != null) {
-            TreeRespawn treeRespawn = new TreeRespawn(tree, object.getWorldLocation(), Instant.now(), (int) tree.getRespawnTime().toMillis());
-            respawns.add(treeRespawn);
-        }
-        treeObjects.remove(event.getGameObject());
-    }
+		Tree tree = Tree.findTree(object.getId());
+		if (tree != null)
+		{
+			TreeRespawn treeRespawn = new TreeRespawn(tree, object.getWorldLocation(), Instant.now(), (int) tree.getRespawnTime().toMillis());
+			respawns.add(treeRespawn);
+		}
+		treeObjects.remove(event.getGameObject());
+	}
 
-    @Subscribe
-    public void onGameObjectChanged(final GameObjectChanged event) {
-        treeObjects.remove(event.getGameObject());
-        respawns.clear();
-    }
+	@Subscribe
+	public void onGameObjectChanged(final GameObjectChanged event)
+	{
+		treeObjects.remove(event.getGameObject());
+		respawns.clear();
+	}
 
-    @Subscribe
-    public void onGameStateChanged(final GameStateChanged event) {
-        switch (event.getGameState()) {
-            case LOADING:
-            case HOPPING:
-                respawns.clear();
-                treeObjects.clear();
-                break;
-            case LOGGED_IN:
-                // After login trees that are depleted will be changed,
-                // waits for the next game tick before watching for
-                // trees to deplete
-                recentlyLoggedIn = true;
-                break;
-        }
-    }
+	@Subscribe
+	public void onGameStateChanged(final GameStateChanged event)
+	{
+		switch (event.getGameState())
+		{
+			case LOADING:
+			case HOPPING:
+				respawns.clear();
+				treeObjects.clear();
+				break;
+			case LOGGED_IN:
+				// After login trees that are depleted will be changed,
+				// waits for the next game tick before watching for
+				// trees to deplete
+				recentlyLoggedIn = true;
+				break;
+		}
+	}
 
-    @Subscribe
-    public void onAnimationChanged(final AnimationChanged event) {
-        Player local = client.getLocalPlayer();
+	@Subscribe
+	public void onAnimationChanged(final AnimationChanged event)
+	{
+		Player local = client.getLocalPlayer();
 
-        if (event.getActor() != local) {
-            return;
-        }
+		if (event.getActor() != local)
+		{
+			return;
+		}
 
-        int animId = local.getAnimation();
-        Axe axe = Axe.findAxeByAnimId(animId);
-        if (axe != null) {
-            this.axe = axe;
-        }
-    }
+		int animId = local.getAnimation();
+		Axe axe = Axe.findAxeByAnimId(animId);
+		if (axe != null)
+		{
+			this.axe = axe;
+		}
+	}
 }
