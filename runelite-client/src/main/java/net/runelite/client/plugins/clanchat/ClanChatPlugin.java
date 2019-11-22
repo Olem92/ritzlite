@@ -29,7 +29,6 @@ package net.runelite.client.plugins.clanchat;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.inject.Provides;
-
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayDeque;
@@ -40,10 +39,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
-
 import net.runelite.api.ChatLineBuffer;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.ClanMember;
+import net.runelite.api.ClanMemberManager;
 import net.runelite.api.ClanMemberRank;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
@@ -57,7 +56,6 @@ import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.ClanChanged;
 import net.runelite.api.events.ClanMemberJoined;
 import net.runelite.api.events.ClanMemberLeft;
-import net.runelite.client.events.ConfigChanged;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.PlayerDespawned;
@@ -71,16 +69,15 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.chat.ChatMessageBuilder;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ClanManager;
 import net.runelite.client.game.SpriteManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-
 import static net.runelite.client.ui.JagexColors.CHAT_CLAN_NAME_OPAQUE_BACKGROUND;
 import static net.runelite.client.ui.JagexColors.CHAT_CLAN_NAME_TRANSPARENT_BACKGROUND;
 import static net.runelite.client.ui.JagexColors.CHAT_CLAN_TEXT_OPAQUE_BACKGROUND;
 import static net.runelite.client.ui.JagexColors.CHAT_CLAN_TEXT_TRANSPARENT_BACKGROUND;
-
 import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
 import net.runelite.client.util.Text;
 
@@ -89,7 +86,8 @@ import net.runelite.client.util.Text;
         description = "Add rank icons to users talking in clan chat",
         tags = {"icons", "rank", "recent"}
 )
-public class ClanChatPlugin extends Plugin {
+public class ClanChatPlugin extends Plugin
+{
     private static final int MAX_CHATS = 10;
     private static final String CLAN_CHAT_TITLE = "CC";
     private static final String RECENT_TITLE = "Recent CCs";
@@ -125,47 +123,60 @@ public class ClanChatPlugin extends Plugin {
     private int clanJoinedTick;
 
     @Provides
-    ClanChatConfig getConfig(ConfigManager configManager) {
+    ClanChatConfig getConfig(ConfigManager configManager)
+    {
         return configManager.getConfig(ClanChatConfig.class);
     }
 
     @Override
-    public void startUp() {
+    public void startUp()
+    {
         chats = new ArrayList<>(Text.fromCSV(config.chatsData()));
     }
 
     @Override
-    public void shutDown() {
+    public void shutDown()
+    {
         clanMembers.clear();
         removeClanCounter();
         resetClanChats();
     }
 
     @Subscribe
-    public void onConfigChanged(ConfigChanged configChanged) {
-        if (configChanged.getGroup().equals("clanchat")) {
-            if (!config.recentChats()) {
+    public void onConfigChanged(ConfigChanged configChanged)
+    {
+        if (configChanged.getGroup().equals("clanchat"))
+        {
+            if (!config.recentChats())
+            {
                 resetClanChats();
             }
 
-            if (config.showClanCounter()) {
+            if (config.showClanCounter())
+            {
                 clientThread.invoke(this::addClanCounter);
-            } else {
+            }
+            else
+            {
                 removeClanCounter();
             }
         }
     }
 
     @Subscribe
-    public void onClanMemberJoined(ClanMemberJoined event) {
+    public void onClanMemberJoined(ClanMemberJoined event)
+    {
         final ClanMember member = event.getMember();
 
-        if (member.getWorld() == client.getWorld()) {
+        if (member.getWorld() == client.getWorld())
+        {
             final Player local = client.getLocalPlayer();
-            final String memberName = Text.toJagexName(member.getUsername());
+            final String memberName = Text.toJagexName(member.getName());
 
-            for (final Player player : client.getPlayers()) {
-                if (player != null && player != local && memberName.equals(Text.toJagexName(player.getName()))) {
+            for (final Player player : client.getPlayers())
+            {
+                if (player != null && player != local && memberName.equals(Text.toJagexName(player.getName())))
+                {
                     clanMembers.add(player);
                     addClanCounter();
                     break;
@@ -174,38 +185,48 @@ public class ClanChatPlugin extends Plugin {
         }
 
         // clan members getting initialized isn't relevant
-        if (clanJoinedTick == client.getTickCount()) {
+        if (clanJoinedTick == client.getTickCount())
+        {
             return;
         }
 
         if (!config.showJoinLeave() ||
-                member.getRank().getValue() < config.joinLeaveRank().getValue()) {
+                member.getRank().getValue() < config.joinLeaveRank().getValue())
+        {
             return;
         }
 
         // attempt to filter out world hopping joins
-        if (!activityBuffer.containsKey(member.getUsername())) {
+        if (!activityBuffer.containsKey(member.getName()))
+        {
             ClanMemberActivity joinActivity = new ClanMemberActivity(ClanActivityType.JOINED,
                     member, client.getTickCount());
-            activityBuffer.put(member.getUsername(), joinActivity);
-        } else {
-            activityBuffer.remove(member.getUsername());
+            activityBuffer.put(member.getName(), joinActivity);
+        }
+        else
+        {
+            activityBuffer.remove(member.getName());
         }
     }
 
     @Subscribe
-    public void onClanMemberLeft(ClanMemberLeft event) {
+    public void onClanMemberLeft(ClanMemberLeft event)
+    {
         final ClanMember member = event.getMember();
 
-        if (member.getWorld() == client.getWorld()) {
-            final String memberName = Text.toJagexName(member.getUsername());
+        if (member.getWorld() == client.getWorld())
+        {
+            final String memberName = Text.toJagexName(member.getName());
             final Iterator<Player> each = clanMembers.iterator();
 
-            while (each.hasNext()) {
-                if (memberName.equals(Text.toJagexName(each.next().getName()))) {
+            while (each.hasNext())
+            {
+                if (memberName.equals(Text.toJagexName(each.next().getName())))
+                {
                     each.remove();
 
-                    if (clanMembers.isEmpty()) {
+                    if (clanMembers.isEmpty())
+                    {
                         removeClanCounter();
                     }
 
@@ -215,39 +236,51 @@ public class ClanChatPlugin extends Plugin {
         }
 
         if (!config.showJoinLeave() ||
-                member.getRank().getValue() < config.joinLeaveRank().getValue()) {
+                member.getRank().getValue() < config.joinLeaveRank().getValue())
+        {
             return;
         }
 
-        if (!activityBuffer.containsKey(member.getUsername())) {
+        if (!activityBuffer.containsKey(member.getName()))
+        {
             ClanMemberActivity leaveActivity = new ClanMemberActivity(ClanActivityType.LEFT,
                     member, client.getTickCount());
-            activityBuffer.put(member.getUsername(), leaveActivity);
-        } else {
-            activityBuffer.remove(member.getUsername());
+            activityBuffer.put(member.getName(), leaveActivity);
+        }
+        else
+        {
+            activityBuffer.remove(member.getName());
         }
     }
 
     @Subscribe
-    public void onGameTick(GameTick gameTick) {
-        if (client.getGameState() != GameState.LOGGED_IN) {
+    public void onGameTick(GameTick gameTick)
+    {
+        if (client.getGameState() != GameState.LOGGED_IN)
+        {
             return;
         }
 
         Widget clanChatTitleWidget = client.getWidget(WidgetInfo.CLAN_CHAT_TITLE);
-        if (clanChatTitleWidget != null) {
+        if (clanChatTitleWidget != null)
+        {
             Widget clanChatList = client.getWidget(WidgetInfo.CLAN_CHAT_LIST);
             Widget owner = client.getWidget(WidgetInfo.CLAN_CHAT_OWNER);
-            if (client.getClanChatCount() > 0) {
-                clanChatTitleWidget.setText(CLAN_CHAT_TITLE + " (" + client.getClanChatCount() + "/100)");
-            } else if (config.recentChats() && clanChatList.getChildren() == null && !Strings.isNullOrEmpty(owner.getText())) {
+            ClanMemberManager clanMemberManager = client.getClanMemberManager();
+            if (clanMemberManager != null && clanMemberManager.getCount() > 0)
+            {
+                clanChatTitleWidget.setText(CLAN_CHAT_TITLE + " (" + clanMemberManager.getCount() + "/100)");
+            }
+            else if (config.recentChats() && clanChatList.getChildren() == null && !Strings.isNullOrEmpty(owner.getText()))
+            {
                 clanChatTitleWidget.setText(RECENT_TITLE);
 
                 loadClanChats();
             }
         }
 
-        if (!config.showJoinLeave()) {
+        if (!config.showJoinLeave())
+        {
             return;
         }
 
@@ -256,80 +289,102 @@ public class ClanChatPlugin extends Plugin {
         addClanActivityMessages();
     }
 
-    private void timeoutClanMessages() {
-        if (clanJoinMessages.isEmpty()) {
+    private void timeoutClanMessages()
+    {
+        if (clanJoinMessages.isEmpty())
+        {
             return;
         }
 
         boolean removed = false;
 
-        for (Iterator<ClanJoinMessage> it = clanJoinMessages.iterator(); it.hasNext(); ) {
+        for (Iterator<ClanJoinMessage> it = clanJoinMessages.iterator(); it.hasNext(); )
+        {
             ClanJoinMessage clanJoinMessage = it.next();
             MessageNode messageNode = clanJoinMessage.getMessageNode();
             final int createdTick = clanJoinMessage.getTick();
 
-            if (client.getTickCount() > createdTick + JOIN_LEAVE_DURATION) {
+            if (client.getTickCount() > createdTick + JOIN_LEAVE_DURATION)
+            {
                 it.remove();
 
                 // If this message has been reused since, it will get a different id
-                if (clanJoinMessage.getGetMessageId() == messageNode.getId()) {
+                if (clanJoinMessage.getGetMessageId() == messageNode.getId())
+                {
                     ChatLineBuffer ccInfoBuffer = client.getChatLineMap().get(ChatMessageType.FRIENDSCHATNOTIFICATION.getType());
-                    if (ccInfoBuffer != null) {
+                    if (ccInfoBuffer != null)
+                    {
                         ccInfoBuffer.removeMessageNode(messageNode);
                         removed = true;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 // Everything else in the deque is newer
                 break;
             }
         }
 
-        if (removed) {
+        if (removed)
+        {
             clientThread.invoke(() -> client.runScript(ScriptID.BUILD_CHATBOX));
         }
     }
 
-    private void addClanActivityMessages() {
+    private void addClanActivityMessages()
+    {
+        ClanMemberManager clanMemberManager = client.getClanMemberManager();
+        if (clanMemberManager == null || activityBuffer.isEmpty())
+        {
+            return;
+        }
+
         Iterator<ClanMemberActivity> activityIt = activityBuffer.values().iterator();
 
-        while (activityIt.hasNext()) {
+        while (activityIt.hasNext())
+        {
             ClanMemberActivity activity = activityIt.next();
 
-            if (activity.getTick() < client.getTickCount() - MESSAGE_DELAY) {
+            if (activity.getTick() < client.getTickCount() - MESSAGE_DELAY)
+            {
                 activityIt.remove();
-                addActivityMessage(activity.getMember(), activity.getActivityType());
+                addActivityMessage(clanMemberManager, activity.getMember(), activity.getActivityType());
             }
         }
     }
 
-    private void addActivityMessage(ClanMember member, ClanActivityType activityType) {
+    private void addActivityMessage(ClanMemberManager clanMemberManager, ClanMember member, ClanActivityType activityType)
+    {
         final String activityMessage = activityType == ClanActivityType.JOINED ? " has joined." : " has left.";
         final ClanMemberRank rank = member.getRank();
         Color textColor = CHAT_CLAN_TEXT_OPAQUE_BACKGROUND;
         Color channelColor = CHAT_CLAN_NAME_OPAQUE_BACKGROUND;
         int rankIcon = -1;
 
-        if (client.isResized() && client.getVar(Varbits.TRANSPARENT_CHATBOX) == 1) {
+        if (client.isResized() && client.getVar(Varbits.TRANSPARENT_CHATBOX) == 1)
+        {
             textColor = CHAT_CLAN_TEXT_TRANSPARENT_BACKGROUND;
             channelColor = CHAT_CLAN_NAME_TRANSPARENT_BACKGROUND;
         }
 
-        if (config.clanChatIcons() && rank != null && rank != ClanMemberRank.UNRANKED) {
+        if (config.clanChatIcons() && rank != null && rank != ClanMemberRank.UNRANKED)
+        {
             rankIcon = clanManager.getIconNumber(rank);
         }
 
         ChatMessageBuilder message = new ChatMessageBuilder()
                 .append("[")
-                .append(channelColor, client.getClanChatName());
-        if (rankIcon > -1) {
+                .append(channelColor, clanMemberManager.getClanChatName());
+        if (rankIcon > -1)
+        {
             message
                     .append(" ")
                     .img(rankIcon);
         }
         message
                 .append("] ")
-                .append(textColor, member.getUsername() + activityMessage);
+                .append(textColor, member.getName() + activityMessage);
 
         final String messageString = message.build();
         client.addChatMessage(ChatMessageType.FRIENDSCHATNOTIFICATION, "", messageString, "");
@@ -343,37 +398,47 @@ public class ClanChatPlugin extends Plugin {
     }
 
     @Subscribe
-    public void onVarClientStrChanged(VarClientStrChanged strChanged) {
-        if (strChanged.getIndex() == VarClientStr.RECENT_CLAN_CHAT.getIndex() && config.recentChats()) {
+    public void onVarClientStrChanged(VarClientStrChanged strChanged)
+    {
+        if (strChanged.getIndex() == VarClientStr.RECENT_CLAN_CHAT.getIndex() && config.recentChats())
+        {
             updateRecentChat(client.getVar(VarClientStr.RECENT_CLAN_CHAT));
         }
     }
 
     @Subscribe
-    public void onChatMessage(ChatMessage chatMessage) {
-        if (client.getGameState() != GameState.LOADING && client.getGameState() != GameState.LOGGED_IN) {
+    public void onChatMessage(ChatMessage chatMessage)
+    {
+        if (client.getGameState() != GameState.LOADING && client.getGameState() != GameState.LOGGED_IN)
+        {
             return;
         }
 
-        if (client.getClanChatCount() <= 0) {
+        ClanMemberManager clanMemberManager = client.getClanMemberManager();
+        if (clanMemberManager == null || clanMemberManager.getCount() == 0)
+        {
             return;
         }
 
-        switch (chatMessage.getType()) {
+        switch (chatMessage.getType())
+        {
             case PRIVATECHAT:
             case MODPRIVATECHAT:
-                if (!config.privateMessageIcons()) {
+                if (!config.privateMessageIcons())
+                {
                     return;
                 }
                 break;
             case PUBLICCHAT:
             case MODCHAT:
-                if (!config.publicChatIcons()) {
+                if (!config.publicChatIcons())
+                {
                     return;
                 }
                 break;
             case FRIENDSCHAT:
-                if (!config.clanChatIcons()) {
+                if (!config.clanChatIcons())
+                {
                     return;
                 }
                 break;
@@ -385,10 +450,12 @@ public class ClanChatPlugin extends Plugin {
     }
 
     @Subscribe
-    public void onGameStateChanged(GameStateChanged state) {
+    public void onGameStateChanged(GameStateChanged state)
+    {
         GameState gameState = state.getGameState();
 
-        if (gameState == GameState.LOGIN_SCREEN || gameState == GameState.CONNECTION_LOST || gameState == GameState.HOPPING) {
+        if (gameState == GameState.LOGIN_SCREEN || gameState == GameState.CONNECTION_LOST || gameState == GameState.HOPPING)
+        {
             clanMembers.clear();
             removeClanCounter();
 
@@ -397,28 +464,36 @@ public class ClanChatPlugin extends Plugin {
     }
 
     @Subscribe
-    public void onPlayerSpawned(PlayerSpawned event) {
+    public void onPlayerSpawned(PlayerSpawned event)
+    {
         final Player local = client.getLocalPlayer();
         final Player player = event.getPlayer();
 
-        if (player != local && player.isClanMember()) {
+        if (player != local && player.isClanMember())
+        {
             clanMembers.add(player);
             addClanCounter();
         }
     }
 
     @Subscribe
-    public void onPlayerDespawned(PlayerDespawned event) {
-        if (clanMembers.remove(event.getPlayer()) && clanMembers.isEmpty()) {
+    public void onPlayerDespawned(PlayerDespawned event)
+    {
+        if (clanMembers.remove(event.getPlayer()) && clanMembers.isEmpty())
+        {
             removeClanCounter();
         }
     }
 
     @Subscribe
-    public void onClanChanged(ClanChanged event) {
-        if (event.isJoined()) {
+    public void onClanChanged(ClanChanged event)
+    {
+        if (event.isJoined())
+        {
             clanJoinedTick = client.getTickCount();
-        } else {
+        }
+        else
+        {
             clanMembers.clear();
             removeClanCounter();
         }
@@ -427,8 +502,10 @@ public class ClanChatPlugin extends Plugin {
     }
 
     @Subscribe
-    public void onScriptCallbackEvent(ScriptCallbackEvent scriptCallbackEvent) {
-        if (!scriptCallbackEvent.getEventName().equalsIgnoreCase("clanchatInput")) {
+    public void onScriptCallbackEvent(ScriptCallbackEvent scriptCallbackEvent)
+    {
+        if (!scriptCallbackEvent.getEventName().equalsIgnoreCase("clanchatInput"))
+        {
             return;
         }
 
@@ -437,20 +514,26 @@ public class ClanChatPlugin extends Plugin {
         intStack[size - 1] = config.clanTabChat() ? 1 : 0;
     }
 
-    int getClanAmount() {
+    int getClanAmount()
+    {
         return clanMembers.size();
     }
 
-    private void insertClanRankIcon(final ChatMessage message) {
+    private void insertClanRankIcon(final ChatMessage message)
+    {
         final ClanMemberRank rank = clanManager.getRank(message.getName());
 
-        if (rank != null && rank != ClanMemberRank.UNRANKED) {
+        if (rank != null && rank != ClanMemberRank.UNRANKED)
+        {
             int iconNumber = clanManager.getIconNumber(rank);
             final String img = "<img=" + iconNumber + ">";
-            if (message.getType() == ChatMessageType.FRIENDSCHAT) {
+            if (message.getType() == ChatMessageType.FRIENDSCHAT)
+            {
                 message.getMessageNode()
                         .setSender(message.getMessageNode().getSender() + " " + img);
-            } else {
+            }
+            else
+            {
                 message.getMessageNode()
                         .setName(img + message.getMessageNode().getName());
             }
@@ -458,30 +541,37 @@ public class ClanChatPlugin extends Plugin {
         }
     }
 
-    private void resetClanChats() {
+    private void resetClanChats()
+    {
         Widget clanChatList = client.getWidget(WidgetInfo.CLAN_CHAT_LIST);
         Widget clanChatTitleWidget = client.getWidget(WidgetInfo.CLAN_CHAT_TITLE);
 
-        if (clanChatList == null) {
+        if (clanChatList == null)
+        {
             return;
         }
 
-        if (client.getClanChatCount() == 0) {
+        ClanMemberManager clanMemberManager = client.getClanMemberManager();
+        if (clanMemberManager == null || clanMemberManager.getCount() == 0)
+        {
             clanChatList.setChildren(null);
         }
 
         clanChatTitleWidget.setText(CLAN_CHAT_TITLE);
     }
 
-    private void loadClanChats() {
+    private void loadClanChats()
+    {
         Widget clanChatList = client.getWidget(WidgetInfo.CLAN_CHAT_LIST);
-        if (clanChatList == null) {
+        if (clanChatList == null)
+        {
             return;
         }
 
         int y = 2;
         clanChatList.setChildren(null);
-        for (String chat : Lists.reverse(chats)) {
+        for (String chat : Lists.reverse(chats))
+        {
             Widget widget = clanChatList.createChild(-1, WidgetType.TEXT);
             widget.setFontId(494);
             widget.setTextColor(0xffffff);
@@ -496,8 +586,10 @@ public class ClanChatPlugin extends Plugin {
         }
     }
 
-    private void updateRecentChat(String s) {
-        if (Strings.isNullOrEmpty(s)) {
+    private void updateRecentChat(String s)
+    {
+        if (Strings.isNullOrEmpty(s))
+        {
             return;
         }
 
@@ -506,20 +598,24 @@ public class ClanChatPlugin extends Plugin {
         chats.removeIf(s::equalsIgnoreCase);
         chats.add(s);
 
-        while (chats.size() > MAX_CHATS) {
+        while (chats.size() > MAX_CHATS)
+        {
             chats.remove(0);
         }
 
         config.chatsData(Text.toCSV(chats));
     }
 
-    private void removeClanCounter() {
+    private void removeClanCounter()
+    {
         infoBoxManager.removeInfoBox(clanMemberCounter);
         clanMemberCounter = null;
     }
 
-    private void addClanCounter() {
-        if (!config.showClanCounter() || clanMemberCounter != null || clanMembers.isEmpty()) {
+    private void addClanCounter()
+    {
+        if (!config.showClanCounter() || clanMemberCounter != null || clanMembers.isEmpty())
+        {
             return;
         }
 
