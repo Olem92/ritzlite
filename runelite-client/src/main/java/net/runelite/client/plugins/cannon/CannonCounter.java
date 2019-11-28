@@ -26,27 +26,24 @@ package net.runelite.client.plugins.cannon;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+
 import net.runelite.client.ui.overlay.infobox.InfoBox;
 
-public class CannonCounter extends InfoBox
-{
-	private final CannonPlugin plugin;
+public class CannonCounter extends InfoBox {
+    private final CannonPlugin plugin;
 
-	CannonCounter(BufferedImage img, CannonPlugin plugin)
-	{
-		super(img, plugin);
-		this.plugin = plugin;
-	}
+    CannonCounter(BufferedImage img, CannonPlugin plugin) {
+        super(img, plugin);
+        this.plugin = plugin;
+    }
 
-	@Override
-	public String getText()
-	{
-		return String.valueOf(plugin.getCballsLeft());
-	}
+    @Override
+    public String getText() {
+        return String.valueOf(plugin.getCballsLeft());
+    }
 
-	@Override
-	public Color getTextColor()
-	{
-		return plugin.getStateColor();
-	}
+    @Override
+    public Color getTextColor() {
+        return plugin.getStateColor();
+    }
 }

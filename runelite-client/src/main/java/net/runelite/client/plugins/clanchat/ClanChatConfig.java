@@ -30,111 +30,101 @@ import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
 @ConfigGroup("clanchat")
-public interface ClanChatConfig extends Config
-{
-	@ConfigItem(
-		keyName = "clanChatIcons",
-		name = "Clan Chat Icons",
-		description = "Show clan chat icons next to clan members.",
-		position = 1
-	)
-	default boolean clanChatIcons()
-	{
-		return true;
-	}
+public interface ClanChatConfig extends Config {
+    @ConfigItem(
+            keyName = "clanChatIcons",
+            name = "Clan Chat Icons",
+            description = "Show clan chat icons next to clan members.",
+            position = 1
+    )
+    default boolean clanChatIcons() {
+        return true;
+    }
 
-	@ConfigItem(
-		keyName = "recentChats",
-		name = "Recent Chats",
-		description = "Show recent clan chats.",
-		position = 2
-	)
-	default boolean recentChats()
-	{
-		return true;
-	}
+    @ConfigItem(
+            keyName = "recentChats",
+            name = "Recent Chats",
+            description = "Show recent clan chats.",
+            position = 2
+    )
+    default boolean recentChats() {
+        return true;
+    }
 
-	@ConfigItem(
-		keyName = "clanCounter",
-		name = "Clan Members Counter",
-		description = "Show the amount of clan members near you.",
-		position = 3
-	)
-	default boolean showClanCounter()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "clanCounter",
+            name = "Clan Members Counter",
+            description = "Show the amount of clan members near you.",
+            position = 3
+    )
+    default boolean showClanCounter() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "chatsData",
-		name = "",
-		description = "",
-		hidden = true
-	)
-	default String chatsData()
-	{
-		return "";
-	}
+    @ConfigItem(
+            keyName = "chatsData",
+            name = "",
+            description = "",
+            hidden = true
+    )
+    default String chatsData() {
+        return "";
+    }
 
-	@ConfigItem(
-		keyName = "chatsData",
-		name = "",
-		description = ""
-	)
-	void chatsData(String str);
+    @ConfigItem(
+            keyName = "chatsData",
+            name = "",
+            description = ""
+    )
+    void chatsData(String str);
 
-	@ConfigItem(
-		keyName = "showJoinLeave",
-		name = "Show Join/Leave",
-		description = "Adds a temporary message notifying when a member joins or leaves.",
-		position = 4
-	)
-	default boolean showJoinLeave()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "showJoinLeave",
+            name = "Show Join/Leave",
+            description = "Adds a temporary message notifying when a member joins or leaves.",
+            position = 4
+    )
+    default boolean showJoinLeave() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "joinLeaveRank",
-		name = "Join/Leave rank",
-		description = "Only show join/leave messages for members at or above this rank.",
-		position = 5
-	)
-	default ClanMemberRank joinLeaveRank()
-	{
-		return ClanMemberRank.UNRANKED;
-	}
+    @ConfigItem(
+            keyName = "joinLeaveRank",
+            name = "Join/Leave rank",
+            description = "Only show join/leave messages for members at or above this rank.",
+            position = 5
+    )
+    default ClanMemberRank joinLeaveRank() {
+        return ClanMemberRank.UNRANKED;
+    }
 
-	@ConfigItem(
-		keyName = "privateMessageIcons",
-		name = "Private Message Icons",
-		description = "Add clan chat rank icons to private messages received from clan mates.",
-		position = 6
-	)
-	default boolean privateMessageIcons()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "privateMessageIcons",
+            name = "Private Message Icons",
+            description = "Add clan chat rank icons to private messages received from clan mates.",
+            position = 6
+    )
+    default boolean privateMessageIcons() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "publicChatIcons",
-		name = "Public Chat Icons",
-		description = "Add clan chat rank icons to public chat messages from clan mates.",
-		position = 7
-	)
-	default boolean publicChatIcons()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "publicChatIcons",
+            name = "Public Chat Icons",
+            description = "Add clan chat rank icons to public chat messages from clan mates.",
+            position = 7
+    )
+    default boolean publicChatIcons() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "clanTabChat",
-		name = "Clan Tab Chat",
-		description = "Allows clan chat without prepending '/' to messages when on clan tab",
-		position = 8
-	)
-	default boolean clanTabChat()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "clanTabChat",
+            name = "Clan Tab Chat",
+            description = "Allows clan chat without prepending '/' to messages when on clan tab",
+            position = 8
+    )
+    default boolean clanTabChat() {
+        return false;
+    }
 }

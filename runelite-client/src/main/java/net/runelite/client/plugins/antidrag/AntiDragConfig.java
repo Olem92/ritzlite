@@ -24,12 +24,16 @@
  */
 package net.runelite.client.plugins.antidrag;
 
-import net.runelite.api.Constants;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("antiDrag")
+/*@ConfigGroup(
+	keyName = "antiDrag",
+	name = "Anti Drag",
+	description = "Configuration for the anti drag plugin"
+)*/
+@ConfigGroup("antidrag")
 public interface AntiDragConfig extends Config
 {
 	@ConfigItem(
@@ -40,6 +44,6 @@ public interface AntiDragConfig extends Config
 	)
 	default int dragDelay()
 	{
-		return Constants.GAME_TICK_LENGTH / Constants.CLIENT_TICK_LENGTH; // one game tick
+		return 600 / 20; // one game tick
 	}
 }

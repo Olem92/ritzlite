@@ -95,6 +95,9 @@ public class WintertodtPlugin extends Plugin
 	private WintertodtOverlay overlay;
 
 	@Inject
+	private AOEOverlay aoeoverlay;
+
+	@Inject
 	private WintertodtConfig config;
 
 	@Inject
@@ -133,12 +136,14 @@ public class WintertodtPlugin extends Plugin
 	{
 		reset();
 		overlayManager.add(overlay);
+		overlayManager.add(aoeoverlay);
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		overlayManager.remove(overlay);
+		overlayManager.remove(aoeoverlay);
 		reset();
 	}
 
