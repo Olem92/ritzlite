@@ -11,6 +11,17 @@ import net.runelite.client.plugins.easyscape.util.GloryMode;
 @ConfigGroup("easyswap")
 public interface EasySwapConfig extends Config {
 
+    @ConfigItem(
+            keyName = "swapDream",
+            name = "Swap Dominic Onion",
+            description = "Enables swapping from talk-to to Dream.",
+            position = 1
+    )
+
+    default boolean getSwapDream() {
+        return true;
+    }
+
 
     @ConfigItem(
             keyName = "swapSmithing",
@@ -131,6 +142,7 @@ public interface EasySwapConfig extends Config {
     default GamesNecklaceMode getGamesNecklaceMode() {
         return GamesNecklaceMode.BURTHORPE;
     }
+
     @ConfigItem(
             keyName = "sgamesNecklaceMode",
             name = "Shift Mode",
@@ -196,6 +208,7 @@ public interface EasySwapConfig extends Config {
     default GloryMode getGloryMode() {
         return GloryMode.EDGEVILLE;
     }
+
     @ConfigItem(
             keyName = "sgloryMode",
             name = "Shift Mode",

@@ -28,7 +28,7 @@ import static net.runelite.api.MenuAction.WALK;
 import static net.runelite.api.ObjectID.PORTAL_4525;
 
 @PluginDescriptor(
-        name="[R] EasySwap",
+        name = "[R] EasySwap",
         description = "EasySwap.",
         tags = {"EasySwap", "easy"},
         enabledByDefault = false
@@ -69,6 +69,7 @@ public class EasySwapPlugin extends Plugin {
         log.debug("EasySwap Stopped.");
         this.keyManager.unregisterKeyListener(this.inputListener);
     }
+
     @Subscribe
     public void onFocusChanged(FocusChanged event) {
         if (!event.isFocused()) {
@@ -76,6 +77,7 @@ public class EasySwapPlugin extends Plugin {
         }
 
     }
+
     @Subscribe
     public void onMenuEntryAdded(MenuEntryAdded event) {
 
@@ -130,6 +132,10 @@ public class EasySwapPlugin extends Plugin {
             }
         }
 
+        if (config.getSwapDream() && target.equalsIgnoreCase("Dominic Onion")) {
+            swapper.markForSwap("Dream", option, target);
+        }
+
         if (config.getSwapSawmill() && target.equalsIgnoreCase("Sawmill operator")) {
             swapper.markForSwap("Buy-plank", option, target);
         }
@@ -146,7 +152,6 @@ public class EasySwapPlugin extends Plugin {
             swapper.markForSwap("Kandarin Monastery", option, target);
             swapper.markForSwap("Monastery Teleport", option, target);
         }
-
 
 
         if (config.getSwapEssencePouch()) {
@@ -174,10 +179,10 @@ public class EasySwapPlugin extends Plugin {
         }
 
         if (config.getGamesNecklace()) {
-            if (target.toLowerCase().contains("games necklace") ) {
-                if(shiftModifier){
+            if (target.toLowerCase().contains("games necklace")) {
+                if (shiftModifier) {
                     swapper.markForSwap(config.getSGamesNecklaceMode().toString(), option, target);
-                }else{
+                } else {
                     swapper.markForSwap(config.getGamesNecklaceMode().toString(), option, target);
                 }
 
@@ -186,9 +191,9 @@ public class EasySwapPlugin extends Plugin {
 
         if (config.getDuelingRing()) {
             if (target.toLowerCase().contains("ring of dueling")) {
-                if(shiftModifier){
+                if (shiftModifier) {
                     swapper.markForSwap(config.getSDuelingRingMode().toString(), option, target);
-                }else{
+                } else {
                     swapper.markForSwap(config.getDuelingRingMode().toString(), option, target);
                 }
 
@@ -197,9 +202,9 @@ public class EasySwapPlugin extends Plugin {
 
         if (config.getGlory()) {
             if (target.toLowerCase().contains("glory")) {
-                if(shiftModifier){
+                if (shiftModifier) {
                     swapper.markForSwap(config.getSGloryMode().toString(), option, target);
-                }else{
+                } else {
                     swapper.markForSwap(config.getGloryMode().toString(), option, target);
                 }
 
@@ -215,20 +220,16 @@ public class EasySwapPlugin extends Plugin {
     }
 
     @Subscribe
-    public void onGameObjectSpawned(GameObjectSpawned event)
-    {
+    public void onGameObjectSpawned(GameObjectSpawned event) {
         final GameObject gameObject = event.getGameObject();
-        if (PORTAL_4525 == gameObject.getId())
-        {
+        if (PORTAL_4525 == gameObject.getId()) {
             this.inHouse = true;
         }
     }
 
     @Subscribe
-    public void onGameStateChanged(GameStateChanged event)
-    {
-        if (event.getGameState() == GameState.LOADING)
-        {
+    public void onGameStateChanged(GameStateChanged event) {
+        if (event.getGameState() == GameState.LOADING) {
             this.inHouse = false;
         }
     }
