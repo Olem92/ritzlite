@@ -153,6 +153,10 @@ public class EasySwapPlugin extends Plugin {
             swapper.markForSwap("Monastery Teleport", option, target);
         }
 
+        if (config.swapWildernessLever() && target.equals("lever")) {
+            swapper.markForSwap("edgeville", option, target);
+        }
+
 
         if (config.getSwapEssencePouch()) {
             if (isEssencePouch(target)) {

@@ -12,6 +12,15 @@ import net.runelite.client.plugins.easyscape.util.GloryMode;
 public interface EasySwapConfig extends Config {
 
     @ConfigItem(
+            keyName = "swapWildernessLever",
+            name = "Wilderness Lever to Edgeville",
+            description = "Swap Edgeville Lever as default for wilderness lever"
+    )
+    default boolean swapWildernessLever() {
+        return true;
+    }
+
+    @ConfigItem(
             keyName = "swapDream",
             name = "Swap Dominic Onion",
             description = "Enables swapping from talk-to to Dream.",
@@ -219,5 +228,4 @@ public interface EasySwapConfig extends Config {
     default GloryMode getSGloryMode() {
         return GloryMode.KARAMJA;
     }
-
 }
