@@ -24,26 +24,25 @@
  */
 package net.runelite.client.plugins.reportbutton;
 
-public enum TimeStyle
-{
-	OFF("Off"),
-	DATE("Date"),
-	LOGIN_TIME("Login Timer"),
-	UTC("UTC Time"),
-	JAGEX("Jagex HQ Time"),
-	LOCAL_TIME("Local Time");
+public enum TimeStyle {
+    OFF("Off"),
+    DATE("Date"),
+    LOGIN_TIME("Login Timer"),
+    UTC("UTC Time"),
+    JAGEX("Jagex HQ Time"),
 
-	private final String name;
+    LOCAL_TIME("Local Time"),
+    GAME_TICKS("Game Ticks");
 
-	TimeStyle(String name)
-	{
-		this.name = name;
-	}
+    private final String name;
 
-	@Override
-	public String toString()
-	{
-		return name;
-	}
+    TimeStyle(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 
 }

@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2019, Adam <Adam@sigterm.info>
- * Copyright (c) 2019, David <Dava96@github.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,24 +22,16 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.woodcutting;
+package net.runelite.client.events;
 
-import java.time.Instant;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import net.runelite.api.coords.LocalPoint;
+import lombok.Value;
+import net.runelite.http.api.worlds.WorldResult;
 
-@AllArgsConstructor
-@Getter
-class TreeRespawn
+/**
+ * Fired when the @{link net.runelite.client.game.WorldService} refreshes the world list
+ */
+@Value
+public class WorldsFetch
 {
-	private final Tree tree;
-	private final LocalPoint location;
-	private final Instant startTime;
-	private final int respawnTime;
-
-	boolean isExpired()
-	{
-		return Instant.now().isAfter(startTime.plusMillis(respawnTime));
-	}
+	private final WorldResult worldResult;
 }
