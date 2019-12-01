@@ -39,7 +39,7 @@ public class ProfilesPlugin extends Plugin {
         navButton = NavigationButton.builder()
                 .tooltip("Profiles")
                 .icon(icon)
-                .priority(8)
+                .priority(2)
                 .panel(panel)
                 .build();
 
