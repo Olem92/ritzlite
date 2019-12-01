@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import java.awt.image.BufferedImage;
 
 @PluginDescriptor(
-        name = "Profiles",
+        name = "[R] Profiles",
         description = "Allow for a faster log in",
         tags = {"profile", "account", "login", "log in"}
 )
