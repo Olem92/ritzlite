@@ -57,7 +57,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 @PluginDescriptor(
         name = "[R] Multi-Lines",
         description = "Show borders of multicombat and PvP safezones",
-        tags = {"multicombat", "lines", "pvp", "deadman", "safezones", "bogla"},
+        tags = {"multicombat", "lines", "pvp", "safezones", "ritz"},
         enabledByDefault = false
 )
 @Singleton
