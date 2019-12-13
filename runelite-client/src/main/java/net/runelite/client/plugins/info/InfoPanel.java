@@ -139,9 +139,9 @@ public class InfoPanel extends PluginPanel {
 
         revision.setText(htmlLabel("Oldschool revision: ", engineVer));
 
-        JLabel launcher = new JLabel(htmlLabel("Launcher version: ", MoreObjects
-                .firstNonNull(RuneLiteProperties.getLauncherVersion(), "Unknown")));
-        launcher.setFont(smallFont);
+        //JLabel launcher = new JLabel(htmlLabel("Launcher version: ", MoreObjects.firstNonNull
+                //(RuneLiteProperties.getLauncherVersion(), "Unknown")));
+       // launcher.setFont(smallFont);
 
         loggedLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
         loggedLabel.setFont(smallFont);
@@ -160,7 +160,7 @@ public class InfoPanel extends PluginPanel {
 
         versionPanel.add(version);
         versionPanel.add(revision);
-        versionPanel.add(launcher);
+        //versionPanel.add(launcher);
         versionPanel.add(Box.createGlue());
         versionPanel.add(loggedLabel);
         versionPanel.add(emailLabel);
