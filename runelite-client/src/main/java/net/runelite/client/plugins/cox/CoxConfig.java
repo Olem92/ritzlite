@@ -40,16 +40,6 @@ public interface CoxConfig extends Config {
         return false;
     }
 
-    @ConfigItem(
-            position = 3,
-            keyName = "crystals",
-            name = "Crystals",
-            description = "Display tile indicators for crystals at cox"
-    )
-    default boolean crystals() {
-        return false;
-    }
-
     //here
     @ConfigItem(
             keyName = "showHighlight",
