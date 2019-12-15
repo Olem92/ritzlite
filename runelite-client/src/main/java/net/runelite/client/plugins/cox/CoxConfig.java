@@ -40,7 +40,7 @@ public interface CoxConfig extends Config {
         return false;
     }
 
-    //here
+    /*
     @ConfigItem(
             keyName = "showHighlight",
             name = "Highlight Shortcuts",
@@ -109,7 +109,7 @@ public interface CoxConfig extends Config {
     )
     default Color textColor() {
         return Color.red;
-    }
+    }*/
 
 
 }

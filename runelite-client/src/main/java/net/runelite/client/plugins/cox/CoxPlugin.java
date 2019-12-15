@@ -22,7 +22,7 @@ import java.util.List;
 @PluginDescriptor(
         name = "[R] Raids",
         description = "Show cox plugins",
-        tags = {"cox", "raids", "shadow", "cox", "rocks", "rocks", "lightening", "crystals", "shortcut"},
+        tags = {"cox", "raids", "shadow", "ritz", "rocks", "lightening", "crystals"},
         enabledByDefault = false
 )
 public class CoxPlugin extends Plugin {
@@ -33,7 +33,7 @@ public class CoxPlugin extends Plugin {
 
     @Inject
     private Client client;
-    //here
+
     @Getter(AccessLevel.PACKAGE)
     private final List<TileObject> objects = new ArrayList<>();
     public boolean inRaid;
@@ -43,7 +43,6 @@ public class CoxPlugin extends Plugin {
 
     @Inject
     private KeyManager keyManager;
-    //here
 
     @Inject
     private OverlayManager overlayManager;
@@ -65,15 +64,11 @@ public class CoxPlugin extends Plugin {
     @Inject
     private LightningOverlay lightning;
 
-    @Inject
-    private CrystalsOverlay crystals;
-
     @Override
     protected void startUp() {
         overlayManager.add(overlay);
         overlayManager.add(rocks);
         overlayManager.add(lightning);
-        overlayManager.add(crystals);
         overlayManager.add(shortcuts);
         inRaid = false;
     }
@@ -83,7 +78,6 @@ public class CoxPlugin extends Plugin {
         overlayManager.remove(overlay);
         overlayManager.remove(rocks);
         overlayManager.remove(lightning);
-        overlayManager.remove(crystals);
         overlayManager.remove(shortcuts);
         inRaid = false;
     }
