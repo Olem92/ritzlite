@@ -60,6 +60,7 @@ import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 
 import static net.runelite.client.RuneLite.LOGS_DIR;
+import static net.runelite.client.RuneLite.SCREENSHOT_DIR;
 
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
@@ -140,8 +141,8 @@ public class InfoPanel extends PluginPanel {
         revision.setText(htmlLabel("Oldschool revision: ", engineVer));
 
         //JLabel launcher = new JLabel(htmlLabel("Launcher version: ", MoreObjects.firstNonNull
-                //(RuneLiteProperties.getLauncherVersion(), "Unknown")));
-       // launcher.setFont(smallFont);
+        //(RuneLiteProperties.getLauncherVersion(), "Unknown")));
+        // launcher.setFont(smallFont);
 
         loggedLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
         loggedLabel.setFont(smallFont);
@@ -169,8 +170,7 @@ public class InfoPanel extends PluginPanel {
         actionsContainer.setBorder(new EmptyBorder(10, 0, 0, 0));
         actionsContainer.setLayout(new GridLayout(0, 1, 0, 10));
 
-        syncPanel = buildLinkPanel(IMPORT_ICON, "Import local settings", "to remote RuneLite account", () ->
-        {
+        syncPanel = buildLinkPanel(IMPORT_ICON, "Import local settings", "to remote RuneLite account", () -> {
             final int result = JOptionPane.showOptionDialog(syncPanel,
                     "This will replace your current RuneLite account settings with settings from your local profile.",
                     "Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
@@ -183,6 +183,9 @@ public class InfoPanel extends PluginPanel {
 
         //actionsContainer.add(buildLinkPanel(GITHUB_ICON, "Report an issue or", "make a suggestion", runeLiteProperties.getGithubLink()));
         actionsContainer.add(buildLinkPanel(FOLDER_ICON, "Open logs directory", "(for bug reports)", LOGS_DIR));
+
+        actionsContainer.add(buildLinkPanel(FOLDER_ICON, "Open screenshot directory", "Screenshots", SCREENSHOT_DIR));
+
         actionsContainer.add(buildLinkPanel(DISCORD_ICON, "Talk to us on our", "discord server", runeLiteProperties.getDiscordInvite()));
         //actionsContainer.add(buildLinkPanel(PATREON_ICON, "Become a patron to", "help support RuneLite", runeLiteProperties.getPatreonLink()));
         actionsContainer.add(buildLinkPanel(WIKI_ICON, "Information about", "RuneLite and plugins", runeLiteProperties.getWikiLink()));
