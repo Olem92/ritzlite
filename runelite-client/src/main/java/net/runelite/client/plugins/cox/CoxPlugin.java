@@ -39,9 +39,6 @@ public class CoxPlugin extends Plugin {
     public boolean inRaid;
 
     @Inject
-    private BoulderOverlay shortcuts;
-
-    @Inject
     private KeyManager keyManager;
 
     @Inject
@@ -64,12 +61,15 @@ public class CoxPlugin extends Plugin {
     @Inject
     private LightningOverlay lightning;
 
+    @Inject
+    private CrabsOverlay crabs;
+
     @Override
     protected void startUp() {
         overlayManager.add(overlay);
         overlayManager.add(rocks);
         overlayManager.add(lightning);
-        overlayManager.add(shortcuts);
+        //overlayManager.add(crabs);
         inRaid = false;
     }
 
@@ -78,7 +78,7 @@ public class CoxPlugin extends Plugin {
         overlayManager.remove(overlay);
         overlayManager.remove(rocks);
         overlayManager.remove(lightning);
-        overlayManager.remove(shortcuts);
+        //overlayManager.remove(crabs);
         inRaid = false;
     }
 

@@ -49,22 +49,29 @@ public class CrabsOverlay extends Overlay {
                     name = "White";
                     break;
                 case 29761://Yellow Crystal
-                    name = "Blue";
+                    name = "Blue (Magic)";
                     break;
                 case 29759://Cyan (Blue) Crystal
-                    name = "Red";
+                    name = "Red (Melee)";
                     break;
                 case 29760://Magenta (Purple) Crystal
-                    name = "Green";
+                    name = "Green (Ranged)";
                     break;
                 default:
                     name = "Unknown";
             }
+/*//            test this more
+            if (config.showText()) {
+                if (config.doCrabs() && name.equals("White") && name.equals("Blue (Magic)") && name.equals("Red (Melee)") && name.equals("Green (Ranged)")) {
+                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
+                }
+            }
+*/
           /*  if (config.showText()) {
                 if (config.doBoulder() && name.equals("Boulder")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
                 } else if (config.doTree() && name.equals("Tree")) {
-                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 250);
+                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);//250
                 } else if (config.doMining() && name.equals("Rocks")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
                 }
