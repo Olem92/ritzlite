@@ -34,19 +34,15 @@ public class CrabsOverlay extends Overlay {
             if (object.getPlane() != client.getPlane()) {
                 continue;
             }
-
             final Polygon polygon;
-
             if (object instanceof GameObject) {
                 polygon = (Polygon) ((GameObject) object).getConvexHull();
             } else {
                 polygon = object.getCanvasTilePoly();
             }
-
             if (polygon == null) {
                 continue;
             }
-
             String name;
             switch (object.getId()) {
                 case 29758://black Crystal
@@ -72,7 +68,6 @@ public class CrabsOverlay extends Overlay {
                 } else if (config.doMining() && name.equals("Rocks")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
                 }
-
             }
             if (config.showHighlight()) {
                 if (config.doBoulder() && name.equals("Boulder")) {
@@ -83,15 +78,12 @@ public class CrabsOverlay extends Overlay {
                     OverlayUtil.renderPolygon(graphics, polygon, config.markerColor());
                 }
             }*/
-
         }
-
         return null;
     }
 
     private void renderText(Graphics2D graphics, TileObject object, String name, Color color, int z) {
         Point textLocation = object.getCanvasTextLocation(graphics, name, z);
-
         if (textLocation != null) {
             OverlayUtil.renderTextLocation(graphics, textLocation, name, color);
         }
