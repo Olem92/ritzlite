@@ -77,7 +77,7 @@ public interface IdleNotifierConfig extends Config
 
 	@ConfigItem(
 		keyName = "timeout",
-		name = "Idle Notification Delay (ms)",
+		name = "[R] Idle Notification Delay (ms)",
 		description = "The notification delay after the player is idle",
 		position = 5
 	)
