@@ -45,7 +45,7 @@ public class CrabsOverlay extends Overlay {
             }
             String name;
             switch (object.getId()) {
-                case 29758://black Crystal
+                case 114://29758://black Crystal
                     name = "White";
                     break;
                 case 29761://Yellow Crystal
@@ -60,13 +60,34 @@ public class CrabsOverlay extends Overlay {
                 default:
                     name = "Unknown";
             }
-/*//            test this more
+//test this more
             if (config.showText()) {
-                if (config.doCrabs() && name.equals("White") && name.equals("Blue (Magic)") && name.equals("Red (Melee)") && name.equals("Green (Ranged)")) {
+                if (config.doCrab() && name.equals("White")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                }
+                    System.out.println("here1");
+                } /*else if (config.doCrab() && name.equals("Blue (Magic)")) {
+                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);//250
+                    System.out.println("here2");
+                } else if (config.doCrab() && name.equals("Red (Melee)")) {
+                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
+                    System.out.println("here3");
+                } else if (config.doCrab() && name.equals("Green (Ranged)")) {
+                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
+                    System.out.println("here4");
+                }*/
             }
-*/
+
+                /*else if (config.crabText() && name.equals("Blue (Magic)")) {
+                renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
+                System.out.println("here2");
+            } else if (config.crabText() && name.equals("Red (Melee)")) {
+                renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
+                System.out.println("here3");
+            } else if (config.crabText() && name.equals("Green (Ranged)")) {
+                renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
+                System.out.println("here4");
+            }*/
+
           /*  if (config.showText()) {
                 if (config.doBoulder() && name.equals("Boulder")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);

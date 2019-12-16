@@ -40,6 +40,39 @@ public interface CoxConfig extends Config {
         return false;
     }
 
+    @ConfigItem(
+            position = 3,
+            keyName = "doCrab",
+            name = "Crab helper",
+            description = "Display the orb colour for each crystal",
+            hidden = true
+    )
+    default boolean doCrab() {
+        return false;
+    }
+
+    @ConfigItem(
+            position = 3,
+            keyName = "showText",
+            name = "Crab helper",
+            description = "Display the orb colour for each crystal",
+            hidden = true
+    )
+    default boolean showText() {
+        return true;
+    }
+
+    @ConfigItem(
+            position = 4,
+            keyName = "textColor",
+            name = "Crab helper text color",
+            description = "Configures the color of text marker for crab helper",
+            hidden = true
+    )
+    default Color textColor() {
+        return Color.red;
+    }
+
     /*
     @ConfigItem(
             keyName = "showHighlight",

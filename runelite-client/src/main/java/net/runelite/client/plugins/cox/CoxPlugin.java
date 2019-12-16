@@ -69,7 +69,7 @@ public class CoxPlugin extends Plugin {
         overlayManager.add(overlay);
         overlayManager.add(rocks);
         overlayManager.add(lightning);
-        //overlayManager.add(crabs);
+        overlayManager.add(crabs);
         inRaid = false;
     }
 
@@ -78,7 +78,7 @@ public class CoxPlugin extends Plugin {
         overlayManager.remove(overlay);
         overlayManager.remove(rocks);
         overlayManager.remove(lightning);
-        //overlayManager.remove(crabs);
+        overlayManager.remove(crabs);
         inRaid = false;
     }
 
