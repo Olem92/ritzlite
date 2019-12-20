@@ -44,8 +44,7 @@ public interface CoxConfig extends Config {
             position = 3,
             keyName = "doCrab",
             name = "Crab helper",
-            description = "Display the orb colour for each crystal",
-            hidden = true
+            description = "Display the orb colour for each crystal"
     )
     default boolean doCrab() {
         return false;
@@ -55,8 +54,7 @@ public interface CoxConfig extends Config {
             position = 3,
             keyName = "showText",
             name = "Crab helper",
-            description = "Display the orb colour for each crystal",
-            hidden = true
+            description = "Display the orb colour for each crystal"
     )
     default boolean showText() {
         return true;
@@ -66,11 +64,10 @@ public interface CoxConfig extends Config {
             position = 4,
             keyName = "textColor",
             name = "Crab helper text color",
-            description = "Configures the color of text marker for crab helper",
-            hidden = true
+            description = "Configures the color of text marker for crab helper"
     )
     default Color textColor() {
-        return Color.red;
+        return Color.GREEN;
     }
 
     /*

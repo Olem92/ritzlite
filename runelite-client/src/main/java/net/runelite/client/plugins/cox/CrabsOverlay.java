@@ -34,9 +34,9 @@ public class CrabsOverlay extends Overlay {
             if (object.getPlane() != client.getPlane()) {
                 continue;
             }
-            final Polygon polygon;
+            final Shape polygon;
             if (object instanceof GameObject) {
-                polygon = (Polygon) ((GameObject) object).getConvexHull();
+                polygon = ((GameObject) object).getConvexHull();
             } else {
                 polygon = object.getCanvasTilePoly();
             }
@@ -45,7 +45,7 @@ public class CrabsOverlay extends Overlay {
             }
             String name;
             switch (object.getId()) {
-                case 114://29758://black Crystal
+                case 29758://black Crystal
                     name = "White";
                     break;
                 case 29761://Yellow Crystal
@@ -60,52 +60,18 @@ public class CrabsOverlay extends Overlay {
                 default:
                     name = "Unknown";
             }
-//test this more
+
             if (config.showText()) {
                 if (config.doCrab() && name.equals("White")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                    System.out.println("here1");
-                } /*else if (config.doCrab() && name.equals("Blue (Magic)")) {
-                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);//250
-                    System.out.println("here2");
+                } else if (config.doCrab() && name.equals("Blue (Magic)")) {
+                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
                 } else if (config.doCrab() && name.equals("Red (Melee)")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                    System.out.println("here3");
                 } else if (config.doCrab() && name.equals("Green (Ranged)")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                    System.out.println("here4");
-                }*/
-            }
-
-                /*else if (config.crabText() && name.equals("Blue (Magic)")) {
-                renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                System.out.println("here2");
-            } else if (config.crabText() && name.equals("Red (Melee)")) {
-                renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                System.out.println("here3");
-            } else if (config.crabText() && name.equals("Green (Ranged)")) {
-                renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                System.out.println("here4");
-            }*/
-
-          /*  if (config.showText()) {
-                if (config.doBoulder() && name.equals("Boulder")) {
-                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                } else if (config.doTree() && name.equals("Tree")) {
-                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);//250
-                } else if (config.doMining() && name.equals("Rocks")) {
-                    renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
                 }
             }
-            if (config.showHighlight()) {
-                if (config.doBoulder() && name.equals("Boulder")) {
-                    OverlayUtil.renderPolygon(graphics, polygon, config.markerColor());
-                } else if (config.doTree() && name.equals("Tree")) {
-                    OverlayUtil.renderPolygon(graphics, polygon, config.markerColor());
-                } else if (config.doMining() && name.equals("Rocks")) {
-                    OverlayUtil.renderPolygon(graphics, polygon, config.markerColor());
-                }
-            }*/
         }
         return null;
     }

@@ -85,13 +85,14 @@ public class CoxPlugin extends Plugin {
     @Subscribe
     public void onGameObjectSpawned(GameObjectSpawned event) {
         final WorldPoint worldPoint = WorldPoint.fromLocalInstance(client, event.getGameObject().getLocalLocation());
-
         if (worldPoint == null) {
             return;
         }
-        if (event.getGameObject().getId() == 29740 || event.getGameObject().getId() == 29736 || event.getGameObject().getId() == 29738) {
+        if (event.getGameObject().getId() == 29758 ||
+                event.getGameObject().getId() == 29761 ||
+                event.getGameObject().getId() == 29759 ||
+                event.getGameObject().getId() == 29760) {
             objects.add(event.getGameObject());
         }
-
     }
 }
