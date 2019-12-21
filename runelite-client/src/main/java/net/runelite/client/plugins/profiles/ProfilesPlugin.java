@@ -16,7 +16,8 @@ import java.awt.image.BufferedImage;
 @PluginDescriptor(
         name = "[R] Profiles",
         description = "Allow for a faster log in",
-        tags = {"profile", "account", "login", "log in", "ritz"}
+        tags = {"profile", "account", "login", "log in", "ritz"},
+        loadWhenOutdated = true
 )
 public class ProfilesPlugin extends Plugin {
     @Inject

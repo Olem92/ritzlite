@@ -133,7 +133,6 @@ public class InventorySetupPlugin extends Plugin {
             if (confirm == JOptionPane.CANCEL_OPTION) {
                 return;
             }
-
             // delete the old setup, no need to ask for confirmation
             // because the user confirmed above
             removeInventorySetup(name, false);
