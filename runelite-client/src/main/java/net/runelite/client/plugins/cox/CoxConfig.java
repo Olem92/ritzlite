@@ -44,10 +44,11 @@ public interface CoxConfig extends Config {
             position = 3,
             keyName = "doCrab",
             name = "Crab helper",
-            description = "Display the orb colour for each crystal"
+            description = "Display the orb colour for each crystal",
+            hidden = true
     )
     default boolean doCrab() {
-        return false;
+        return true;
     }
 
     @ConfigItem(
