@@ -16,6 +16,8 @@ public class CrabsOverlay extends Overlay {
     private final Client client;
     private final CoxConfig config;
     private final CoxPlugin plugin;
+    private static final int CRABS_REGION_ID_1 = 13139;
+    private static final int CRABS_REGION_ID_2 = 13395;
 
     @Inject
     private CrabsOverlay(Client client, CoxConfig config, CoxPlugin plugin) {
@@ -29,6 +31,10 @@ public class CrabsOverlay extends Overlay {
 
     @Override
     public Dimension render(Graphics2D graphics) {
+    //add CRABS_REGION_ID_2 to this method
+        if (!client.isInInstancedRegion() || client.getMapRegions()[0] != CRABS_REGION_ID_1) {
+            return null;
+        }
 
         for (TileObject object : plugin.getObjects()) {
             if (object.getPlane() != client.getPlane()) {
