@@ -22,7 +22,7 @@ import java.util.List;
 @PluginDescriptor(
         name = "[R] Raids",
         description = "Show cox plugins",
-        tags = {"cox", "raids", "shadow", "ritz", "rocks", "lightening", "crystals"},
+        tags = {"cox", "raids", "shadow", "ritz", "rocks", "lightening", "crystals", "crabs", "olm"},
         enabledByDefault = false
 )
 public class CoxPlugin extends Plugin {

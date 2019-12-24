@@ -40,7 +40,7 @@ public interface CoxConfig extends Config {
         return false;
     }
 
-    @ConfigItem(
+   /* @ConfigItem(
             position = 3,
             keyName = "doCrab",
             name = "Crab helper",
@@ -49,7 +49,7 @@ public interface CoxConfig extends Config {
     )
     default boolean doCrab() {
         return true;
-    }
+    }*/
 
     @ConfigItem(
             position = 3,
