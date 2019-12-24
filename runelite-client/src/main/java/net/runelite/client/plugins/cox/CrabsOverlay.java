@@ -31,7 +31,7 @@ public class CrabsOverlay extends Overlay {
 
     @Override
     public Dimension render(Graphics2D graphics) {
-
+    //here
         if (!client.isInInstancedRegion() || client.getMapRegions()[0] != CRABS_REGION_ID_1
                 || client.getMapRegions()[0] != 13395) {
             return null;
