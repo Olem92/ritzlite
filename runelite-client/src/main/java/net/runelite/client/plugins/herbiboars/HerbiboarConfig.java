@@ -130,4 +130,14 @@ public interface HerbiboarConfig extends Config
 	{
 		return Color.WHITE;
 	}
+
+	@ConfigItem(
+			position = 9,
+			keyName = "hidePick",
+			name = "Hide ancient fungi",
+			description = "Deprioritise ancient fungi pick so you can inspect easier"
+	)
+	default boolean hidePick() {
+		return true;
+	}
 }
