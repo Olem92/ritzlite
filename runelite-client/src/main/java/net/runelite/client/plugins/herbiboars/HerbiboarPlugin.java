@@ -318,21 +318,4 @@ public class HerbiboarPlugin extends Plugin {
     public List<WorldPoint> getEndLocations() {
         return END_LOCATIONS;
     }
-
-    /*
-    needs working on
-     */
-    @Subscribe
-    public void onMenuEntryAdded(MenuEntryAdded event) {
-        final String target = Text.removeTags(event.getTarget()).toLowerCase();
-        if ((config.hidePick() && target.equals("Ancient Fungi (level-109)"))) {
-            if (event.getType() < WALK.getId()) {
-                MenuEntry[] menuEntries = client.getMenuEntries();
-                MenuEntry menuEntry = menuEntries[menuEntries.length - 1];
-                menuEntry.setType(event.getType() + MENU_ACTION_DEPRIORITIZE_OFFSET);
-                client.setMenuEntries(menuEntries);
-            }
-        }
-    }
-
 }
