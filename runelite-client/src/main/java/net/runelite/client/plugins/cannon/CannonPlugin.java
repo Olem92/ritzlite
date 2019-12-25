@@ -52,12 +52,8 @@ import static net.runelite.api.ProjectileID.CANNONBALL;
 import static net.runelite.api.ProjectileID.GRANITE_CANNONBALL;
 
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.events.ChatMessage;
+import net.runelite.api.events.*;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.api.events.GameObjectSpawned;
-import net.runelite.api.events.GameTick;
-import net.runelite.api.events.ItemContainerChanged;
-import net.runelite.api.events.ProjectileMoved;
 import net.runelite.client.Notifier;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -253,6 +249,7 @@ public class CannonPlugin extends Plugin {
                 // amount.
                 if (!skipProjectileCheckThisTick) {
                     cballsLeft--;
+                    client.getCallbacks().post(new CannonballFired());//danny
                 }
             }
         }
