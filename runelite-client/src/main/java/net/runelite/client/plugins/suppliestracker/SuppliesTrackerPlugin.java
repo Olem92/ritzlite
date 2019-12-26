@@ -34,7 +34,7 @@ import java.awt.image.BufferedImage;
 @PluginDescriptor(
         name = "[R] Supplies Used Tracker",
         description = "Tracks supplies used during the session",
-        tags = {"cost", "supplys", "ritz"},
+        tags = {"cost", "supplies", "ritz"},
         enabledByDefault = true
 )
 @Slf4j
