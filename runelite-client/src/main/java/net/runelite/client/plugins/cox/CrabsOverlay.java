@@ -68,18 +68,18 @@ public class CrabsOverlay extends Overlay {
                     name = "Unknown";
             }
 
-            //if (config.showText()) {
-                if (config.showText() && name.equals("White")) {
+            if (config.showText()) {
+                if (config.doCrab() && name.equals("White")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                } else if (config.showText() && name.equals("Blue (Magic)")) {
+                } else if (config.doCrab() && name.equals("Blue (Magic)")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                } else if (config.showText() && name.equals("Red (Melee)")) {
+                } else if (config.doCrab() && name.equals("Red (Melee)")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
-                } else if (config.showText() && name.equals("Green (Ranged)")) {
+                } else if (config.doCrab() && name.equals("Green (Ranged)")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
                 }
             }
-       // }
+        }
         return null;
     }
 
