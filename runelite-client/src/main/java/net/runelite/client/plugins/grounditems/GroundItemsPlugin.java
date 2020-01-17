@@ -203,7 +203,7 @@ public class GroundItemsPlugin extends Plugin {
         hiddenItemList = null;
         highlightedItemsList = null;
         collectedGroundItems.clear();
-        removeAllLootbeams();
+        //removeAllLootbeams();
     }
 
     @Subscribe
@@ -243,7 +243,7 @@ public class GroundItemsPlugin extends Plugin {
         if (config.notifyHighlightedDrops() && shouldNotify) {
             notifyHighlightedItem(groundItem);
         }
-        handleLootbeam(tile.getWorldLocation());
+        //handleLootbeam(tile.getWorldLocation());
     }
 
     @Subscribe
@@ -266,7 +266,7 @@ public class GroundItemsPlugin extends Plugin {
             // time
             groundItem.setSpawnTime(null);
         }
-        handleLootbeam(tile.getWorldLocation());
+        //handleLootbeam(tile.getWorldLocation());
     }
 
     @Subscribe
@@ -282,7 +282,7 @@ public class GroundItemsPlugin extends Plugin {
         if (groundItem != null) {
             groundItem.setQuantity(groundItem.getQuantity() + diff);
         }
-        handleLootbeam(tile.getWorldLocation());
+        //handleLootbeam(tile.getWorldLocation());
     }
 
     @Subscribe
@@ -430,7 +430,7 @@ public class GroundItemsPlugin extends Plugin {
         if (config.getHighlightOverValue() > 0) {
             priceChecks.put(config.getHighlightOverValue(), config.highlightedColor());
         }
-        handleLootbeams();
+        //handleLootbeams();
     }
 
     @Subscribe
@@ -628,7 +628,7 @@ public class GroundItemsPlugin extends Plugin {
             droppedItemQueue.add(itemId);
         }
     }
-
+/*
     private void handleLootbeam(WorldPoint worldPoint) {
         if (!config.showLootBeams()) {
             if (lootBeamTiles.contains(worldPoint)) {
@@ -682,5 +682,5 @@ public class GroundItemsPlugin extends Plugin {
         }
         lootBeamTiles.clear();
     }
-
+*/
 }

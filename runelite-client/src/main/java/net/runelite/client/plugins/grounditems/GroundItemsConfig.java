@@ -350,7 +350,7 @@ public interface GroundItemsConfig extends Config {
     default boolean toggleOutline() {
         return false;
     }
-
+/*
     @ConfigItem(
             keyName = "showLootBeams",
             name = "[R] Show loot beams",
@@ -379,5 +379,5 @@ public interface GroundItemsConfig extends Config {
     )
     default boolean showLootBeamsForHighlighted() {
         return false;
-    }
+    }*/
 }
