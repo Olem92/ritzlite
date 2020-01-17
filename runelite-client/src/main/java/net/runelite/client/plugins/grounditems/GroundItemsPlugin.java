@@ -203,7 +203,6 @@ public class GroundItemsPlugin extends Plugin {
         hiddenItemList = null;
         highlightedItemsList = null;
         collectedGroundItems.clear();
-        //removeAllLootbeams();
     }
 
     @Subscribe
@@ -217,7 +216,6 @@ public class GroundItemsPlugin extends Plugin {
     public void onGameStateChanged(final GameStateChanged event) {
         if (event.getGameState() == GameState.LOADING) {
             collectedGroundItems.clear();
-            lootBeamTiles.clear();
         }
     }
 
@@ -243,7 +241,6 @@ public class GroundItemsPlugin extends Plugin {
         if (config.notifyHighlightedDrops() && shouldNotify) {
             notifyHighlightedItem(groundItem);
         }
-        //handleLootbeam(tile.getWorldLocation());
     }
 
     @Subscribe
@@ -266,7 +263,6 @@ public class GroundItemsPlugin extends Plugin {
             // time
             groundItem.setSpawnTime(null);
         }
-        //handleLootbeam(tile.getWorldLocation());
     }
 
     @Subscribe
@@ -282,7 +278,6 @@ public class GroundItemsPlugin extends Plugin {
         if (groundItem != null) {
             groundItem.setQuantity(groundItem.getQuantity() + diff);
         }
-        //handleLootbeam(tile.getWorldLocation());
     }
 
     @Subscribe
@@ -430,7 +425,6 @@ public class GroundItemsPlugin extends Plugin {
         if (config.getHighlightOverValue() > 0) {
             priceChecks.put(config.getHighlightOverValue(), config.highlightedColor());
         }
-        //handleLootbeams();
     }
 
     @Subscribe
@@ -628,59 +622,4 @@ public class GroundItemsPlugin extends Plugin {
             droppedItemQueue.add(itemId);
         }
     }
-/*
-    private void handleLootbeam(WorldPoint worldPoint) {
-        if (!config.showLootBeams()) {
-            if (lootBeamTiles.contains(worldPoint)) {
-                client.removeLootBeam(worldPoint);
-                lootBeamTiles.remove(worldPoint);
-            }
-            return;
-        }
-
-        for (Map.Entry<GroundItem.GroundItemKey, GroundItem> entry : collectedGroundItems.entrySet()) {
-            GroundItem groundItem = entry.getValue();
-
-            if (!entry.getKey().getLocation().equals(worldPoint) ||
-                    (config.onlyShowLoot() && !groundItem.isMine())) {
-                continue;
-            }
-
-            if (groundItem.getGePrice() >= config.lootBeamsValue()
-                    || (TRUE.equals(highlightedItems.getUnchecked(groundItem.getName()))
-                    && config.showLootBeamsForHighlighted())) {
-                if (!lootBeamTiles.contains(worldPoint)) {
-                    client.addLootBeam(worldPoint);
-                    lootBeamTiles.add(worldPoint);
-                }
-
-                return;
-            }
-        }
-
-        if (lootBeamTiles.contains(worldPoint)) {
-            client.removeLootBeam(worldPoint);
-            lootBeamTiles.remove(worldPoint);
-        }
-    }
-
-    private void handleLootbeams() {
-        // get all tiles with ground items
-        Set<WorldPoint> tiles = new HashSet<>();
-        for (GroundItem.GroundItemKey key : collectedGroundItems.keySet()) {
-            tiles.add(key.getLocation());
-        }
-
-        for (WorldPoint worldPoint : tiles) {
-            handleLootbeam(worldPoint);
-        }
-    }
-
-    private void removeAllLootbeams() {
-        for (WorldPoint worldPoint : lootBeamTiles) {
-            client.removeLootBeam(worldPoint);
-        }
-        lootBeamTiles.clear();
-    }
-*/
 }

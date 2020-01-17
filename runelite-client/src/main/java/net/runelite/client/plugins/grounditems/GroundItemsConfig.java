@@ -350,34 +350,4 @@ public interface GroundItemsConfig extends Config {
     default boolean toggleOutline() {
         return false;
     }
-/*
-    @ConfigItem(
-            keyName = "showLootBeams",
-            name = "[R] Show loot beams",
-            description = "Configures whether or not to show loot beams.",
-            position = 29
-    )
-    default boolean showLootBeams() {
-        return true;
-    }
-
-    @ConfigItem(
-            keyName = "lootBeamsValue",
-            name = "[R] Show loot beams > Value",
-            description = "Configures loot beams for items that have a GE value higher than this.",
-            position = 30
-    )
-    default int lootBeamsValue() {
-        return 1000000;
-    }
-
-    @ConfigItem(
-            keyName = "showLootBeamsForHighlighted",
-            name = "[R] Show loot beams for highlighted items",
-            description = "Configures loot beams to show for all highlighted items.",
-            position = 31
-    )
-    default boolean showLootBeamsForHighlighted() {
-        return false;
-    }*/
 }

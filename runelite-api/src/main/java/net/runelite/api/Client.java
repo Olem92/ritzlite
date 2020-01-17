@@ -1727,14 +1727,4 @@ public interface Client extends GameEngine {
      * Makes all widgets behave as if they are {@link WidgetConfig#WIDGET_USE_TARGET}
      */
     void setAllWidgetsAreOpTargetable(boolean value);
-
-    /**
-     * Adds a graphics object of a loot beam to the designated worldpoint
-     */
-   // void addLootBeam(WorldPoint worldPoint);
-
-	/**
-	 * Removes all graphics objects of a loot beam from the designated worldpoint
-	 */
-	//void removeLootBeam(WorldPoint worldPoint);
 }

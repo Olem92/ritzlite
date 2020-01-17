@@ -342,14 +342,6 @@ public class DevToolsPlugin extends Plugin {
                 client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", String.join(" ", args), "");
                 break;
             }
-            /*case "addlootbeam": {
-                client.addLootBeam(client.getLocalPlayer().getWorldLocation());
-                break;
-            }
-            case "removelootbeam": {
-                client.removeLootBeam(client.getLocalPlayer().getWorldLocation());
-                break;
-            }*/
         }
     }
 
