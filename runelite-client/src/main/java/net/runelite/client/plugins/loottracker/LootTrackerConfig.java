@@ -84,13 +84,4 @@ public interface LootTrackerConfig extends Config {
     default boolean syncPanel() {
         return true;
     }
-
-    @ConfigItem(
-            keyName = "pvpKillChatMessage",
-            name = "Show chat message for PVP kills",
-            description = "Adds a chat message with player name and kill value when receiving loot from a player kill."
-    )
-    default boolean pvpKillChatMessage() {
-        return false;
-    }
 }
