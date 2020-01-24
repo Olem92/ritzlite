@@ -153,6 +153,11 @@ public class EasySwapPlugin extends Plugin {
             swapper.markForSwap("Monastery Teleport", option, target);
         }
 
+        if (target.equalsIgnoreCase("leaping sturgeon") || target.equalsIgnoreCase("leaping trout") ||
+                target.equalsIgnoreCase("leaping salmon") && config.swapEasyDropFish()) {
+            swapper.markForSwap("Drop", option, target);
+        }
+
         if (config.swapWildernessLever() && target.equals("lever")) {
             swapper.markForSwap("edgeville", option, target);
         }
