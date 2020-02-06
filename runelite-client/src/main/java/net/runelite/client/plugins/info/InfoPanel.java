@@ -186,7 +186,7 @@ public class InfoPanel extends PluginPanel {
 
         actionsContainer.add(buildLinkPanel(FOLDER_ICON, "Open screenshot directory", "Screenshots", SCREENSHOT_DIR));
 
-        actionsContainer.add(buildLinkPanel(DISCORD_ICON, "Talk to us on our", "discord server", runeLiteProperties.getDiscordInvite()));
+        actionsContainer.add(buildLinkPanel(DISCORD_ICON, "Talk to us on our", "Discord server", runeLiteProperties.getDiscordInvite()));
         //actionsContainer.add(buildLinkPanel(PATREON_ICON, "Become a patron to", "help support RuneLite", runeLiteProperties.getPatreonLink()));
         actionsContainer.add(buildLinkPanel(WIKI_ICON, "Information about", "RuneLite and plugins", runeLiteProperties.getWikiLink()));
 
