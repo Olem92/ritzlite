@@ -27,8 +27,10 @@ package net.runelite.client.plugins.discord;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.Units;
 
 @ConfigGroup("discord")
+
 public interface DiscordConfig extends Config {
     @ConfigItem(
             keyName = "actionTimeout",
