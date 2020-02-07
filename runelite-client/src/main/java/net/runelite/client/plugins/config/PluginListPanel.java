@@ -165,15 +165,18 @@ class PluginListPanel extends PluginPanel
 		mainPanel.setLayout(new DynamicGridLayout(0, 1, 0, 5));
 		mainPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		JButton externalPluginButton = new JButton("Plugin Hub");
-		externalPluginButton.setBorder(new EmptyBorder(5, 5, 5, 5));
-		externalPluginButton.setLayout(new BorderLayout(0, BORDER_OFFSET));
-		externalPluginButton.addActionListener(l -> muxer.pushState(pluginHubPanelProvider.get()));
+		/*
+		** TODO Figure out if its possible to load external plugins
+		 */
+		//JButton externalPluginButton = new JButton("Plugin Hub");
+		//externalPluginButton.setBorder(new EmptyBorder(5, 5, 5, 5));
+		//externalPluginButton.setLayout(new BorderLayout(0, BORDER_OFFSET));
+		//externalPluginButton.addActionListener(l -> muxer.pushState(pluginHubPanelProvider.get()));
 
 		JPanel northPanel = new FixedWidthPanel();
 		northPanel.setLayout(new BorderLayout());
 		northPanel.add(mainPanel, BorderLayout.NORTH);
-		northPanel.add(externalPluginButton, BorderLayout.SOUTH);
+		//northPanel.add(externalPluginButton, BorderLayout.SOUTH);
 
 		scrollPane = new JScrollPane(northPanel);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
