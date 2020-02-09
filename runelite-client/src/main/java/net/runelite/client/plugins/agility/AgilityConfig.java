@@ -34,6 +34,19 @@ import net.runelite.client.config.Units;
 public interface AgilityConfig extends Config
 {
 	@ConfigItem(
+			keyName = "removeDistanceCap",
+			name = "Remove Distance Cap",
+			description = "This will remove the distance cap on rendering overlays for agility.",
+			warning = "<html><center>Enabling this setting on a low end machine may severely affect your fps." +
+					"<br>Click yes to enable this setting, knowing it might affect performance.</center></html>",
+			position = 0
+	)
+	default boolean removeDistanceCap()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "showClickboxes",
 		name = "Show Clickboxes",
 		description = "Show agility course obstacle clickboxes",

@@ -32,6 +32,7 @@ import java.awt.Polygon;
 import java.awt.Shape;
 import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import net.runelite.api.Client;
 import net.runelite.api.Point;
 import net.runelite.api.Tile;
@@ -42,24 +43,25 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 
+@Singleton
 class AgilityOverlay extends Overlay
 {
 	private static final int MAX_DISTANCE = 2350;
 	private static final Color SHORTCUT_HIGH_LEVEL_COLOR = Color.ORANGE;
 
 	private final Client client;
-	private final AgilityPlugin plugin;
 	private final AgilityConfig config;
+	private final AgilityPlugin plugin;
 
 	@Inject
-	private AgilityOverlay(Client client, AgilityPlugin plugin, AgilityConfig config)
+	private AgilityOverlay(final Client client, final AgilityConfig config, final AgilityPlugin plugin)
 	{
 		super(plugin);
 		setPosition(OverlayPosition.DYNAMIC);
 		setLayer(OverlayLayer.ABOVE_SCENE);
 		this.client = client;
-		this.plugin = plugin;
 		this.config = config;
+		this.plugin = plugin;
 	}
 
 	@Override
@@ -78,8 +80,8 @@ class AgilityOverlay extends Overlay
 			}
 
 			Tile tile = obstacle.getTile();
-			if (tile.getPlane() == client.getPlane()
-				&& object.getLocalLocation().distanceTo(playerLocation) < MAX_DISTANCE)
+
+			if (tile.getPlane() == client.getPlane() && checkDistance(object.getLocalLocation(), playerLocation))
 			{
 				// This assumes that the obstacle is not clickable.
 				if (Obstacles.TRAP_OBSTACLE_IDS.contains(object.getId()))
@@ -101,18 +103,7 @@ class AgilityOverlay extends Overlay
 						configColor = config.getMarkColor();
 					}
 
-					if (objectClickbox.contains(mousePosition.getX(), mousePosition.getY()))
-					{
-						graphics.setColor(configColor.darker());
-					}
-					else
-					{
-						graphics.setColor(configColor);
-					}
-
-					graphics.draw(objectClickbox);
-					graphics.setColor(new Color(configColor.getRed(), configColor.getGreen(), configColor.getBlue(), 50));
-					graphics.fill(objectClickbox);
+					OverlayUtil.renderClickBox(graphics, mousePosition, objectClickbox, configColor);
 				}
 			}
 
@@ -123,7 +114,7 @@ class AgilityOverlay extends Overlay
 			for (Tile markOfGraceTile : marksOfGrace)
 			{
 				if (markOfGraceTile.getPlane() == client.getPlane() && markOfGraceTile.getItemLayer() != null
-						&& markOfGraceTile.getLocalLocation().distanceTo(playerLocation) < MAX_DISTANCE)
+						&& checkDistance(markOfGraceTile.getLocalLocation(), playerLocation))
 				{
 					final Polygon poly = markOfGraceTile.getItemLayer().getCanvasTilePoly();
 
@@ -138,5 +129,14 @@ class AgilityOverlay extends Overlay
 		}
 
 		return null;
+	}
+
+	private boolean checkDistance(LocalPoint localPoint, LocalPoint playerPoint)
+	{
+		if (config.removeDistanceCap())
+		{
+			return true;
+		}
+		return localPoint.distanceTo(playerPoint) < MAX_DISTANCE;
 	}
 }
