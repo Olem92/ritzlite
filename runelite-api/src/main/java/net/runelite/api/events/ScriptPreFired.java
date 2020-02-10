@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Kruithne <kruithne@gmail.com>
+ * Copyright (c) 2020, Trevor <https://github.com/Trevor159>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,37 +22,24 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.customcursor;
+package net.runelite.api.events;
 
-import java.awt.image.BufferedImage;
-import javax.annotation.Nullable;
-import lombok.Getter;
-import net.runelite.client.util.ImageUtil;
+import lombok.Data;
+import net.runelite.api.ScriptEvent;
 
-@Getter
-public enum CustomCursor
+/**
+ * An event that is fired before the designated script is ran
+ */
+@Data
+public class ScriptPreFired
 {
-	RS3_GOLD("RS3 Gold", "cursor-rs3-gold.png"),
-	RS3_SILVER("RS3 Silver", "cursor-rs3-silver.png"),
-	DRAGON_DAGGER("Dragon Dagger", "cursor-dragon-dagger.png"),
-	DRAGON_DAGGER_POISON("Dragon Dagger (p)", "cursor-dragon-dagger-p.png"),
-	TROUT("Trout", "cursor-trout.png"),
-	DRAGON_SCIMITAR("Dragon Scimitar", "cursor-dragon-scimitar.png"),
-	CUSTOM_IMAGE("Custom Image");
+	/**
+	 * The script id of the invoked script
+	 */
+	private final int scriptId;
 
-	private final String name;
-	@Nullable
-	private final BufferedImage cursorImage;
-
-	CustomCursor(String name)
-	{
-		this.name = name;
-		this.cursorImage = null;
-	}
-
-	CustomCursor(String name, String icon)
-	{
-		this.name = name;
-		this.cursorImage = ImageUtil.getResourceStreamFromClass(CustomCursorPlugin.class, icon);
-	}
+	/**
+	 * The input of the script invoke, this will be null unless it is the root script
+	 */
+	private ScriptEvent scriptEvent;
 }
