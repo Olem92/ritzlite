@@ -118,43 +118,34 @@ public class AntiDragPlugin extends Plugin implements KeyListener {
         }
     }*/
 
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		if (e.getKeyCode() == KeyEvent.VK_SHIFT)
-		{
-			client.setInventoryDragDelay(DEFAULT_DELAY);
-			// In this case, 0 is the default for bank item widgets.
-			setBankDragDelay(0);
-		}
-	}
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            client.setInventoryDragDelay(DEFAULT_DELAY);
+            // In this case, 0 is the default for bank item widgets.
+            setBankDragDelay(0);
+        }
+    }
 
 
-	@Subscribe
-	public void onFocusChanged(FocusChanged focusChanged)
-	{
-		if (!focusChanged.isFocused())
-		{
-			client.setInventoryDragDelay(DEFAULT_DELAY);
-			setBankDragDelay(0);
-		}
+    @Subscribe
+    public void onFocusChanged(FocusChanged focusChanged) {
+        if (!focusChanged.isFocused()) {
+            client.setInventoryDragDelay(DEFAULT_DELAY);
+            setBankDragDelay(0);
+        }
 
-	}
+    }
 
-	}
-
-	private void setBankDragDelay(int delay)
-	{
-		final Widget bankItemContainer = client.getWidget(WidgetInfo.BANK_ITEM_CONTAINER);
-		if (bankItemContainer != null)
-		{
-			Widget[] items = bankItemContainer.getDynamicChildren();
-			for (Widget item : items)
-			{
-				item.setDragDeadTime(delay);
-			}
-		}
-	}
+    private void setBankDragDelay(int delay) {
+        final Widget bankItemContainer = client.getWidget(WidgetInfo.BANK_ITEM_CONTAINER);
+        if (bankItemContainer != null) {
+            Widget[] items = bankItemContainer.getDynamicChildren();
+            for (Widget item : items) {
+                item.setDragDeadTime(delay);
+            }
+        }
+    }
 
 
 }
