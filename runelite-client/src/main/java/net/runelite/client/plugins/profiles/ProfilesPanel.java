@@ -74,7 +74,9 @@ class ProfilesPanel extends PluginPanel {
     private static final String PASSWORD_LABEL = "Account Password";
     private static final String HELP = "To add and load accounts, first enter a password into the Encryption Password " +
             "field then press %s. <br /><br /> You can now add as many accounts as you would like. <br /><br /> The next time you restart " +
-            "RiTzLite, enter your encryption password and click load accounts to see the accounts you entered.";
+            "RiTzLite, enter your encryption password and click load accounts to see the accounts you entered. <br /><br />" +
+            "If you encounter issues with your profiles or password to access them, simply go to the account switcher plugin " +
+            "and click reset, this will clear all profile data.";
 
     @Inject
     @Nullable
