@@ -1,261 +1,455 @@
+/*
+ * Copyright (c) 2019, dillydill123 <https://github.com/dillydill123>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package net.runelite.client.plugins.inventorysetups.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
+import lombok.Getter;
 import net.runelite.api.InventoryID;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.inventorysetups.InventorySetup;
 import net.runelite.client.plugins.inventorysetups.InventorySetupItem;
 import net.runelite.client.plugins.inventorysetups.InventorySetupPlugin;
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
+import net.runelite.client.ui.components.IconTextField;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.ImageUtil;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+public class InventorySetupPluginPanel extends PluginPanel
+{
 
-public class InventorySetupPluginPanel extends PluginPanel {
+	private static ImageIcon ADD_ICON;
+	private static ImageIcon ADD_HOVER_ICON;
+	private static ImageIcon BACK_ICON;
+	private static ImageIcon BACK_HOVER_ICON;
+	private static ImageIcon IMPORT_ICON;
+	private static ImageIcon IMPORT_HOVER_ICON;
+	private static ImageIcon UPDATE_ICON;
+	private static ImageIcon UPDATE_HOVER_ICON;
 
-    private static ImageIcon ADD_ICON;
-    private static ImageIcon ADD_HOVER_ICON;
-    private static ImageIcon REMOVE_ICON;
-    private static ImageIcon REMOVE_HOVER_ICON;
+	private static String MAIN_TITLE;
 
-    private final JPanel noSetupsPanel;
-    private final JPanel invEqPanel;
+	static
+	{
+		final BufferedImage addIcon = ImageUtil.getResourceStreamFromClass(InventorySetupPlugin.class, "add_icon.png");
+		ADD_ICON = new ImageIcon(addIcon);
+		ADD_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(addIcon, 0.53f));
 
-    private final InventorySetupContainerPanel invPanel;
-    private final InventorySetupContainerPanel eqpPanel;
+		final BufferedImage importIcon = ImageUtil.getResourceStreamFromClass(InventorySetupPlugin.class, "import_icon.png");
+		IMPORT_ICON = new ImageIcon(importIcon);
+		IMPORT_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(importIcon, 0.53f));
 
-    private final JComboBox<String> setupComboBox;
+		final BufferedImage updateIcon = ImageUtil.getResourceStreamFromClass(InventorySetupPlugin.class, "update_icon.png");
+		UPDATE_ICON = new ImageIcon(updateIcon);
+		UPDATE_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(updateIcon, 0.53f));
 
-    private final JLabel removeMarker;
+		final BufferedImage backIcon = ImageUtil.getResourceStreamFromClass(InventorySetupPlugin.class, "back_arrow_icon.png");
+		BACK_ICON = new ImageIcon(backIcon);
+		BACK_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(backIcon, 0.53f));
 
-    private final InventorySetupPlugin plugin;
+		MAIN_TITLE = "Inventory Setups";
+	}
 
-    static {
-        final BufferedImage addIcon = ImageUtil.getResourceStreamFromClass(InventorySetupPlugin.class, "add_icon.png");
-        ADD_ICON = new ImageIcon(addIcon);
-        ADD_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(addIcon, 0.53f));
+	private final JPanel noSetupsPanel;
+	private final JPanel invEqPanel;
+	private final JPanel overviewPanel;
+	private final JScrollPane contentWrapperPane;
+	private final JPanel overviewTopRightButtonsPanel;
+	private final JPanel setupTopRightButtonsPanel;
+	private final JLabel title;
+	private final JLabel addMarker;
+	private final JLabel addImportMarker;
+	private final JLabel updateMarker;
+	private final JLabel backMarker;
+	private final IconTextField searchBar;
+	private final InventorySetupInventoryPanel invPanel;
+	private final InventorySetupEquipmentPanel eqpPanel;
+	private final InventorySetupRunePouchPanel rpPanel;
+	private final InventorySetupPlugin plugin;
+	@Getter
+	private InventorySetup currentSelectedSetup;
 
-        final BufferedImage removeIcon = ImageUtil.getResourceStreamFromClass(InventorySetupPlugin.class, "remove_icon.png");
-        REMOVE_ICON = new ImageIcon(removeIcon);
-        REMOVE_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(removeIcon, 0.53f));
-    }
+	public InventorySetupPluginPanel(final InventorySetupPlugin plugin, final ItemManager itemManager)
+	{
+		super(false);
+		this.currentSelectedSetup = null;
+		this.plugin = plugin;
+		this.rpPanel = new InventorySetupRunePouchPanel(itemManager, plugin);
+		this.invPanel = new InventorySetupInventoryPanel(itemManager, plugin, rpPanel);
+		this.eqpPanel = new InventorySetupEquipmentPanel(itemManager, plugin);
+		this.noSetupsPanel = new JPanel();
+		this.invEqPanel = new JPanel();
+		this.overviewPanel = new JPanel();
 
-    public InventorySetupPluginPanel(final InventorySetupPlugin plugin, final ItemManager itemManager) {
-        super(false);
-        this.plugin = plugin;
-        this.removeMarker = new JLabel(REMOVE_ICON);
-        this.invPanel = new InventorySetupInventoryPanel(itemManager, plugin);
-        this.eqpPanel = new InventorySetupEquipmentPanel(itemManager, plugin);
-        this.noSetupsPanel = new JPanel();
-        this.invEqPanel = new JPanel();
-        this.setupComboBox = new JComboBox<>();
+		// setup the title
+		this.title = new JLabel();
+		title.setText(MAIN_TITLE);
+		title.setForeground(Color.WHITE);
 
-        // setup the title
-        final JLabel addMarker = new JLabel(ADD_ICON);
-        final JLabel title = new JLabel();
-        title.setText("Inventory Setups");
-        title.setForeground(Color.WHITE);
+		this.addImportMarker = new JLabel(IMPORT_ICON);
+		addImportMarker.setToolTipText ("Import a new inventory setup");
+		addImportMarker.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				plugin.importSetup();
+			}
 
-        // setup the add marker (+ sign in the top right)
-        addMarker.setToolTipText("Add a new inventory setup");
-        addMarker.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                plugin.addInventorySetup();
-            }
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				addImportMarker.setIcon(IMPORT_HOVER_ICON);
+			}
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                addMarker.setIcon(ADD_HOVER_ICON);
-            }
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				addImportMarker.setIcon(IMPORT_ICON);
+			}
+		});
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                addMarker.setIcon(ADD_ICON);
-            }
-        });
+		// setup the add marker (+ sign in the top right)
+		this.addMarker = new JLabel(ADD_ICON);
+		addMarker.setToolTipText("Add a new inventory setup");
+		addMarker.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				plugin.addInventorySetup();
+			}
 
-        // setup the remove marker (X sign in the top right)
-        removeMarker.setToolTipText("Remove the current inventory setup");
-        removeMarker.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                final String name = (String) setupComboBox.getSelectedItem();
-                plugin.removeInventorySetup(name, true);
-            }
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				addMarker.setIcon(ADD_HOVER_ICON);
+			}
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (removeMarker.isEnabled()) {
-                    removeMarker.setIcon(REMOVE_HOVER_ICON);
-                }
-            }
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				addMarker.setIcon(ADD_ICON);
+			}
+		});
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                removeMarker.setIcon(REMOVE_ICON);
-            }
-        });
+		this.updateMarker = new JLabel(UPDATE_ICON);
+		updateMarker.setToolTipText("Update setup with current inventory and equipment");
+		updateMarker.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				plugin.updateCurrentSetup(currentSelectedSetup);
+			}
 
-        // setup the combo box for selection switching
-        // add empty to indicate the empty position
-        setupComboBox.addItem("");
-        setupComboBox.setSelectedIndex(0);
-        setupComboBox.addItemListener(e ->
-        {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                String selection = (String) e.getItem();
-                setCurrentInventorySetup(selection);
-            }
-        });
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				updateMarker.setIcon(UPDATE_HOVER_ICON);
+			}
 
-        // the panel on the top right that holds the add and delete buttons
-        final JPanel markersPanel = new JPanel();
-        markersPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-        markersPanel.add(removeMarker);
-        markersPanel.add(addMarker);
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				updateMarker.setIcon(UPDATE_ICON);
+			}
+		});
 
-        // the top panel that has the title and the buttons
-        final JPanel titleAndMarkersPanel = new JPanel();
-        titleAndMarkersPanel.setLayout(new BorderLayout());
-        titleAndMarkersPanel.add(title, BorderLayout.WEST);
-        titleAndMarkersPanel.add(markersPanel, BorderLayout.EAST);
+		this.backMarker = new JLabel(BACK_ICON);
+		backMarker.setToolTipText("Return to setups");
+		backMarker.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				returnToOverviewPanel();
+			}
 
-        // the panel that stays at the top and doesn't scroll
-        // contains the title, buttons, and the combo box
-        final JPanel northAnchoredPanel = new JPanel();
-        northAnchoredPanel.setLayout(new BoxLayout(northAnchoredPanel, BoxLayout.Y_AXIS));
-        northAnchoredPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
-        northAnchoredPanel.add(titleAndMarkersPanel);
-        northAnchoredPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        northAnchoredPanel.add(setupComboBox);
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				backMarker.setIcon(BACK_HOVER_ICON);
+			}
 
-        // the panel that holds the inventory and equipment panels
-        final BoxLayout invEqLayout = new BoxLayout(invEqPanel, BoxLayout.Y_AXIS);
-        invEqPanel.setLayout(invEqLayout);
-        invEqPanel.add(invPanel);
-        invEqPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        invEqPanel.add(eqpPanel);
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				backMarker.setIcon(BACK_ICON);
+			}
+		});
 
-        // setup the error panel. It's wrapped around a normal panel
-        // so it doesn't stretch to fill the parent panel
-        final PluginErrorPanel errorPanel = new PluginErrorPanel();
-        errorPanel.setContent("Inventory Setups", "Select or create an inventory setup.");
-        noSetupsPanel.add(errorPanel);
+		this.overviewTopRightButtonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+		overviewTopRightButtonsPanel.add(addImportMarker);
+		overviewTopRightButtonsPanel.add(addMarker);
+		addMarker.setBorder(new EmptyBorder(0, 8, 0, 0));
 
-        // the panel that holds the inventory panels, and the error panel
-        final JPanel contentPanel = new JPanel();
-        final BoxLayout contentLayout = new BoxLayout(contentPanel, BoxLayout.Y_AXIS);
-        contentPanel.setLayout(contentLayout);
-        contentPanel.add(invEqPanel);
-        contentPanel.add(noSetupsPanel);
+		this.setupTopRightButtonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+		setupTopRightButtonsPanel.add(updateMarker);
+		setupTopRightButtonsPanel.add(backMarker);
+		backMarker.setBorder(new EmptyBorder(0, 8, 0, 0));
 
-        // wrapper for the main content panel to keep it from stretching
-        final JPanel contentWrapper = new JPanel(new BorderLayout());
-        contentWrapper.add(Box.createGlue(), BorderLayout.CENTER);
-        contentWrapper.add(contentPanel, BorderLayout.NORTH);
-        final JScrollPane contentWrapperPane = new JScrollPane(contentWrapper);
-        contentWrapperPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		// the panel on the top right that holds the buttons
+		final JPanel markersPanel = new JPanel();
+		markersPanel.setLayout(new FlowLayout());
+		markersPanel.add(overviewTopRightButtonsPanel);
+		markersPanel.add(setupTopRightButtonsPanel);
+		overviewTopRightButtonsPanel.setVisible(true);
+		setupTopRightButtonsPanel.setVisible(false);
 
-        setLayout(new BorderLayout());
-        setBorder(new EmptyBorder(10, 10, 10, 10));
-        add(northAnchoredPanel, BorderLayout.NORTH);
-        add(contentWrapperPane, BorderLayout.CENTER);
+		// the top panel that has the title and the buttons, and search bar
+		final JPanel titleAndMarkersPanel = new JPanel();
+		titleAndMarkersPanel.setLayout(new BorderLayout());
+		titleAndMarkersPanel.add(title, BorderLayout.WEST);
+		titleAndMarkersPanel.add(markersPanel, BorderLayout.EAST);
+		this.searchBar = new IconTextField();
+		searchBar.setIcon(IconTextField.Icon.SEARCH);
+		searchBar.setPreferredSize(new Dimension(PluginPanel.PANEL_WIDTH - 20, 30));
+		searchBar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		searchBar.setHoverBackgroundColor(ColorScheme.DARK_GRAY_HOVER_COLOR);
+		searchBar.setMinimumSize(new Dimension(0, 30));
+		searchBar.addKeyListener(new KeyListener()
+		{
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+			}
 
-        // show the no setups panel on startup
-        showNoSetupsPanel();
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+			}
 
-    }
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				rebuild();
+			}
+		});
+		searchBar.addClearListener(actionEvent -> rebuild());
 
-    public void showNoSetupsPanel() {
-        setupComboBox.setSelectedIndex(0);
-        removeMarker.setEnabled(false);
-        noSetupsPanel.setVisible(true);
-        invEqPanel.setVisible(false);
-    }
+		// the panel that stays at the top and doesn't scroll
+		// contains the title and buttons
+		final JPanel northAnchoredPanel = new JPanel();
+		northAnchoredPanel.setLayout(new BoxLayout(northAnchoredPanel, BoxLayout.Y_AXIS));
+		northAnchoredPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
+		northAnchoredPanel.add(titleAndMarkersPanel);
+		northAnchoredPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		northAnchoredPanel.add(searchBar);
 
-    private void showHasSetupPanel(final String name) {
-        setupComboBox.setSelectedItem(name);
-        removeMarker.setEnabled(true);
-        noSetupsPanel.setVisible(false);
-        invEqPanel.setVisible(true);
-    }
+		// the panel that holds the inventory and equipment panels
+		final BoxLayout invEqLayout = new BoxLayout(invEqPanel, BoxLayout.Y_AXIS);
+		invEqPanel.setLayout(invEqLayout);
+		invEqPanel.add(invPanel);
+		invEqPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		invEqPanel.add(rpPanel);
+		invEqPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		invEqPanel.add(eqpPanel);
 
-    public void setCurrentInventorySetup(final String name) {
-        if (name.isEmpty()) {
-            showNoSetupsPanel();
-            return;
-        }
+		// setup the error panel. It's wrapped around a normal panel
+		// so it doesn't stretch to fill the parent panel
+		final PluginErrorPanel errorPanel = new PluginErrorPanel();
+		errorPanel.setContent("Inventory Setups", "Create an inventory setup.");
+		noSetupsPanel.add(errorPanel);
 
-        showHasSetupPanel(name);
+		// the panel that holds the inventory panels, error panel, and the overview panel
+		final JPanel contentPanel = new JPanel();
+		final BoxLayout contentLayout = new BoxLayout(contentPanel, BoxLayout.Y_AXIS);
+		contentPanel.setLayout(contentLayout);
+		contentPanel.add(invEqPanel);
+		contentPanel.add(noSetupsPanel);
+		contentPanel.add(overviewPanel);
 
-        final InventorySetup inventorySetup = plugin.getInventorySetup(name);
+		// wrapper for the main content panel to keep it from stretching
+		final JPanel contentWrapper = new JPanel(new BorderLayout());
+		contentWrapper.add(Box.createGlue(), BorderLayout.CENTER);
+		contentWrapper.add(contentPanel, BorderLayout.NORTH);
+		this.contentWrapperPane = new JScrollPane(contentWrapper);
+		this.contentWrapperPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        invPanel.setSlots(inventorySetup);
-        eqpPanel.setSlots(inventorySetup);
+		setLayout(new BorderLayout());
+		setBorder(new EmptyBorder(10, 10, 10, 10));
+		add(northAnchoredPanel, BorderLayout.NORTH);
+		add(this.contentWrapperPane, BorderLayout.CENTER);
 
-        if (plugin.getHighlightDifference()) {
-            final ArrayList<InventorySetupItem> normInv = plugin.getNormalizedContainer(InventoryID.INVENTORY);
-            final ArrayList<InventorySetupItem> normEqp = plugin.getNormalizedContainer(InventoryID.EQUIPMENT);
+		// make sure the invEq panel isn't visible upon startup
+		invEqPanel.setVisible(false);
 
-            invPanel.highlightDifferences(normInv, inventorySetup);
-            eqpPanel.highlightDifferences(normEqp, inventorySetup);
+	}
 
-        } else {
-            invPanel.resetSlotColors();
-            eqpPanel.resetSlotColors();
-        }
+	public void init(List<InventorySetup> setups)
+	{
+		overviewPanel.setLayout(new GridBagLayout());
+		overviewPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
-        validate();
-        repaint();
-    }
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.weightx = 1;
+		constraints.gridx = 0;
+		constraints.gridy = 0;
 
-    public void addInventorySetup(final String name) {
-        setupComboBox.addItem(name);
-    }
+		for (final InventorySetup setup : setups)
+		{
+			InventorySetupPanel newPanel = new InventorySetupPanel(plugin, this, setup);
+			overviewPanel.add(newPanel, constraints);
+			constraints.gridy++;
 
-    public void removeInventorySetup(final String name) {
-        setupComboBox.removeItem(name);
-        showNoSetupsPanel();
+			overviewPanel.add(Box.createRigidArea(new Dimension(0, 10)), constraints);
+			constraints.gridy++;
+		}
 
-        invPanel.resetSlotColors();
-        eqpPanel.resetSlotColors();
+		invEqPanel.setVisible(false);
 
-        validate();
-        repaint();
-    }
+		noSetupsPanel.setVisible(plugin.getInventorySetups().isEmpty());
+		overviewPanel.setVisible(!plugin.getInventorySetups().isEmpty());
 
-    public void highlightDifferences(final ArrayList<InventorySetupItem> container, final InventorySetup setupToCheck, final InventoryID type) {
-        switch (type) {
-            case INVENTORY:
-                invPanel.highlightDifferences(container, setupToCheck);
-                break;
+	}
 
-            case EQUIPMENT:
-                eqpPanel.highlightDifferences(container, setupToCheck);
-                break;
-        }
-    }
+	public void rebuild()
+	{
+		overviewPanel.removeAll();
+		final String text = searchBar.getText();
+		List<InventorySetup> setupsToAdd = searchBar.getText().isEmpty() ? plugin.getInventorySetups() : plugin.filterSetups(searchBar.getText());
+		init(setupsToAdd);
+		revalidate();
+		repaint();
+	}
 
-    public final String getSelectedInventorySetup() {
-        return (String) setupComboBox.getSelectedItem();
-    }
+	public void refreshCurrentSetup()
+	{
+		if (currentSelectedSetup != null)
+		{
+			setCurrentInventorySetup(currentSelectedSetup, false);
+		}
+	}
 
+	public void setCurrentInventorySetup(final InventorySetup inventorySetup, boolean resetScrollBar)
+	{
+		currentSelectedSetup = inventorySetup;
+		invPanel.setSlots(inventorySetup);
+		rpPanel.setSlots(inventorySetup);
+		eqpPanel.setSlots(inventorySetup);
 
+		overviewTopRightButtonsPanel.setVisible(false);
+		setupTopRightButtonsPanel.setVisible(true);
+
+		invEqPanel.setVisible(true);
+		noSetupsPanel.setVisible(false);
+		overviewPanel.setVisible(false);
+
+		title.setText(inventorySetup.getName());
+		searchBar.setVisible(false);
+
+		// only show the rune pouch if the setup has a rune pouch
+		rpPanel.setVisible(currentSelectedSetup.getRune_pouch() != null);
+
+		highlightInventory();
+		highlightEquipment();
+
+		if (resetScrollBar)
+		{
+			// reset scrollbar back to top
+			this.contentWrapperPane.getVerticalScrollBar().setValue(0);
+		}
+
+		plugin.doBankSearch();
+
+		validate();
+		repaint();
+
+	}
+
+	public void highlightInventory()
+	{
+		// if the panel itself isn't visible, don't waste time doing any highlighting logic
+		if (!invEqPanel.isVisible())
+		{
+			return;
+		}
+
+		// if the panel is visible, check if highlighting is enabled on the setup and globally
+		// if any of the two, reset the slots so they aren't highlighted
+		if (!currentSelectedSetup.isHighlightDifference() || !plugin.isHighlightingAllowed())
+		{
+			invPanel.resetSlotColors();
+			return;
+		}
+
+		final ArrayList<InventorySetupItem> inv = plugin.getNormalizedContainer(InventoryID.INVENTORY);
+		invPanel.highlightSlotDifferences(inv, currentSelectedSetup);
+	}
+
+	public void highlightEquipment()
+	{
+		// if the panel itself isn't visible, don't waste time doing any highlighting logic
+		if (!invEqPanel.isVisible())
+		{
+			return;
+		}
+
+		// if the panel is visible, check if highlighting is enabled on the setup and globally
+		// if any of the two, reset the slots so they aren't highlighted
+		if (!currentSelectedSetup.isHighlightDifference() || !plugin.isHighlightingAllowed())
+		{
+			eqpPanel.resetSlotColors();
+			return;
+		}
+
+		final ArrayList<InventorySetupItem> eqp = plugin.getNormalizedContainer(InventoryID.EQUIPMENT);
+		eqpPanel.highlightSlotDifferences(eqp, currentSelectedSetup);
+	}
+	
+	public void returnToOverviewPanel()
+	{
+		noSetupsPanel.setVisible(false);
+		invEqPanel.setVisible(false);
+		overviewPanel.setVisible(true);
+		overviewTopRightButtonsPanel.setVisible(true);
+		setupTopRightButtonsPanel.setVisible(false);
+		title.setText(MAIN_TITLE);
+		currentSelectedSetup = null;
+		searchBar.setVisible(true);
+		plugin.resetBankSearch();
+	}
 }
