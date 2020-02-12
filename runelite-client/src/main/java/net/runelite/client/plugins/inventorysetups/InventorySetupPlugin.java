@@ -82,7 +82,7 @@ import net.runelite.client.util.ImageUtil;
 @PluginDescriptor(
 	name = "Inventory Setups",
 	description = "Save gear setups for specific activities",
-	tags = {"items", "inventory", "setups"}
+	tags = {"items", "inventory", "setups", "ritzlite"}
 )
 public class InventorySetupPlugin extends Plugin
 {
