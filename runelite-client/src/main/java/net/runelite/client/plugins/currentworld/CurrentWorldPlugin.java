@@ -8,9 +8,9 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 @PluginDescriptor(
-        name = "[R] Current World",
+        name = "Current World",
         description = "Show the current world as an overlay",
-        tags = {"world", "overlay", "ping"},
+        tags = {"world", "overlay", "ping", "ritzlite"},
         enabledByDefault = false
 )
 public class CurrentWorldPlugin extends Plugin

@@ -42,9 +42,9 @@ import net.runelite.client.plugins.PluginDescriptor;
 
 import net.runelite.client.ui.overlay.OverlayManager;
 
-@PluginDescriptor(name = "[R] Anti Drag",
+@PluginDescriptor(name = "Anti Drag",
         description = "Configures the inventory drag delay in client ticks (20ms)",
-        tags = {"drag", "anti", "ms", "delay", "ms"},
+        tags = {"drag", "anti", "ms", "delay", "ms", "ritzlite"},
         enabledByDefault = false
 )
 public class AntiDragPlugin extends Plugin implements KeyListener {
