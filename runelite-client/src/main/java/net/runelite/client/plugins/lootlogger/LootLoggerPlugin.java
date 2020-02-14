@@ -54,7 +54,7 @@ import net.runelite.http.api.loottracker.LootRecordType;
 import org.apache.commons.lang3.ArrayUtils;
 
 @PluginDescriptor(
-        name = "Loot Tracker",
+        name = "Loot Logger",
         description = "Local data persistence and unique UI for the Loot Tracker",
         tags = {"ritzlite", "loot", "pvm"}
 )
