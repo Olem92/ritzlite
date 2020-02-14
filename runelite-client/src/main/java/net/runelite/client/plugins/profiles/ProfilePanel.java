@@ -1,27 +1,3 @@
-/*
- * Copyright (c) 2019, Spedwards <https://github.com/Spedwards>
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 package net.runelite.client.plugins.profiles;
 
 import java.awt.BorderLayout;
@@ -30,12 +6,6 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -62,14 +32,10 @@ class ProfilePanel extends JPanel {
     }
 
     private final String loginText;
-    private String password = null;
 
-    ProfilePanel(final Client client, final String data, final ProfilesConfig config, final ProfilesPanel parent) {
+    ProfilePanel(final Client client, String data, ProfilesConfig config) {
         String[] parts = data.split(":");
         this.loginText = parts[1];
-        if (parts.length == 3) {
-            this.password = parts[2];
-        }
 
         final ProfilePanel panel = this;
 
@@ -94,11 +60,7 @@ class ProfilePanel extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 panel.getParent().remove(panel);
-                try {
-                    parent.removeProfile(data);
-                } catch (InvalidKeySpecException | NoSuchAlgorithmException | IllegalBlockSizeException | InvalidKeyException | BadPaddingException | NoSuchPaddingException ex) {
-                    log.error(e.toString());
-                }
+                ProfilesPanel.removeProfile(data);
             }
 
             @Override
@@ -129,9 +91,6 @@ class ProfilePanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isLeftMouseButton(e) && client.getGameState() == GameState.LOGIN_SCREEN) {
                     client.setUsername(loginText);
-                    if (config.rememberPassword() && password != null) {
-                        client.setPassword(password);
-                    }
                 }
             }
         });
@@ -144,25 +103,20 @@ class ProfilePanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isLeftMouseButton(e) && client.getGameState() == GameState.LOGIN_SCREEN) {
                     client.setUsername(loginText);
-                    if (config.rememberPassword() && password != null) {
-                        client.setPassword(password);
-                    }
                 }
             }
         });
 
-        if (config.displayEmailAddress()) {
-            JLabel login = new JLabel();
-            login.setText(config.streamerMode() ? "Hidden email" : loginText);
-            login.setBorder(null);
-            login.setPreferredSize(new Dimension(0, 24));
-            login.setForeground(Color.WHITE);
-            login.setBorder(new EmptyBorder(0, 8, 0, 0));
+        JLabel login = new JLabel();
+        login.setText(config.isStreamerMode() ? "Hidden email" : loginText);
+        login.setBorder(null);
+        login.setPreferredSize(new Dimension(0, 24));
+        login.setForeground(Color.WHITE);
+        login.setBorder(new EmptyBorder(0, 8, 0, 0));
 
-            bottomContainer.add(login, BorderLayout.CENTER);
-            add(bottomContainer, BorderLayout.CENTER);
-        }
+        bottomContainer.add(login, BorderLayout.CENTER);
+
         add(labelWrapper, BorderLayout.NORTH);
-
+        add(bottomContainer, BorderLayout.CENTER);
     }
 }
