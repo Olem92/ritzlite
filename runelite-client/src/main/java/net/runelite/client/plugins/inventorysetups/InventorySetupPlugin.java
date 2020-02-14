@@ -179,7 +179,7 @@ public class InventorySetupPlugin extends Plugin
 		navButton = NavigationButton.builder()
 			.tooltip("Inventory Setups")
 			.icon(icon)
-			.priority(9)
+			.priority(5)
 			.panel(panel)
 			.build();
 
