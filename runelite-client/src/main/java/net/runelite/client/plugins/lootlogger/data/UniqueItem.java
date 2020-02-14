@@ -29,6 +29,7 @@ import java.util.Collection;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.runelite.api.ItemComposition;
 import net.runelite.api.ItemDefinition;
 import net.runelite.api.ItemID;
 import net.runelite.client.game.ItemManager;
@@ -891,7 +892,8 @@ public enum UniqueItem
 				return;
 			}
 
-			final ItemDefinition c = (ItemDefinition) itemManager.getItemComposition(item.getItemID());
+			final ItemComposition c = itemManager.getItemComposition(item.getItemID());
+			//final ItemDefinition c = (ItemDefinition) itemManager.getItemComposition(item.getItemID());
 			item.name = c.getName();
 			item.linkedID = c.getLinkedNoteId();
 			item.price = itemManager.getItemPrice(c.getId());
