@@ -24,7 +24,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.*;
 
 @PluginDescriptor(
-        name="[R] EasyPVM",
+        name="EasyPVM",
         description = "EasyPvM.",
         tags = {"EasyPVM", "easy"},
         enabledByDefault = false

@@ -43,7 +43,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 @PluginDescriptor(
         name = "[R] Vetion Helper",
         description = "Tracks Vet'ion's special attacks",
-        tags = {"bosses", "combat", "pve", "overlay", "ritz"},
+        tags = {"bosses", "combat", "pve", "overlay", "ritzlite"},
         enabledByDefault = false
 )
 @Singleton

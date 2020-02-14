@@ -76,7 +76,7 @@ public interface WintertodtConfig extends Config
 	@ConfigItem(
 			position = 4,
 			keyName = "aoe",
-			name = "[R] AOE Warnings",
+			name = "AOE Warnings",
 			description = "Displays AOE warnings for Wintertodt"
 	)
 	default boolean aoe() {

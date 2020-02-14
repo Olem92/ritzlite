@@ -18,9 +18,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import javax.inject.Inject;
 
 @PluginDescriptor(
-        name="[R] Easyscape",
+        name="Easyscape",
         description = "EasyScape.",
-        tags = {"EasyScape"},
+        tags = {"EasyScape", "ritzlite"},
         enabledByDefault = false
 )
 

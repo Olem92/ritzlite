@@ -28,9 +28,9 @@ import static net.runelite.api.MenuAction.MENU_ACTION_DEPRIORITIZE_OFFSET;
 import static net.runelite.api.MenuAction.WALK;
 
 @PluginDescriptor(
-        name = "[R] Zulrah",
+        name = "Zulrah",
         description = "Zulrah Helper",
-        tags = {"Zulrah", "Helper"},
+        tags = {"Zulrah", "Helper", "ritzlite"},
         enabledByDefault = false
 )
 public class ZulrahPlugin extends Plugin {

@@ -19,7 +19,7 @@ import java.util.List;
 @PluginDescriptor(
         name = "[R] Vanguards",
         description = "Show Vanguards color & health",
-        tags = {"combat", "raid", "overlay", "pve", "pvm", "bosses", "[r]", "cox", "van", "vanguards"},
+        tags = {"combat", "raid", "overlay", "pve", "pvm", "bosses", "[r]", "cox", "van", "vanguards", "ritzlite"},
         enabledByDefault = false)
 
 public class VanguardsPlugin extends Plugin {

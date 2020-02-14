@@ -28,9 +28,9 @@ import static net.runelite.api.MenuAction.WALK;
 import static net.runelite.api.ObjectID.PORTAL_4525;
 
 @PluginDescriptor(
-        name = "[R] EasySwap",
+        name = "EasySwap",
         description = "EasySwap.",
-        tags = {"EasySwap", "easy"},
+        tags = {"EasySwap", "easy", "ritzlite"},
         enabledByDefault = false
 )
 
