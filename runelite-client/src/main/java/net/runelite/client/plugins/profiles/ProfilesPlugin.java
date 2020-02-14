@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import java.awt.image.BufferedImage;
 
 @PluginDescriptor(
-        name = "Profiles",
+        name = "Account Switcher",
         description = "Allow for a faster log in",
         tags = {"profile", "account", "login", "log in", "ritzlite"}
 )
@@ -39,7 +39,7 @@ public class ProfilesPlugin extends Plugin {
         navButton = NavigationButton.builder()
                 .tooltip("Profiles")
                 .icon(icon)
-                .priority(8)
+                .priority(2)
                 .panel(panel)
                 .build();
 

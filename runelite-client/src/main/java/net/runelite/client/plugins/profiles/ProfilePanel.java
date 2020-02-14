@@ -107,7 +107,8 @@ class ProfilePanel extends JPanel {
             }
         });
 
-        JLabel login = new JLabel();
+        /*
+         JLabel login = new JLabel();
         login.setText(config.isStreamerMode() ? "Hidden email" : loginText);
         login.setBorder(null);
         login.setPreferredSize(new Dimension(0, 24));
@@ -115,8 +116,8 @@ class ProfilePanel extends JPanel {
         login.setBorder(new EmptyBorder(0, 8, 0, 0));
 
         bottomContainer.add(login, BorderLayout.CENTER);
-
-        add(labelWrapper, BorderLayout.NORTH);
         add(bottomContainer, BorderLayout.CENTER);
+    */
+        add(labelWrapper, BorderLayout.NORTH);
     }
 }
