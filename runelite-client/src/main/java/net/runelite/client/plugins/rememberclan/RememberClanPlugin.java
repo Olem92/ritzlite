@@ -27,6 +27,7 @@
 package net.runelite.client.plugins.rememberclan;
 
 import com.google.inject.Provides;
+
 import javax.inject.Inject;
 
 import net.runelite.api.*;
@@ -43,12 +44,12 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 
 @PluginDescriptor(
-        name = "[R] Remember Clan",
+        name = "Remember Clan",
         description = "Remember a specific clan!",
+        tags = {"ritzlite", "clan"},
         enabledByDefault = false
 )
-public class RememberClanPlugin extends Plugin
-{
+public class RememberClanPlugin extends Plugin {
 
     @Inject
     private Client client;
@@ -62,15 +63,13 @@ public class RememberClanPlugin extends Plugin
     private boolean loggingIn;
 
     @Provides
-    RememberClanConfig provideConfig(ConfigManager configManager)
-    {
+    RememberClanConfig provideConfig(ConfigManager configManager) {
         return configManager.getConfig(RememberClanConfig.class);
     }
 
     @Subscribe
-    public void onGameTick(GameTick event)
-    {
-        client.setVar(VarClientStr.RECENT_CLAN_CHAT,config.clanname());
+    public void onGameTick(GameTick event) {
+        client.setVar(VarClientStr.RECENT_CLAN_CHAT, config.clanname());
 
     }
 

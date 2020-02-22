@@ -12,6 +12,15 @@ import net.runelite.client.plugins.easyscape.util.GloryMode;
 public interface EasySwapConfig extends Config {
 
     @ConfigItem(
+            keyName = "swapEasyDropFish",
+            name = "Barb fishing easy drop",
+            description = "Makes drop the first option in the menu"
+    )
+    default boolean swapEasyDropFish() {
+        return true;
+    }
+
+    @ConfigItem(
             keyName = "swapWildernessLever",
             name = "Wilderness Lever to Edgeville",
             description = "Swap Edgeville Lever as default for wilderness lever"

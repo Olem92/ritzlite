@@ -28,10 +28,35 @@ import java.awt.Color;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.Units;
 
 @ConfigGroup("agility")
 public interface AgilityConfig extends Config
 {
+	@ConfigItem(
+			keyName = "removeDistanceCap",
+			name = "Remove Distance Cap",
+			description = "This will remove the distance cap on rendering overlays for agility.",
+			warning = "<html><center>Enabling this setting on a low end machine may severely affect your fps." +
+					"<br>Click yes to enable this setting, knowing it might affect performance.</center></html>",
+			position = 0
+	)
+	default boolean removeDistanceCap()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "showClickboxes",
+		name = "Show Clickboxes",
+		description = "Show agility course obstacle clickboxes",
+		position = 0
+	)
+	default boolean showClickboxes()
+	{
+		return true;
+	}
+
 	@ConfigItem(
 		keyName = "showLapCount",
 		name = "Show Lap Count",
@@ -45,10 +70,11 @@ public interface AgilityConfig extends Config
 
 	@ConfigItem(
 		keyName = "lapTimeout",
-		name = "Hide Lap Count (minutes)",
+		name = "Hide Lap Count",
 		description = "Time until the lap counter hides/resets",
 		position = 2
 	)
+	@Units(Units.MINUTES)
 	default int lapTimeout()
 	{
 		return 5;

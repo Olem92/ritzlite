@@ -53,9 +53,9 @@ import java.util.Map;
 
 @Slf4j
 @PluginDescriptor(
-        name="[R] Cox Thieving",
+        name="Cox Thieving",
 	description = "Tracks which chests need to be searched for bats and which poison",
-	tags = {"overlay", "skilling", "raid"},
+	tags = {"overlay", "skilling", "raid", "ritzlite"},
 		enabledByDefault = false
 )
 public class RaidsThievingPlugin extends Plugin

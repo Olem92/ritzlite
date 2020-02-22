@@ -52,12 +52,8 @@ import static net.runelite.api.ProjectileID.CANNONBALL;
 import static net.runelite.api.ProjectileID.GRANITE_CANNONBALL;
 
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.events.ChatMessage;
+import net.runelite.api.events.*;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.api.events.GameObjectSpawned;
-import net.runelite.api.events.GameTick;
-import net.runelite.api.events.ItemContainerChanged;
-import net.runelite.api.events.ProjectileMoved;
 import net.runelite.client.Notifier;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -76,10 +72,11 @@ import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
 )
 public class CannonPlugin extends Plugin {
     private static final Pattern NUMBER_PATTERN = Pattern.compile("([0-9]+)");
-    private static final int MAX_CBALLS = 30;
+    static final int MAX_CBALLS = 30;
 
     private CannonCounter counter;
     private boolean skipProjectileCheckThisTick;
+    private boolean cannonBallNotificationSent;
 
     @Getter
     private int cballsLeft;
@@ -141,6 +138,7 @@ public class CannonPlugin extends Plugin {
         overlayManager.remove(cannonSpotOverlay);
         cannonPlaced = false;
         cannonPosition = null;
+        cannonBallNotificationSent = false;
         cballsLeft = 0;
         removeCounter();
         skipProjectileCheckThisTick = false;
@@ -253,6 +251,12 @@ public class CannonPlugin extends Plugin {
                 // amount.
                 if (!skipProjectileCheckThisTick) {
                     cballsLeft--;
+                    client.getCallbacks().post(new CannonballFired());//danny
+
+                    if (config.showCannonNotifications() && !cannonBallNotificationSent && cballsLeft > 0 && config.lowWarningThreshold() >= cballsLeft) {
+                        notifier.notify(String.format("Your cannon has %d cannon balls remaining!", cballsLeft));
+                        cannonBallNotificationSent = true;
+                    }
                 }
             }
         }
@@ -302,6 +306,8 @@ public class CannonPlugin extends Plugin {
                     cballsLeft++;
                 }
             }
+
+            cannonBallNotificationSent = false;
         }
 
         if (event.getMessage().contains("Your cannon is out of ammo!")) {
@@ -312,7 +318,7 @@ public class CannonPlugin extends Plugin {
             // extra check is a good idea.
             cballsLeft = 0;
 
-            if (config.showEmptyCannonNotification()) {
+            if (config.showCannonNotifications()) {
                 notifier.notify("Your cannon is out of ammo!");
             }
         }

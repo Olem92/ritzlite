@@ -23,8 +23,9 @@ import net.runelite.client.ui.PluginPanel;
 
 @Slf4j
 class ProfilesPanel extends PluginPanel {
-    private static final String ACCOUNT_USERNAME = "Account Username";
     private static final String ACCOUNT_LABEL = "Account Label";
+    private static final String ACCOUNT_USERNAME = "Account Username";
+
     private static final Dimension PREFERRED_SIZE = new Dimension(PluginPanel.PANEL_WIDTH - 20, 30);
     private static final Dimension MINIMUM_SIZE = new Dimension(0, 30);
 

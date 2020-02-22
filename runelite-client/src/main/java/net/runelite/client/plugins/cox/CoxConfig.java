@@ -42,15 +42,36 @@ public interface CoxConfig extends Config {
 
     @ConfigItem(
             position = 3,
-            keyName = "crystals",
-            name = "Crystals",
-            description = "Display tile indicators for crystals at cox"
+            keyName = "doCrab",
+            name = "Crab helper",
+            description = "Display the orb colour for each crystal",
+            hidden = true
     )
-    default boolean crystals() {
-        return false;
+    default boolean doCrab() {
+        return true;
     }
 
-    //here
+    @ConfigItem(
+            position = 3,
+            keyName = "showText",
+            name = "Crab helper",
+            description = "Display the orb colour for each crystal"
+    )
+    default boolean showText() {
+        return true;
+    }
+
+    @ConfigItem(
+            position = 4,
+            keyName = "textColor",
+            name = "Crab helper text color",
+            description = "Configures the color of text marker for crab helper"
+    )
+    default Color textColor() {
+        return Color.GREEN;
+    }
+
+    /*
     @ConfigItem(
             keyName = "showHighlight",
             name = "Highlight Shortcuts",
@@ -119,7 +140,7 @@ public interface CoxConfig extends Config {
     )
     default Color textColor() {
         return Color.red;
-    }
+    }*/
 
 
 }

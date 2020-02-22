@@ -22,9 +22,9 @@ import javax.inject.Inject;
 import java.util.*;
 
 @PluginDescriptor(
-        name = "[R] Spawn Timer",
+        name = "Spawn Timer",
         description = "Shows NPC'S time since spawned",
-        tags = {"highlight", "minimap", "npcs", "overlay", "spawn", "tags"},
+        tags = {"highlight", "minimap", "npcs", "overlay", "spawn", "tags", "ritzlite"},
         enabledByDefault = false
 )
 

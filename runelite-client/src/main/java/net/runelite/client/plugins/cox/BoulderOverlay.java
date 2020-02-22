@@ -59,7 +59,7 @@ public class BoulderOverlay extends Overlay {
                 default:
                     name = "uhhh";
             }
-            if (config.showText()) {
+          /*  if (config.showText()) {
                 if (config.doBoulder() && name.equals("Boulder")) {
                     renderText(graphics, object, name, config.textColor(), object.getPlane() + 100);
                 } else if (config.doTree() && name.equals("Tree")) {
@@ -77,7 +77,7 @@ public class BoulderOverlay extends Overlay {
                 } else if (config.doMining() && name.equals("Rocks")) {
                     OverlayUtil.renderPolygon(graphics, polygon, config.markerColor());
                 }
-            }
+            }*/
 
         }
 

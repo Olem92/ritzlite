@@ -48,9 +48,9 @@ import static net.runelite.api.ItemID.FIRE_CAPE;
 import static net.runelite.api.ItemID.INFERNAL_CAPE;
 
 @PluginDescriptor(
-        name = "[R] Tzhaar Timers",
+        name = "Tzhaar Timers",
         description = "Display elapsed time in the Fight Caves and Inferno",
-        tags = {"inferno", "fight", "caves", "cape", "timer", "tzhaar"}
+        tags = {"inferno", "fight", "caves", "cape", "timer", "tzhaar", "ritzlite"}
 )
 public class TzhaarTimersPlugin extends Plugin {
     private static final Pattern WAVE_MESSAGE = Pattern.compile("Wave: (\\d+)");

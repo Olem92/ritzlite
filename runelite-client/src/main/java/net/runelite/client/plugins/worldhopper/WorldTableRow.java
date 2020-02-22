@@ -90,7 +90,7 @@ class WorldTableRow extends JPanel
 	private Color lastBackground;
 	private boolean current;
 
-	WorldTableRow(World world, boolean current, boolean favorite, Consumer<World> onSelect, BiConsumer<World, Boolean> onFavorite)
+	WorldTableRow(World world, boolean current, boolean favorite, Integer ping, Consumer<World> onSelect, BiConsumer<World, Boolean> onFavorite)
 	{
 		this.current = current;
 		this.world = world;
@@ -163,7 +163,7 @@ class WorldTableRow extends JPanel
 		worldField.setPreferredSize(new Dimension(WORLD_COLUMN_WIDTH, 0));
 		worldField.setOpaque(false);
 
-		JPanel pingField = buildPingField();
+		JPanel pingField = buildPingField(ping);
 		pingField.setPreferredSize(new Dimension(PING_COLUMN_WIDTH, 0));
 		pingField.setOpaque(false);
 
@@ -278,7 +278,7 @@ class WorldTableRow extends JPanel
 		return column;
 	}
 
-	private JPanel buildPingField()
+	private JPanel buildPingField(Integer ping)
 	{
 		JPanel column = new JPanel(new BorderLayout());
 		column.setBorder(new EmptyBorder(0, 5, 0, 5));
@@ -287,6 +287,11 @@ class WorldTableRow extends JPanel
 		pingField.setFont(FontManager.getRunescapeSmallFont());
 
 		column.add(pingField, BorderLayout.EAST);
+
+		if (ping != null)
+		{
+			setPing(ping);
+		}
 
 		return column;
 	}

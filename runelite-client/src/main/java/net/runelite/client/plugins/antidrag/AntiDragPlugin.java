@@ -32,6 +32,8 @@ import javax.inject.Inject;
 
 import net.runelite.api.Client;
 import net.runelite.api.events.FocusChanged;
+import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.input.KeyListener;
 import net.runelite.client.input.KeyManager;
@@ -40,9 +42,9 @@ import net.runelite.client.plugins.PluginDescriptor;
 
 import net.runelite.client.ui.overlay.OverlayManager;
 
-@PluginDescriptor(name = "[R] Anti Drag",
+@PluginDescriptor(name = "Anti Drag",
         description = "Configures the inventory drag delay in client ticks (20ms)",
-        tags = {"drag", "anti", "ms", "delay", "ms"},
+        tags = {"drag", "anti", "ms", "delay", "ms", "ritzlite"},
         enabledByDefault = false
 )
 public class AntiDragPlugin extends Plugin implements KeyListener {
@@ -93,12 +95,15 @@ public class AntiDragPlugin extends Plugin implements KeyListener {
     public void keyPressed(KeyEvent e) {
 		/*if (e.getKeyCode() == KeyEvent.VK_SHIFT)
 		{
-			client.setInventoryDragDelay(config.dragDelay());
+			final int delay = config.dragDelay();
+			client.setInventoryDragDelay(delay);
+			setBankDragDelay(delay);
 		}
 		client.setInventoryDragDelay(config.dragDelay());*/
     }
 
-    @Override
+
+   /* @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_CONTROL && toggleDrag) {
 
@@ -111,14 +116,36 @@ public class AntiDragPlugin extends Plugin implements KeyListener {
             client.setInventoryDragDelay(config.dragDelay());
 
         }
+    }*/
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            client.setInventoryDragDelay(DEFAULT_DELAY);
+            // In this case, 0 is the default for bank item widgets.
+            setBankDragDelay(0);
+        }
     }
 
-	/*@Subscribe
-	public void onFocusChanged(FocusChanged focusChanged)
-	{
-		if (!focusChanged.isFocused())
-		{
-			client.setInventoryDragDelay(DEFAULT_DELAY);
-		}
-	}*/
+
+    @Subscribe
+    public void onFocusChanged(FocusChanged focusChanged) {
+        if (!focusChanged.isFocused()) {
+            client.setInventoryDragDelay(DEFAULT_DELAY);
+            setBankDragDelay(0);
+        }
+
+    }
+
+    private void setBankDragDelay(int delay) {
+        final Widget bankItemContainer = client.getWidget(WidgetInfo.BANK_ITEM_CONTAINER);
+        if (bankItemContainer != null) {
+            Widget[] items = bankItemContainer.getDynamicChildren();
+            for (Widget item : items) {
+                item.setDragDeadTime(delay);
+            }
+        }
+    }
+
+
 }
