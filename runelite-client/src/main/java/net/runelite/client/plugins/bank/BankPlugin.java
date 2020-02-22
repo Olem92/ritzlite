@@ -37,15 +37,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
-import net.runelite.api.Client;
+
+import net.runelite.api.*;
+
 import static net.runelite.api.Constants.HIGH_ALCHEMY_MULTIPLIER;
-import net.runelite.api.InventoryID;
-import net.runelite.api.Item;
-import net.runelite.api.ItemComposition;
-import net.runelite.api.ItemContainer;
-import net.runelite.api.ItemID;
-import net.runelite.api.MenuEntry;
-import net.runelite.api.Varbits;
+
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.MenuShouldLeftClick;
@@ -82,10 +78,24 @@ public class BankPlugin extends Plugin
 		Varbits.BANK_TAB_NINE_COUNT
 	);
 
+	private static final List<WidgetInfo> BANK_PINS = ImmutableList.of(
+			WidgetInfo.BANK_PIN_BUTTON_1,
+			WidgetInfo.BANK_PIN_BUTTON_2,
+			WidgetInfo.BANK_PIN_BUTTON_3,
+			WidgetInfo.BANK_PIN_BUTTON_4,
+			WidgetInfo.BANK_PIN_BUTTON_5,
+			WidgetInfo.BANK_PIN_BUTTON_6,
+			WidgetInfo.BANK_PIN_BUTTON_7,
+			WidgetInfo.BANK_PIN_BUTTON_8,
+			WidgetInfo.BANK_PIN_BUTTON_9,
+			WidgetInfo.BANK_PIN_BUTTON_10
+	);
+
 	private static final String DEPOSIT_WORN = "Deposit worn items";
 	private static final String DEPOSIT_INVENTORY = "Deposit inventory";
 	private static final String DEPOSIT_LOOT = "Deposit loot";
 	private static final String SEED_VAULT_TITLE = "Seed Vault";
+	private static final int PIN_FONT_OFFSET = 5;
 
 	private static final String NUMBER_REGEX = "[0-9]+(\\.[0-9]+)?[kmb]?";
 	private static final Pattern VALUE_SEARCH_PATTERN = Pattern.compile("^(?<mode>ge|ha|alch)?" +
@@ -166,6 +176,10 @@ public class BankPlugin extends Plugin
 	@Subscribe
 	public void onScriptCallbackEvent(ScriptCallbackEvent event)
 	{
+		if (event.getEventName().equals("bankPinButtons") && config.largePinNumbers())
+		{
+			updateBankPinSizes();
+		}
 		int[] intStack = client.getIntStack();
 		String[] stringStack = client.getStringStack();
 		int intStackSize = client.getIntStackSize();
@@ -333,6 +347,39 @@ public class BankPlugin extends Plugin
 		}
 
 		return itemContainer.getItems();
+	}
+	private void updateBankPinSizes()
+	{
+		for (final WidgetInfo widgetInfo : BANK_PINS)
+		{
+			final Widget pin = client.getWidget(widgetInfo);
+			if (pin == null)
+			{
+				continue;
+			}
+
+			final Widget[] children = pin.getDynamicChildren();
+			if (children.length < 2)
+			{
+				continue;
+			}
+
+			final Widget button = children[0];
+			final Widget number = children[1];
+
+			// Change to a bigger font size
+			number.setFontId(FontID.QUILL_CAPS_LARGE);
+			number.setYTextAlignment(0);
+
+			// Change size to match container widths
+			number.setOriginalWidth(button.getWidth());
+			// The large font id text isn't centered, we need to offset it slightly
+			number.setOriginalHeight(button.getHeight() + PIN_FONT_OFFSET);
+			number.setOriginalY(-PIN_FONT_OFFSET);
+			number.setOriginalX(0);
+
+			number.revalidate();
+		}
 	}
 
 

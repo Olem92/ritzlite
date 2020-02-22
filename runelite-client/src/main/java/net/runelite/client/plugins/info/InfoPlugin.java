@@ -26,6 +26,7 @@ package net.runelite.client.plugins.info;
 
 import java.awt.image.BufferedImage;
 import javax.inject.Inject;
+
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.NavigationButton;
@@ -33,38 +34,35 @@ import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.util.ImageUtil;
 
 @PluginDescriptor(
-	name = "Info Panel",
-	description = "Enable the Info panel",
-	loadWhenOutdated = true
+        name = "Info Panel",
+        description = "Enable the Info panel",
+        loadWhenOutdated = true
 )
-public class InfoPlugin extends Plugin
-{
-	@Inject
-	private ClientToolbar clientToolbar;
+public class InfoPlugin extends Plugin {
+    @Inject
+    private ClientToolbar clientToolbar;
 
-	private NavigationButton navButton;
+    private NavigationButton navButton;
 
-	@Override
-	protected void startUp() throws Exception
-	{
-		final InfoPanel panel = injector.getInstance(InfoPanel.class);
-		panel.init();
+    @Override
+    protected void startUp() throws Exception {
+        final InfoPanel panel = injector.getInstance(InfoPanel.class);
+        panel.init();
 
-		final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "info_icon.png");
+        final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "info_icon.png");
 
-		navButton = NavigationButton.builder()
-			.tooltip("Info")
-			.icon(icon)
-			.priority(9)
-			.panel(panel)
-			.build();
+        navButton = NavigationButton.builder()
+                .tooltip("Info")
+                .icon(icon)
+                .priority(9)
+                .panel(panel)
+                .build();
 
-		clientToolbar.addNavigation(navButton);
-	}
+        clientToolbar.addNavigation(navButton);
+    }
 
-	@Override
-	protected void shutDown()
-	{
-		clientToolbar.removeNavigation(navButton);
-	}
+    @Override
+    protected void shutDown() {
+        clientToolbar.removeNavigation(navButton);
+    }
 }

@@ -104,9 +104,9 @@ import net.runelite.client.util.ImageUtil;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 @PluginDescriptor(
-        name = "[R] Map Targets",
+        name = "Map Targets",
         description = "Set destination targets on the world map to get a direction arrow",
-        tags = {"map", "destination", "target", "location", "directions", "travel", "world"},
+        tags = {"map", "destination", "target", "location", "directions", "travel", "world", "ritzlite"},
         enabledByDefault = false
 )
 public class MapTargetPlugin extends Plugin implements MouseListener {

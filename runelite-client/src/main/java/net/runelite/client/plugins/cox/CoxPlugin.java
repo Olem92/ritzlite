@@ -20,9 +20,9 @@ import java.util.Date;
 import java.util.List;
 
 @PluginDescriptor(
-        name = "[R] Raids",
+        name = "Raids",
         description = "Show cox plugins",
-        tags = {"cox", "raids", "shadow", "cox", "rocks", "rocks", "lightening", "crystals", "shortcut"},
+        tags = {"cox", "raids", "shadow", "ritz", "rocks", "lightening", "crystals", "crabs", "olm", "ritzlite"},
         enabledByDefault = false
 )
 public class CoxPlugin extends Plugin {
@@ -33,17 +33,13 @@ public class CoxPlugin extends Plugin {
 
     @Inject
     private Client client;
-    //here
+
     @Getter(AccessLevel.PACKAGE)
     private final List<TileObject> objects = new ArrayList<>();
     public boolean inRaid;
 
     @Inject
-    private BoulderOverlay shortcuts;
-
-    @Inject
     private KeyManager keyManager;
-    //here
 
     @Inject
     private OverlayManager overlayManager;
@@ -66,15 +62,14 @@ public class CoxPlugin extends Plugin {
     private LightningOverlay lightning;
 
     @Inject
-    private CrystalsOverlay crystals;
+    private CrabsOverlay crabs;
 
     @Override
     protected void startUp() {
         overlayManager.add(overlay);
         overlayManager.add(rocks);
         overlayManager.add(lightning);
-        overlayManager.add(crystals);
-        overlayManager.add(shortcuts);
+        overlayManager.add(crabs);
         inRaid = false;
     }
 
@@ -83,21 +78,21 @@ public class CoxPlugin extends Plugin {
         overlayManager.remove(overlay);
         overlayManager.remove(rocks);
         overlayManager.remove(lightning);
-        overlayManager.remove(crystals);
-        overlayManager.remove(shortcuts);
+        overlayManager.remove(crabs);
         inRaid = false;
     }
 
     @Subscribe
     public void onGameObjectSpawned(GameObjectSpawned event) {
         final WorldPoint worldPoint = WorldPoint.fromLocalInstance(client, event.getGameObject().getLocalLocation());
-
         if (worldPoint == null) {
             return;
         }
-        if (event.getGameObject().getId() == 29740 || event.getGameObject().getId() == 29736 || event.getGameObject().getId() == 29738) {
+        if (event.getGameObject().getId() == 29758 ||
+                event.getGameObject().getId() == 29761 ||
+                event.getGameObject().getId() == 29759 ||
+                event.getGameObject().getId() == 29760) {
             objects.add(event.getGameObject());
         }
-
     }
 }

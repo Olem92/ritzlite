@@ -28,9 +28,9 @@ import java.util.Map;
 import static net.runelite.api.ItemID.HERB_SACK;
 
 @PluginDescriptor(
-        name = "[R] Herb sack price check",
+        name = "Herb sack price check",
         description = "Price checks the herbs in herb sack",
-        tags = {"herbs", "prices", "ritz"}
+        tags = {"herbs", "prices", "ritzlite"}
 )
 
 @Slf4j

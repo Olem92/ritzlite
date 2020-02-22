@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 
 @PluginDescriptor(
-        name="[R] Easybank",
+        name="Easybank",
         description = "EasyBank.",
         tags = {"EasyBank", "easy"},
         enabledByDefault = false

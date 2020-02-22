@@ -61,6 +61,7 @@ import net.runelite.client.ui.overlay.components.TextComponent;
 import net.runelite.client.util.QuantityFormatter;
 import org.apache.commons.lang3.ArrayUtils;
 
+
 public class GroundItemsOverlay extends Overlay {
     private static final int MAX_DISTANCE = 2500;
     // We must offset the text on the z-axis such that
@@ -335,7 +336,7 @@ public class GroundItemsOverlay extends Overlay {
 
     private void drawTimerOverlay(Graphics2D graphics, int textX, int textY, GroundItem groundItem) {
         // We can only accurately guess despawn times for our own pvm loot and dropped items
-        if (groundItem.getLootType() != LootType.PVM && !groundItem.isDropped()) {
+        if (groundItem.getLootType() != LootType.PVM && groundItem.getLootType() != LootType.DROPPED) {
             return;
         }
 
@@ -360,7 +361,7 @@ public class GroundItemsOverlay extends Overlay {
             despawnTime = spawnTime.plus(DESPAWN_TIME_INSTANCE);
             fillColor = PRIVATE_TIMER_COLOR;
         } else {
-            if (groundItem.isDropped()) {
+            if (groundItem.getLootType() == LootType.DROPPED) {
                 despawnTime = spawnTime.plus(DESPAWN_TIME_DROP);
             } else {
                 despawnTime = spawnTime.plus(DESPAWN_TIME_LOOT);
@@ -429,5 +430,4 @@ public class GroundItemsOverlay extends Overlay {
     private boolean isInKraken() {
         return ArrayUtils.contains(client.getMapRegions(), KRAKEN_REGION);
     }
-
 }

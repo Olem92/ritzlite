@@ -132,7 +132,7 @@ public class ImplingsPlugin extends Plugin
 		NPC npc = npcCompositionChanged.getNpc();
 		Impling impling = Impling.findImpling(npc.getId());
 
-		if (impling != null && !implings.contains(npc))
+		if (impling != null)
 		{
 			if (showImplingType(impling.getImplingType()) == ImplingsConfig.ImplingMode.NOTIFY)
 			{
@@ -147,6 +147,10 @@ public class ImplingsPlugin extends Plugin
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+
+			if (!implings.contains(npc))
+			{
+				implings.add(npc);
 			}
 		}
 	}

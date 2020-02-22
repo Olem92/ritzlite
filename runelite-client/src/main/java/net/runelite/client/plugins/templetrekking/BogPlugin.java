@@ -30,9 +30,9 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 @PluginDescriptor(
-        name = "[R] Temple Trekking",
+        name = "Temple Trekking",
         description = "Highlights walkable tiles for the bog encounter in the Temple Trekking minigame",
-        tags = {"bog", "temple", "trekking"},
+        tags = {"bog", "temple", "trekking", "ritzlite"},
         enabledByDefault = false
 )
 @Slf4j

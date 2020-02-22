@@ -30,6 +30,7 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.Range;
+import net.runelite.client.config.Units;
 import net.runelite.client.plugins.wintertodt.config.WintertodtNotifyMode;
 
 @ConfigGroup("wintertodt")
@@ -66,6 +67,7 @@ public interface WintertodtConfig extends Config
 	@Range(
 		max = 60
 	)
+	@Units(Units.SECONDS)
 	default int roundNotification()
 	{
 		return 5;
@@ -74,7 +76,7 @@ public interface WintertodtConfig extends Config
 	@ConfigItem(
 			position = 4,
 			keyName = "aoe",
-			name = "[R] AOE Warnings",
+			name = "AOE Warnings",
 			description = "Displays AOE warnings for Wintertodt"
 	)
 	default boolean aoe() {

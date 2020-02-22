@@ -67,6 +67,7 @@ import net.runelite.client.plugins.PluginDescriptor;
         description = "Send a notification when going idle, or when HP/Prayer reaches a threshold",
         tags = {"health", "hitpoints", "notifications", "prayer"}
 )
+
 public class IdleNotifierPlugin extends Plugin {
     // This must be more than 500 client ticks (10 seconds) before you get AFK kicked
     private static final int LOGOUT_WARNING_MILLIS = (4 * 60 + 40) * 1000; // 4 minutes and 40 seconds
