@@ -137,6 +137,11 @@ public class ClientUI {
     private JButton sidebarNavigationJButton;
     private Dimension lastClientSize;
 
+    public ContainableFrame getFrame(){
+        return frame;
+    }
+
+
     @Inject
     private ClientUI(
             RuneLiteConfig config,

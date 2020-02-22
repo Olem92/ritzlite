@@ -26,11 +26,13 @@ package net.runelite.client.plugins.implings;
 
 import com.google.inject.Provides;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import lombok.AccessLevel;
 import lombok.Getter;
+import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.NPC;
 import net.runelite.api.events.GameStateChanged;
@@ -43,6 +45,8 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.http.api.worlds.World;
+import net.runelite.http.api.worlds.WorldClient;
 
 @PluginDescriptor(
 	name = "Implings",
@@ -53,6 +57,9 @@ public class ImplingsPlugin extends Plugin
 {
 	@Getter(AccessLevel.PACKAGE)
 	private final List<NPC> implings = new ArrayList<>();
+
+	@Inject
+	private Client client;
 
 	@Inject
 	private OverlayManager overlayManager;
@@ -104,6 +111,18 @@ public class ImplingsPlugin extends Plugin
 			}
 
 			implings.add(npc);
+			/**
+			 * Todo: Add support for locations.
+			 */
+			System.out.println("hello2");
+			if(ImpNotifier.impsToNotify(impling)){
+				try {
+					ImpNotifier.notifyDiscord(impling.name()+" located in world "+ client.getWorld()+"\n"
+					+"Location: https://www.osrsmap.net/#area=main&x="+npc.getWorldLocation().getX()+"&y="+npc.getWorldLocation().getY()+"&zoom=200");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -119,8 +138,16 @@ public class ImplingsPlugin extends Plugin
 			{
 				notifier.notify(impling.getImplingType().getName() + " impling is in the area");
 			}
-
+			System.out.println("hello");
 			implings.add(npc);
+			if(ImpNotifier.impsToNotify(impling)){
+				try {
+					ImpNotifier.notifyDiscord(impling.name()+" located in world "+ client.getWorld()+"\n"
+							+"Location: https://www.osrsmap.net/#area=main&x="+npc.getWorldLocation().getX()+"&y="+npc.getWorldLocation().getY()+"&zoom=200");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
