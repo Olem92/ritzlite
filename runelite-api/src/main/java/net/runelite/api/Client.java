@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import net.runelite.api.annotations.VisibleForDevtools;
 import net.runelite.api.annotations.VisibleForExternalPlugins;
 import net.runelite.api.coords.LocalPoint;
@@ -47,7 +46,8 @@ import org.slf4j.Logger;
 /**
  * Represents the RuneScape client.
  */
-public interface Client extends GameEngine {
+public interface Client extends GameEngine
+{
     /**
      * The client invokes these callbacks to communicate to
      */
@@ -119,10 +119,10 @@ public interface Client extends GameEngine {
     /**
      * Adds a new chat message to the chatbox.
      *
-     * @param type    the type of message
-     * @param name    the name of the player that sent the message
+     * @param type the type of message
+     * @param name the name of the player that sent the message
      * @param message the message contents
-     * @param sender  the sender/channel name
+     * @param sender the sender/channel name
      */
     void addChatMessage(ChatMessageType type, String name, String message, String sender);
 
@@ -255,14 +255,12 @@ public interface Client extends GameEngine {
 
     /**
      * Gets the canvas height
-     *
      * @return
      */
     int getCanvasHeight();
 
     /**
      * Gets the canvas width
-     *
      * @return
      */
     int getCanvasWidth();
@@ -365,13 +363,13 @@ public interface Client extends GameEngine {
     /**
      * Creates an item icon sprite with passed variables.
      *
-     * @param itemId      the item ID
-     * @param quantity    the item quantity
-     * @param border      whether to draw a border
+     * @param itemId the item ID
+     * @param quantity the item quantity
+     * @param border whether to draw a border
      * @param shadowColor the shadow color
-     * @param stackable   whether the item is stackable
-     * @param noted       whether the item is noted
-     * @param scale       the scale of the sprite
+     * @param stackable whether the item is stackable
+     * @param noted whether the item is noted
+     * @param scale the scale of the sprite
      * @return the created sprite
      */
     @Nullable
@@ -380,9 +378,9 @@ public interface Client extends GameEngine {
     /**
      * Loads and creates the sprite images of the passed archive and file IDs.
      *
-     * @param source    the sprite index
+     * @param source the sprite index
      * @param archiveId the sprites archive ID
-     * @param fileId    the sprites file ID
+     * @param fileId the sprites file ID
      * @return the sprite image of the file
      */
     @Nullable
@@ -623,7 +621,6 @@ public interface Client extends GameEngine {
      * | |rot|     y chunk coord     |    x chunk coord    |pln|       |
      * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      * }</pre>
-     *
      * @return the array of instance template chunks
      * @see Constants#CHUNK_SIZE
      * @see InstanceTemplates
@@ -740,17 +737,16 @@ public interface Client extends GameEngine {
      * Sets the value of a given variable.
      *
      * @param varbit the variable
-     * @param value  the new value
+     * @param value the new value
      */
     void setVarbit(Varbits varbit, int value);
 
     /**
      * Gets the value of a given variable.
      *
-     * @param varps    passed varbits
+     * @param varps passed varbits
      * @param varbitId the variable ID
      * @return the value
-     * @see Varbits#id
      */
     @VisibleForDevtools
     int getVarbitValue(int[] varps, int varbitId);
@@ -758,10 +754,9 @@ public interface Client extends GameEngine {
     /**
      * Gets the value of a given VarPlayer.
      *
-     * @param varps  passed varps
+     * @param varps passed varps
      * @param varpId the VarpPlayer id
      * @return the value
-     * @see VarPlayer#id
      */
     @VisibleForDevtools
     int getVarpValue(int[] varps, int varpId);
@@ -769,10 +764,9 @@ public interface Client extends GameEngine {
     /**
      * Sets the value of a given VarPlayer.
      *
-     * @param varps  passed varps
+     * @param varps passed varps
      * @param varpId the VarpPlayer id
-     * @param value  the value
-     * @see VarPlayer#id
+     * @param value the value
      */
     @VisibleForDevtools
     void setVarpValue(int[] varps, int varpId, int value);
@@ -780,10 +774,9 @@ public interface Client extends GameEngine {
     /**
      * Sets the value of a given variable.
      *
-     * @param varps  passed varbits
+     * @param varps passed varbits
      * @param varbit the variable
-     * @param value  the value
-     * @see Varbits#id
+     * @param value the value
      */
     @VisibleForDevtools
     void setVarbitValue(int[] varps, int varbit, int value);
@@ -957,7 +950,7 @@ public interface Client extends GameEngine {
      * pixels.
      *
      * @param pixels the pixels
-     * @param width  the width
+     * @param width the width
      * @param height the height
      * @return the sprite image
      */
@@ -987,42 +980,36 @@ public interface Client extends GameEngine {
 
     /**
      * Gets the music volume
-     *
      * @return volume 0-255 inclusive
      */
     int getMusicVolume();
 
     /**
      * Sets the music volume
-     *
      * @param volume 0-255 inclusive
      */
     void setMusicVolume(int volume);
 
     /**
      * Gets the sound effect volume
-     *
      * @return volume 0-127 inclusive
      */
     int getSoundEffectVolume();
 
     /**
      * Sets the sound effect volume
-     *
      * @param volume 0-127 inclusive
      */
     void setSoundEffectVolume(int volume);
 
     /**
      * Gets the area sound effect volume
-     *
      * @return volume 0-127 inclusive
      */
     int getAreaSoundEffectVolume();
 
     /**
      * Sets the area sound effect volume
-     *
      * @param volume 0-127 inclusive
      */
     void setAreaSoundEffectVolume(int volume);
@@ -1033,31 +1020,31 @@ public interface Client extends GameEngine {
      * normally played.
      *
      * @param id the ID of the sound to play. Any int is allowed, but see
-     *           {@link SoundEffectID} for some common ones
+     * {@link SoundEffectID} for some common ones
      */
     void playSoundEffect(int id);
 
     /**
      * Play a sound effect from some point in the world.
      *
-     * @param id    the ID of the sound to play. Any int is allowed, but see
-     *              {@link SoundEffectID} for some common ones
-     * @param x     the ground coordinate on the x axis
-     * @param y     the ground coordinate on the y axis
+     * @param id the ID of the sound to play. Any int is allowed, but see
+     * {@link SoundEffectID} for some common ones
+     * @param x the ground coordinate on the x axis
+     * @param y the ground coordinate on the y axis
      * @param range the number of tiles away that the sound can be heard
-     *              from
+     * from
      */
     void playSoundEffect(int id, int x, int y, int range);
 
     /**
      * Play a sound effect from some point in the world.
      *
-     * @param id    the ID of the sound to play. Any int is allowed, but see
-     *              {@link SoundEffectID} for some common ones
-     * @param x     the ground coordinate on the x axis
-     * @param y     the ground coordinate on the y axis
+     * @param id the ID of the sound to play. Any int is allowed, but see
+     * {@link SoundEffectID} for some common ones
+     * @param x the ground coordinate on the x axis
+     * @param y the ground coordinate on the y axis
      * @param range the number of tiles away that the sound can be heard
-     *              from
+     * from
      * @param delay the amount of frames before the sound starts playing
      */
     void playSoundEffect(int id, int x, int y, int range, int delay);
@@ -1150,7 +1137,7 @@ public interface Client extends GameEngine {
     /**
      * Checks whether a player is on the friends list.
      *
-     * @param name           the name of the player
+     * @param name the name of the player
      * @param mustBeLoggedIn if they player is online
      * @return true if the player is friends
      */
@@ -1301,7 +1288,7 @@ public interface Client extends GameEngine {
 
     /**
      * Executes a client script from the cache
-     * <p>
+     *
      * This method must be ran on the client thread and is not reentrant
      *
      * @param args the script id, then any additional arguments to execute the script with
@@ -1631,7 +1618,6 @@ public interface Client extends GameEngine {
 
     /**
      * Hops using in-game world hopper widget to another world
-     *
      * @param world target world to hop to
      */
     void hopToWorld(World world);
@@ -1651,15 +1637,11 @@ public interface Client extends GameEngine {
     void setGpu(boolean gpu);
 
     int get3dZoom();
-
     int getCenterX();
-
     int getCenterY();
 
     int getCameraX2();
-
     int getCameraY2();
-
     int getCameraZ2();
 
     TextureProvider getTextureProvider();
@@ -1669,11 +1651,8 @@ public interface Client extends GameEngine {
     void setRenderArea(boolean[][] renderArea);
 
     int getRasterizer3D_clipMidX2();
-
     int getRasterizer3D_clipNegativeMidX();
-
     int getRasterizer3D_clipNegativeMidY();
-
     int getRasterizer3D_clipMidY2();
 
     void checkClickbox(Model model, int orientation, int pitchSin, int pitchCos, int yawSin, int yawCos, int x, int y, int z, long hash);
@@ -1687,7 +1666,6 @@ public interface Client extends GameEngine {
 
     /**
      * Get the item index of the item being dragged on an if1 widget
-     *
      * @return
      */
     int getIf1DraggedItemIndex();
@@ -1723,30 +1701,23 @@ public interface Client extends GameEngine {
      */
     int getItemCount();
 
-
     /**
      * Makes all widgets behave as if they are {@link WidgetConfig#WIDGET_USE_TARGET}
      */
     void setAllWidgetsAreOpTargetable(boolean value);
 
-	/**
-	 * Makes all widgets behave as if they are {@link WidgetConfig#WIDGET_USE_TARGET}
-	 */
-	void setAllWidgetsAreOpTargetable(boolean value);
+    /**
+     * Sets the result count for GE search
+     */
+    void setGeSearchResultCount(int count);
 
-	/**
-	 * Sets the result count for GE search
-	 */
-	void setGeSearchResultCount(int count);
+    /**
+     * Sets the array of item ids for GE search
+     */
+    void setGeSearchResultIds(short[] ids);
 
-	/**
-	 * Sets the array of item ids for GE search
-	 */
-	void setGeSearchResultIds(short[] ids);
-
-	/**
-	 * Sets the starting index in the item id array for GE search
-	 */
-	void setGeSearchResultIndex(int index);
-
+    /**
+     * Sets the starting index in the item id array for GE search
+     */
+    void setGeSearchResultIndex(int index);
 }
