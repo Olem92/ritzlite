@@ -103,6 +103,7 @@ public class ImplingsPlugin extends Plugin
 		NPC npc = npcSpawned.getNpc();
 		Impling impling = Impling.findImpling(npc.getId());
 
+
 		if (impling != null)
 		{
 			if (showImplingType(impling.getImplingType()) == ImplingsConfig.ImplingMode.NOTIFY)
@@ -114,43 +115,31 @@ public class ImplingsPlugin extends Plugin
 			/**
 			 * Todo: Add support for locations.
 			 */
+
 			System.out.println("hello2");
 			if(ImpNotifier.impsToNotify(impling)){
-				try {
-					ImpNotifier.notifyDiscord(impling.name()+" located in world "+ client.getWorld()+"\n"
-					+"Location: https://www.osrsmap.net/#area=main&x="+npc.getWorldLocation().getX()+"&y="+npc.getWorldLocation().getY()+"&zoom=200");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				ImpNotifier.registerImpling(impling.name(),npc.getWorldLocation().getX(),npc.getWorldLocation().getY(),0, client.getWorld());
 			}
 		}
 	}
 
+
 	@Subscribe
-	public void onNpcChanged(NpcChanged npcCompositionChanged)
-	{
+	public void onNpcChanged(NpcChanged npcCompositionChanged) {
 		NPC npc = npcCompositionChanged.getNpc();
 		Impling impling = Impling.findImpling(npc.getId());
 
-		if (impling != null)
-		{
-			if (showImplingType(impling.getImplingType()) == ImplingsConfig.ImplingMode.NOTIFY)
-			{
+		if (impling != null) {
+			if (showImplingType(impling.getImplingType()) == ImplingsConfig.ImplingMode.NOTIFY) {
 				notifier.notify(impling.getImplingType().getName() + " impling is in the area");
 			}
 			System.out.println("hello");
 			implings.add(npc);
-			if(ImpNotifier.impsToNotify(impling)){
-				try {
-					ImpNotifier.notifyDiscord(impling.name()+" located in world "+ client.getWorld()+"\n"
-							+"Location: https://www.osrsmap.net/#area=main&x="+npc.getWorldLocation().getX()+"&y="+npc.getWorldLocation().getY()+"&zoom=200");
-				} catch (IOException e) {
-					e.printStackTrace();
+			if (ImpNotifier.impsToNotify(impling)) {
+					ImpNotifier.registerImpling(impling.name(),npc.getWorldLocation().getX(),npc.getWorldLocation().getY(),0, client.getWorld());
+				if (!implings.contains(npc)) {
+					implings.add(npc);
 				}
-
-			if (!implings.contains(npc))
-			{
-				implings.add(npc);
 			}
 		}
 	}
