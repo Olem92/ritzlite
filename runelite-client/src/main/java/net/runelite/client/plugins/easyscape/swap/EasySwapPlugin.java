@@ -153,11 +153,24 @@ public class EasySwapPlugin extends Plugin {
             swapper.markForSwap("Monastery Teleport", option, target);
         }
 
+        /*
+         * Easy drops barb fishing
+         */
         if (target.equalsIgnoreCase("leaping sturgeon") || target.equalsIgnoreCase("leaping trout") ||
                 target.equalsIgnoreCase("leaping salmon") && config.swapEasyDropFish()) {
             swapper.markForSwap("Drop", option, target);
         }
 
+        /*
+         * Easy drops redwoods
+         */
+        if (target.equalsIgnoreCase(("Redwood logs")) && config.swapEasyDropRedwoods()) {
+            swapper.markForSwap("Drop", option, target);
+        }
+
+        /*
+         * Makes wildy lever edgeville by default when enabled.
+         */
         if (config.swapWildernessLever() && target.equals("lever")) {
             swapper.markForSwap("edgeville", option, target);
         }
