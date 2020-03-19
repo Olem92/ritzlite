@@ -83,298 +83,347 @@ import okhttp3.Response;
         hidden = true
 )
 @Slf4j
-public class DiscordPlugin extends Plugin {
-    @Inject
-    private Client client;
+public class DiscordPlugin extends Plugin
+{
+	@Inject
+	private Client client;
 
-    @Inject
-    private DiscordConfig config;
+	@Inject
+	private DiscordConfig config;
 
-    @Inject
-    private ClientToolbar clientToolbar;
+	@Inject
+	private ClientToolbar clientToolbar;
 
-    @Inject
-    private DiscordState discordState;
+	@Inject
+	private DiscordState discordState;
 
-    @Inject
-    private PartyService partyService;
+	@Inject
+	private PartyService partyService;
 
-    @Inject
-    private DiscordService discordService;
+	@Inject
+	private DiscordService discordService;
 
-    @Inject
-    private WSClient wsClient;
+	@Inject
+	private WSClient wsClient;
 
-    private Map<Skill, Integer> skillExp = new HashMap<>();
-    private NavigationButton discordButton;
-    private boolean loginFlag;
+	private Map<Skill, Integer> skillExp = new HashMap<>();
+	private NavigationButton discordButton;
+	private boolean loginFlag;
 
-    @Provides
-    private DiscordConfig provideConfig(ConfigManager configManager) {
-        return configManager.getConfig(DiscordConfig.class);
-    }
+	@Provides
+	private DiscordConfig provideConfig(ConfigManager configManager)
+	{
+		return configManager.getConfig(DiscordConfig.class);
+	}
 
-    @Override
-    protected void startUp() throws Exception {
-        final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "discord.png");
+	@Override
+	protected void startUp() throws Exception
+	{
+		final BufferedImage icon = ImageUtil.getResourceStreamFromClass(getClass(), "discord.png");
 
-        discordButton = NavigationButton.builder()
-                .tab(false)
-                .tooltip("Join Discord")
-                .icon(icon)
-                .onClick(() -> LinkBrowser.browse(RuneLiteProperties.getDiscordInvite()))
-                .build();
+		discordButton = NavigationButton.builder()
+			.tab(false)
+			.tooltip("Join Discord")
+			.icon(icon)
+			.onClick(() -> LinkBrowser.browse(RuneLiteProperties.getDiscordInvite()))
+			.build();
 
-        clientToolbar.addNavigation(discordButton);
-        checkForGameStateUpdate();
-        checkForAreaUpdate();
+		clientToolbar.addNavigation(discordButton);
+		checkForGameStateUpdate();
+		checkForAreaUpdate();
 
-        if (discordService.getCurrentUser() != null) {
-            partyService.setUsername(discordService.getCurrentUser().username + "#" + discordService.getCurrentUser().discriminator);
-        }
+		if (discordService.getCurrentUser() != null)
+		{
+			partyService.setUsername(discordService.getCurrentUser().username + "#" + discordService.getCurrentUser().discriminator);
+		}
 
-        wsClient.registerMessage(DiscordUserInfo.class);
-    }
+		wsClient.registerMessage(DiscordUserInfo.class);
+	}
 
-    @Override
-    protected void shutDown() throws Exception {
-        clientToolbar.removeNavigation(discordButton);
-        discordState.reset();
-        partyService.changeParty(null);
-        wsClient.unregisterMessage(DiscordUserInfo.class);
-    }
+	@Override
+	protected void shutDown() throws Exception
+	{
+		clientToolbar.removeNavigation(discordButton);
+		discordState.reset();
+		partyService.changeParty(null);
+		wsClient.unregisterMessage(DiscordUserInfo.class);
+	}
 
-    @Subscribe
-    public void onGameStateChanged(GameStateChanged event) {
-        switch (event.getGameState()) {
-            case LOGIN_SCREEN:
-                checkForGameStateUpdate();
-                return;
-            case LOGGING_IN:
-                loginFlag = true;
-                break;
-            case LOGGED_IN:
-                if (loginFlag) {
-                    loginFlag = false;
-                    checkForGameStateUpdate();
-                }
+	@Subscribe
+	public void onGameStateChanged(GameStateChanged event)
+	{
+		switch (event.getGameState())
+		{
+			case LOGIN_SCREEN:
+				checkForGameStateUpdate();
+				return;
+			case LOGGING_IN:
+				loginFlag = true;
+				break;
+			case LOGGED_IN:
+				if (loginFlag)
+				{
+					loginFlag = false;
+					checkForGameStateUpdate();
+				}
 
-                break;
-        }
+				break;
+		}
 
-        checkForAreaUpdate();
-    }
+		checkForAreaUpdate();
+	}
 
-    @Subscribe
-    public void onConfigChanged(ConfigChanged event) {
-        if (event.getGroup().equalsIgnoreCase("discord")) {
-            checkForGameStateUpdate();
-            checkForAreaUpdate();
-        }
-    }
+	@Subscribe
+	public void onConfigChanged(ConfigChanged event)
+	{
+		if (event.getGroup().equalsIgnoreCase("discord"))
+		{
+			checkForGameStateUpdate();
+			checkForAreaUpdate();
+		}
+	}
 
-    @Subscribe
-    public void onStatChanged(StatChanged statChanged) {
-        final Skill skill = statChanged.getSkill();
-        final int exp = statChanged.getXp();
-        final Integer previous = skillExp.put(skill, exp);
+	@Subscribe
+	public void onStatChanged(StatChanged statChanged)
+	{
+		final Skill skill = statChanged.getSkill();
+		final int exp = statChanged.getXp();
+		final Integer previous = skillExp.put(skill, exp);
 
-        if (previous == null || previous >= exp) {
-            return;
-        }
+		if (previous == null || previous >= exp)
+		{
+			return;
+		}
 
-        final DiscordGameEventType discordGameEventType = DiscordGameEventType.fromSkill(skill);
+		final DiscordGameEventType discordGameEventType = DiscordGameEventType.fromSkill(skill);
 
-        if (discordGameEventType != null && config.showSkillingActivity()) {
-            discordState.triggerEvent(discordGameEventType);
-        }
-    }
+		if (discordGameEventType != null && config.showSkillingActivity())
+		{
+			discordState.triggerEvent(discordGameEventType);
+		}
+	}
 
-    @Subscribe
-    public void onVarbitChanged(VarbitChanged event) {
-        if (!config.showRaidingActivity()) {
-            return;
-        }
+	@Subscribe
+	public void onVarbitChanged(VarbitChanged event)
+	{
+		if (!config.showRaidingActivity())
+		{
+			return;
+		}
 
-        final DiscordGameEventType discordGameEventType = DiscordGameEventType.fromVarbit(client);
+		final DiscordGameEventType discordGameEventType = DiscordGameEventType.fromVarbit(client);
 
-        if (discordGameEventType != null) {
-            discordState.triggerEvent(discordGameEventType);
-        }
-    }
+		if (discordGameEventType != null)
+		{
+			discordState.triggerEvent(discordGameEventType);
+		}
+	}
 
-    @Subscribe
-    public void onDiscordReady(DiscordReady event) {
-        partyService.setUsername(event.getUsername() + "#" + event.getDiscriminator());
-    }
+	@Subscribe
+	public void onDiscordReady(DiscordReady event)
+	{
+		partyService.setUsername(event.getUsername() + "#" + event.getDiscriminator());
+	}
 
-    @Subscribe
-    public void onDiscordJoinRequest(DiscordJoinRequest request) {
-        log.debug("Got discord join request {}", request);
-        if (partyService.isOwner() && partyService.getMembers().isEmpty()) {
-            // First join, join also yourself
-            partyService.changeParty(partyService.getLocalPartyId());
-            updatePresence();
-        }
-    }
+	@Subscribe
+	public void onDiscordJoinRequest(DiscordJoinRequest request)
+	{
+		log.debug("Got discord join request {}", request);
+		if (partyService.isOwner() && partyService.getMembers().isEmpty())
+		{
+			// First join, join also yourself
+			partyService.changeParty(partyService.getLocalPartyId());
+			updatePresence();
+		}
+	}
 
-    @Subscribe
-    public void onDiscordJoinGame(DiscordJoinGame joinGame) {
-        log.debug("Got discord join game {}", joinGame);
-        UUID partyId = UUID.fromString(joinGame.getJoinSecret());
-        partyService.changeParty(partyId);
-        updatePresence();
-    }
+	@Subscribe
+	public void onDiscordJoinGame(DiscordJoinGame joinGame)
+	{
+		log.debug("Got discord join game {}", joinGame);
+		UUID partyId = UUID.fromString(joinGame.getJoinSecret());
+		partyService.changeParty(partyId);
+		updatePresence();
+	}
 
-    @Subscribe
-    public void onDiscordUserInfo(final DiscordUserInfo event) {
-        final PartyMember memberById = partyService.getMemberById(event.getMemberId());
+	@Subscribe
+	public void onDiscordUserInfo(final DiscordUserInfo event)
+	{
+		final PartyMember memberById = partyService.getMemberById(event.getMemberId());
 
-        if (memberById == null || memberById.getAvatar() != null) {
-            return;
-        }
+		if (memberById == null || memberById.getAvatar() != null)
+		{
+			return;
+		}
 
-        String url = "https://cdn.discordapp.com/avatars/" + event.getUserId() + "/" + event.getAvatarId() + ".png";
+		String url = "https://cdn.discordapp.com/avatars/" + event.getUserId() + "/" + event.getAvatarId() + ".png";
 
-        if (Strings.isNullOrEmpty(event.getAvatarId())) {
-            final String[] split = memberById.getName().split("#", 2);
+		if (Strings.isNullOrEmpty(event.getAvatarId()))
+		{
+			final String[] split = memberById.getName().split("#", 2);
 
-            if (split.length == 2) {
-                int disc = Integer.valueOf(split[1]);
-                int avatarId = disc % 5;
-                url = "https://cdn.discordapp.com/embed/avatars/" + avatarId + ".png";
-            }
-        }
+			if (split.length == 2)
+			{
+				int disc = Integer.valueOf(split[1]);
+				int avatarId = disc % 5;
+				url = "https://cdn.discordapp.com/embed/avatars/" + avatarId + ".png";
+			}
+		}
 
-        log.debug("Got user avatar {}", url);
+		log.debug("Got user avatar {}", url);
 
-        final Request request = new Request.Builder()
-                .url(url)
-                .build();
+		final Request request = new Request.Builder()
+			.url(url)
+			.build();
 
-        RuneLiteAPI.CLIENT.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+		RuneLiteAPI.CLIENT.newCall(request).enqueue(new Callback()
+		{
+			@Override
+			public void onFailure(Call call, IOException e)
+			{
 
-            }
+			}
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    if (!response.isSuccessful()) {
-                        throw new IOException("Unexpected code " + response);
-                    }
+			@Override
+			public void onResponse(Call call, Response response) throws IOException
+			{
+				try
+				{
+					if (!response.isSuccessful())
+					{
+						throw new IOException("Unexpected code " + response);
+					}
 
-                    final InputStream inputStream = response.body().byteStream();
-                    final BufferedImage image = ImageIO.read(inputStream);
-                    memberById.setAvatar(image);
-                } finally {
-                    response.close();
-                }
-            }
-        });
-    }
+					final InputStream inputStream = response.body().byteStream();
+					final BufferedImage image;
+					synchronized (ImageIO.class)
+					{
+						image = ImageIO.read(inputStream);
+					}
+					memberById.setAvatar(image);
+				}
+				finally
+				{
+					response.close();
+				}
+			}
+		});
+	}
 
-    @Subscribe
-    public void onUserJoin(final UserJoin event) {
-        updatePresence();
-    }
+	@Subscribe
+	public void onUserJoin(final UserJoin event)
+	{
+		updatePresence();
+	}
 
-    @Subscribe
-    public void onUserSync(final UserSync event) {
-        final PartyMember localMember = partyService.getLocalMember();
+	@Subscribe
+	public void onUserSync(final UserSync event)
+	{
+		final PartyMember localMember = partyService.getLocalMember();
 
-        if (localMember != null) {
-            if (discordService.getCurrentUser() != null) {
-                final DiscordUserInfo userInfo = new DiscordUserInfo(
-                        discordService.getCurrentUser().userId,
-                        discordService.getCurrentUser().avatar);
+		if (localMember != null)
+		{
+			if (discordService.getCurrentUser() != null)
+			{
+				final DiscordUserInfo userInfo = new DiscordUserInfo(
+					discordService.getCurrentUser().userId,
+					discordService.getCurrentUser().avatar);
 
-                userInfo.setMemberId(localMember.getMemberId());
-                wsClient.send(userInfo);
-            }
-        }
-    }
+				userInfo.setMemberId(localMember.getMemberId());
+				wsClient.send(userInfo);
+			}
+		}
+	}
 
-    @Subscribe
-    public void onUserPart(final UserPart event) {
-        updatePresence();
-    }
+	@Subscribe
+	public void onUserPart(final UserPart event)
+	{
+		updatePresence();
+	}
 
-    @Subscribe
-    public void onPartyChanged(final PartyChanged event) {
-        updatePresence();
-    }
+	@Subscribe
+	public void onPartyChanged(final PartyChanged event)
+	{
+		updatePresence();
+	}
 
-    @Schedule(
-            period = 1,
-            unit = ChronoUnit.MINUTES
-    )
-    public void checkForValidStatus() {
-        discordState.checkForTimeout();
-    }
+	@Schedule(
+		period = 1,
+		unit = ChronoUnit.MINUTES
+	)
+	public void checkForValidStatus()
+	{
+		discordState.checkForTimeout();
+	}
 
-    private void updatePresence() {
-        discordState.refresh();
-    }
+	private void updatePresence()
+	{
+		discordState.refresh();
+	}
 
-    private void checkForGameStateUpdate() {
-        // Game state update does also full reset of discord state
-        discordState.reset();
-        discordState.triggerEvent(client.getGameState() == GameState.LOGGED_IN
-                ? DiscordGameEventType.IN_GAME
-                : DiscordGameEventType.IN_MENU);
-    }
+	private void checkForGameStateUpdate()
+	{
+		// Game state update does also full reset of discord state
+		discordState.reset();
+		discordState.triggerEvent(client.getGameState() == GameState.LOGGED_IN
+			? DiscordGameEventType.IN_GAME
+			: DiscordGameEventType.IN_MENU);
+	}
 
-    private void checkForAreaUpdate() {
-        if (client.getLocalPlayer() == null) {
-            return;
-        }
+	private void checkForAreaUpdate()
+	{
+		if (client.getLocalPlayer() == null)
+		{
+			return;
+		}
 
-        final int playerRegionID = WorldPoint.fromLocalInstance(client, client.getLocalPlayer().getLocalLocation()).getRegionID();
+		final int playerRegionID = WorldPoint.fromLocalInstance(client, client.getLocalPlayer().getLocalLocation()).getRegionID();
 
-        if (playerRegionID == 0) {
-            return;
-        }
+		if (playerRegionID == 0)
+		{
+			return;
+		}
 
-        final DiscordGameEventType discordGameEventType = DiscordGameEventType.fromRegion(playerRegionID);
+		final DiscordGameEventType discordGameEventType = DiscordGameEventType.fromRegion(playerRegionID);
 
-        if (discordGameEventType == null) {
-            // Unknown region, reset to default in-game
-            discordState.triggerEvent(DiscordGameEventType.IN_GAME);
-            return;
-        }
+		if (discordGameEventType == null)
+		{
+			// Unknown region, reset to default in-game
+			discordState.triggerEvent(DiscordGameEventType.IN_GAME);
+			return;
+		}
 
-        if (!showArea(discordGameEventType)) {
-            return;
-        }
+		if (!showArea(discordGameEventType))
+		{
+			return;
+		}
 
-        discordState.triggerEvent(discordGameEventType);
-    }
+		discordState.triggerEvent(discordGameEventType);
+	}
 
-    private boolean showArea(final DiscordGameEventType event) {
-        if (event == null) {
-            return false;
-        }
+	private boolean showArea(final DiscordGameEventType event)
+	{
+		if (event == null)
+		{
+			return false;
+		}
 
-        final EnumSet<WorldType> worldType = client.getWorldType();
+		final EnumSet<WorldType> worldType = client.getWorldType();
 
-        // Do not show location in PVP activities
-        if (WorldType.isPvpWorld(worldType)) {
-            return false;
-        }
+		// Do not show location in PVP activities
+		if (WorldType.isPvpWorld(worldType))
+		{
+			return false;
+		}
 
-        switch (event.getDiscordAreaType()) {
-            case BOSSES:
-                return config.showBossActivity();
-            case CITIES:
-                return config.showCityActivity();
-            case DUNGEONS:
-                return config.showDungeonActivity();
-            case MINIGAMES:
-                return config.showMinigameActivity();
-        }
+		switch (event.getDiscordAreaType())
+		{
+			case BOSSES: return config.showBossActivity();
+			case CITIES: return config.showCityActivity();
+			case DUNGEONS: return config.showDungeonActivity();
+			case MINIGAMES: return config.showMinigameActivity();
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
