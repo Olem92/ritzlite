@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, https://openosrs.com
+ * Copyright (c) 2018, Kruithne <kruithne@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,48 +24,41 @@
  */
 package net.runelite.client.plugins.antidrag;
 
-import com.google.inject.Inject;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import lombok.AccessLevel;
-import lombok.Setter;
-import net.runelite.api.Client;
-import net.runelite.client.ui.overlay.Overlay;
-import net.runelite.client.ui.overlay.OverlayLayer;
-import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.OverlayPriority;
+import lombok.Getter;
+import net.runelite.client.plugins.customcursor.CustomCursorPlugin;
+import net.runelite.client.util.ImageUtil;
 
-public class AntiDragOverlay extends Overlay
+public enum CustomCursor
 {
-	private static final int RADIUS = 20;
+	RS3_GOLD("RS3 Gold", "cursor-rs3-gold.png"),
+	RS3_SILVER("RS3 Silver", "cursor-rs3-silver.png"),
+	DRAGON_DAGGER("Dragon Dagger", "cursor-dragon-dagger.png"),
+	DRAGON_DAGGER_POISON("Dragon Dagger (p)", "cursor-dragon-dagger-p.png"),
+	TROUT("Trout", "cursor-trout.png"),
+	DRAGON_SCIMITAR("Dragon Scimitar", "cursor-dragon-scimitar.png"),
+	ARMADYL_GODSWORD("Armadyl Godsword", "cursor-armadyl-godsword.png"),
+	BANDOS_GODSWORD("Bandos Godsword", "cursor-bandos-godsword.png"),
+	MOUSE("Mouse", "cursor-mouse.png"),
+	SARADOMIN_GODSWORD("Saradomin Godsword", "cursor-saradomin-godsword.png"),
+	ZAMORAK_GODSWORD("Zamorak Godsword", "cursor-zamorak-godsword.png"),
+	SKILL_SPECS("Skill Specs", "cursor-skill-specs.png");
 
-	private final Client client;
+	private final String name;
 
-	@Setter(AccessLevel.PACKAGE)
-	private Color color;
+	@Getter(AccessLevel.PACKAGE)
+	private final BufferedImage cursorImage;
 
-	@Inject
-	private AntiDragOverlay(final Client client)
+	CustomCursor(String name, String icon)
 	{
-		this.client = client;
-		setPosition(OverlayPosition.TOOLTIP);
-		setPriority(OverlayPriority.HIGHEST);
-		setLayer(OverlayLayer.ALWAYS_ON_TOP);
+		this.name = name;
+		this.cursorImage = ImageUtil.getResourceStreamFromClass(CustomCursorPlugin.class, icon);
 	}
 
 	@Override
-	public Dimension render(Graphics2D g)
+	public String toString()
 	{
-		g.setColor(color);
-
-		final net.runelite.api.Point mouseCanvasPosition = client.getMouseCanvasPosition();
-		final Point mousePosition = new Point(mouseCanvasPosition.getX() - RADIUS, mouseCanvasPosition.getY() - RADIUS);
-		final Rectangle bounds = new Rectangle(mousePosition.x, mousePosition.y, 2 * RADIUS, 2 * RADIUS);
-		g.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
-
-		return bounds.getSize();
+		return name;
 	}
 }
