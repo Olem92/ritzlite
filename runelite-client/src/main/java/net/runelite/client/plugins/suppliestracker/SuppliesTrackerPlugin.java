@@ -32,7 +32,7 @@ import java.awt.image.BufferedImage;
 
 
 @PluginDescriptor(
-        name = "upplies Used Tracker",
+        name = "Supplies Used Tracker",
         description = "Tracks supplies used during the session",
         tags = {"cost", "supplies", "ritzlite"},
         enabledByDefault = true
