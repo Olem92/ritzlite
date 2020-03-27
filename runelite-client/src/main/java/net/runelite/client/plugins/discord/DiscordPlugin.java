@@ -79,8 +79,7 @@ import okhttp3.Response;
 @PluginDescriptor(
         name = "Discord",
         description = "Show your status and activity in the Discord user panel",
-        tags = {"action", "activity", "external", "integration", "status"},
-        hidden = true
+        tags = {"action", "activity", "external", "integration", "status"}
 )
 @Slf4j
 public class DiscordPlugin extends Plugin
