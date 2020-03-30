@@ -70,6 +70,8 @@ class AgilityOverlay extends Overlay
 		LocalPoint playerLocation = client.getLocalPlayer().getLocalLocation();
 		Point mousePosition = client.getMouseCanvasPosition();
 		final List<Tile> marksOfGrace = plugin.getMarksOfGrace();
+		final Tile stickTile = plugin.getStickTile();
+
 		plugin.getObstacles().forEach((object, obstacle) ->
 		{
 			if (Obstacles.SHORTCUT_OBSTACLE_IDS.containsKey(object.getId()) && !config.highlightShortcuts() ||
@@ -113,23 +115,18 @@ class AgilityOverlay extends Overlay
 		{
 			for (Tile markOfGraceTile : marksOfGrace)
 			{
-				if (markOfGraceTile.getPlane() == client.getPlane() && markOfGraceTile.getItemLayer() != null
-						&& checkDistance(markOfGraceTile.getLocalLocation(), playerLocation))
-				{
-					final Polygon poly = markOfGraceTile.getItemLayer().getCanvasTilePoly();
-
-					if (poly == null)
-					{
-						continue;
-					}
-
-					OverlayUtil.renderPolygon(graphics, poly, config.getMarkColor());
-				}
+				highlightTile(graphics, playerLocation, markOfGraceTile, config.getMarkColor());
 			}
+		}
+
+		if (stickTile != null && config.highlightStick())
+		{
+			highlightTile(graphics, playerLocation, stickTile, config.stickHighlightColor());
 		}
 
 		return null;
 	}
+
 
 	private boolean checkDistance(LocalPoint localPoint, LocalPoint playerPoint)
 	{
@@ -138,5 +135,18 @@ class AgilityOverlay extends Overlay
 			return true;
 		}
 		return localPoint.distanceTo(playerPoint) < MAX_DISTANCE;
+
+	private void highlightTile(Graphics2D graphics, LocalPoint playerLocation, Tile tile, Color color)
+	{
+		if (tile.getPlane() == client.getPlane() && tile.getItemLayer() != null
+			&& tile.getLocalLocation().distanceTo(playerLocation) < MAX_DISTANCE)
+		{
+			final Polygon poly = tile.getItemLayer().getCanvasTilePoly();
+
+			if (poly != null)
+			{
+				OverlayUtil.renderPolygon(graphics, poly, color);
+			}
+		}
 	}
 }
