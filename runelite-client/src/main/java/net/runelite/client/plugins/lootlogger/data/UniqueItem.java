@@ -30,7 +30,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.runelite.api.ItemComposition;
-import net.runelite.api.ItemDefinition;
 import net.runelite.api.ItemID;
 import net.runelite.client.game.ItemManager;
 
@@ -642,7 +641,7 @@ public enum UniqueItem
 	_3RD_AGE_ROBE(ItemID._3RD_AGE_ROBE, BossTab.CLUE_SCROLL_HARD, 18),
 	_3RD_AGE_AMULET(ItemID._3RD_AGE_AMULET, BossTab.CLUE_SCROLL_HARD, 18),
 	GUTHIX_COIF(ItemID.GUTHIX_COIF, BossTab.CLUE_SCROLL_HARD, 19),
-	GUTHIX_DHIDE(ItemID.GUTHIX_DRAGONHIDE, BossTab.CLUE_SCROLL_HARD, 19),
+	GUTHIX_DHIDE(ItemID.GUTHIX_DHIDE, BossTab.CLUE_SCROLL_HARD, 19),
 	GUTHIX_CHAPS(ItemID.GUTHIX_CHAPS, BossTab.CLUE_SCROLL_HARD, 19),
 	GUTHIX_BRACERS(ItemID.GUTHIX_BRACERS, BossTab.CLUE_SCROLL_HARD, 19),
 	GUTHIX_DHIDE_BOOTS(ItemID.GUTHIX_DHIDE_BOOTS, BossTab.CLUE_SCROLL_HARD, 19),
@@ -688,7 +687,7 @@ public enum UniqueItem
 	BLUE_DRAGON_MASK(ItemID.BLUE_DRAGON_MASK, BossTab.CLUE_SCROLL_HARD, 26),
 	BLACK_DRAGON_MASK(ItemID.BLACK_DRAGON_MASK, BossTab.CLUE_SCROLL_HARD, 26),
 	RUNE_CANE(ItemID.RUNE_CANE, BossTab.CLUE_SCROLL_HARD, 27),
-	ZOMBIE_HEAD(ItemID.ZOMBIE_HEAD, BossTab.CLUE_SCROLL_HARD, 27),
+	ZOMBIE_HEAD(ItemID.ZOMBIE_HEAD_19912, BossTab.CLUE_SCROLL_HARD, 27),
 	CYCLOPS_HEAD(ItemID.CYCLOPS_HEAD, BossTab.CLUE_SCROLL_HARD, 27),
 	NUNCHAKU(ItemID.NUNCHAKU, BossTab.CLUE_SCROLL_HARD, 27),
 	DUAL_SAI(ItemID.DUAL_SAI, BossTab.CLUE_SCROLL_HARD, 27),
@@ -839,6 +838,18 @@ public enum UniqueItem
 	CRYSTAL_TOOL_SEED(ItemID.CRYSTAL_TOOL_SEED, BossTab.ZALCANO, -1),
 	ZALCANO_SHARD(ItemID.ZALCANO_SHARD, BossTab.ZALCANO, -1),
 	SMOLCANO(ItemID.SMOLCANO, BossTab.ZALCANO, -1),
+
+	// Nightmare
+	INQUISITORS_MACE(ItemID.INQUISITORS_MACE, BossTab.NIGHTMARE, -1),
+	INQUISITORS_GREAT_HELM(ItemID.INQUISITORS_GREAT_HELM, BossTab.NIGHTMARE, -1),
+	INQUISITORS_HAUBERK(ItemID.INQUISITORS_HAUBERK, BossTab.NIGHTMARE, -1),
+	INQUISITORS_PLATESKIRT(ItemID.INQUISITORS_PLATESKIRT, BossTab.NIGHTMARE, -1),
+	JAR_OF_DREAMS(ItemID.JAR_OF_DREAMS, BossTab.NIGHTMARE, -1),
+	NIGHTMARE_STAFF(ItemID.NIGHTMARE_STAFF, BossTab.NIGHTMARE, 0),
+	ELDRITCH_ORB(ItemID.ELDRITCH_ORB, BossTab.NIGHTMARE, 0),
+	HARMONISED_ORB(ItemID.HARMONISED_ORB, BossTab.NIGHTMARE, 0),
+	VOLATILE_ORB(ItemID.VOLATILE_ORB, BossTab.NIGHTMARE, 0),
+	LITTLE_NIGHTMARE(ItemID.LITTLE_NIGHTMARE, BossTab.NIGHTMARE, 0),
 	;
 
 	private final int itemID;
@@ -893,7 +904,6 @@ public enum UniqueItem
 			}
 
 			final ItemComposition c = itemManager.getItemComposition(item.getItemID());
-			//final ItemDefinition c = (ItemDefinition) itemManager.getItemComposition(item.getItemID());
 			item.name = c.getName();
 			item.linkedID = c.getLinkedNoteId();
 			item.price = itemManager.getItemPrice(c.getId());

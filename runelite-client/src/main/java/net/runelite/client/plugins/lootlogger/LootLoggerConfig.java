@@ -9,6 +9,16 @@ import net.runelite.client.config.Range;
 public interface LootLoggerConfig extends Config
 {
 	@ConfigItem(
+		keyName = "enableUI",
+		name = "Enable Side-Panel",
+		description = "Controls whether the side panel should be displayed, data will be logged either way"
+	)
+	default boolean enableUI()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 		position = 0,
 		keyName = "uniquesPlacement",
 		name = "Uniques Placement",
@@ -70,8 +80,5 @@ public interface LootLoggerConfig extends Config
 		description = "Controls the image opacity for unacquired unique items inside the uniques panel.<br/>0 is transparent and 100 is fully opaque. default value is 35"
 	)
 	@Range(max = 100)
-	default int itemMissingAlpha()
-	{
-		return 35;
-	}
+	default int itemMissingAlpha() { return 35; }
 }

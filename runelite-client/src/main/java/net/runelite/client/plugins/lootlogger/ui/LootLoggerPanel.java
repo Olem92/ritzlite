@@ -149,8 +149,8 @@ public class LootLoggerPanel extends PluginPanel
 		final String name = lootLog.getName();
 		final JPanel title = new JPanel();
 		title.setBorder(new CompoundBorder(
-			new EmptyBorder(10, 8, 8, 8),
-			new MatteBorder(0, 0, 1, 0, Color.GRAY)
+				new EmptyBorder(10, 8, 8, 8),
+				new MatteBorder(0, 0, 1, 0, Color.GRAY)
 		));
 		title.setLayout(new BorderLayout());
 		title.setBackground(BACKGROUND_COLOR);

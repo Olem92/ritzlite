@@ -101,32 +101,19 @@ public class LootRecordWriter
 		final File file = new File(playerFolder, fileName);
 		final Collection<LTRecord> data = new ArrayList<>();
 
-		StringBuilder sb = new StringBuilder();
-
 		try (final BufferedReader br = new BufferedReader(new FileReader(file)))
 		{
-			// read line by line
 			String line;
-			int totalBrackets = 0;
 			while ((line = br.readLine()) != null)
 			{
-				if (line.contains("{"))
+				// Skips the empty line at end of file
+				if (line.length() > 0)
 				{
-					totalBrackets++;
-				}
-				if (line.contains("}"))
-				{
-					totalBrackets--;
-				}
-				sb.append(line);
-
-				if (totalBrackets == 0 && sb.length() > 0)
-				{
-					final LTRecord r = RuneLiteAPI.GSON.fromJson(sb.toString(), LTRecord.class);
+					final LTRecord r = RuneLiteAPI.GSON.fromJson(line, LTRecord.class);
 					data.add(r);
-					sb.setLength(0);
 				}
 			}
+
 		}
 		catch (FileNotFoundException e)
 		{
@@ -185,7 +172,7 @@ public class LootRecordWriter
 	/**
 	 * Writes an entire log file based on the passed collection.
 	 * Used when you need to adjust previous data and not just append, such as receiving a pet.
-	 */
+ 	 */
 	public synchronized boolean writeLootTrackerFile(final String npcName, final Collection<LTRecord> loots)
 	{
 		final String fileName = npcNameToFileName(npcName);
