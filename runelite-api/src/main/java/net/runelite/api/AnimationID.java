@@ -290,6 +290,14 @@ public final class AnimationID {
     public static final int FISHING_DRAGON_HARPOON = 7401;
     public static final int FISHING_INFERNAL_HARPOON = 7402;
     public static final int FISHING_CRYSTAL_HARPOON = 8336;
+    public static final int FISHING_BAREHAND_WINDUP_1 = 6703;
+    public static final int FISHING_BAREHAND_WINDUP_2 = 6704;
+    public static final int FISHING_BAREHAND_CAUGHT_SHARK_1 = 6705;
+    public static final int FISHING_BAREHAND_CAUGHT_SHARK_2 = 6706;
+    public static final int FISHING_BAREHAND_CAUGHT_SWORDFISH_1 = 6707;
+    public static final int FISHING_BAREHAND_CAUGHT_SWORDFISH_2 = 6708;
+    public static final int FISHING_BAREHAND_CAUGHT_TUNA_1 = 6710;
+    public static final int FISHING_BAREHAND_CAUGHT_TUNA_2 = 6711;
     public static final int CRYSTALLINE_RAT_DEATH = 8334;
     public static final int CRYSTALLINE_BAT_DEATH = 4917;
     public static final int CRYSTALLINE_WOLF_DEATH = 8335;
