@@ -169,6 +169,13 @@ public class EasySwapPlugin extends Plugin {
         }
 
         /*
+         * Easy drops teaks
+         */
+        if (target.equalsIgnoreCase(("Teak logs")) && config.swapEasyDropTeaks()) {
+            swapper.markForSwap("Drop", option, target);
+        }
+
+        /*
          * Makes wildy lever edgeville by default when enabled.
          */
         if (config.swapWildernessLever() && target.equals("lever")) {
@@ -200,7 +207,7 @@ public class EasySwapPlugin extends Plugin {
             }
         }
 
-        if (config.getGamesNecklace()) {
+      /*  if (config.getGamesNecklace()) {
             if (target.toLowerCase().contains("games necklace")) {
                 if (shiftModifier) {
                     swapper.markForSwap(config.getSGamesNecklaceMode().toString(), option, target);
@@ -231,7 +238,7 @@ public class EasySwapPlugin extends Plugin {
                 }
 
             }
-        }
+        }*/
 
         swapper.startSwap();
         client.setMenuEntries(swapper.getEntries());

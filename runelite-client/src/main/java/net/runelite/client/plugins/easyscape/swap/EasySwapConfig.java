@@ -21,6 +21,15 @@ public interface EasySwapConfig extends Config {
     }
 
     @ConfigItem(
+            keyName = "swapEasyDropTeaks",
+            name = "Teaks easy drop",
+            description = "Enables drop as first option on the menu."
+    )
+    default boolean swapEasyDropTeaks() {
+        return false;
+    }
+
+    @ConfigItem(
             keyName = "swapEasyDropFish",
             name = "Barb fishing easy drop",
             description = "Enables drop as the first option on the menu."
@@ -148,7 +157,7 @@ public interface EasySwapConfig extends Config {
     default EssenceMode getEssenceMode() {
         return EssenceMode.RUNECRAFTING;
     }
-
+/*
     @ConfigItem(
             keyName = "swapGamesNecklace",
             name = "Swap Games Necklace",
@@ -245,5 +254,5 @@ public interface EasySwapConfig extends Config {
 
     default GloryMode getSGloryMode() {
         return GloryMode.KARAMJA;
-    }
+    }*/
 }
