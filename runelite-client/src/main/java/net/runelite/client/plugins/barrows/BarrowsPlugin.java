@@ -40,8 +40,12 @@ import net.runelite.api.GameState;
 import net.runelite.api.InventoryID;
 import net.runelite.api.Item;
 import net.runelite.api.ItemContainer;
+
 import net.runelite.api.NullObjectID;
 import net.runelite.api.ObjectID;
+
+import net.runelite.api.Player;
+
 import net.runelite.api.SpriteID;
 import net.runelite.api.WallObject;
 import net.runelite.api.events.GameObjectChanged;
@@ -77,8 +81,7 @@ import net.runelite.client.util.QuantityFormatter;
 		description = "Show helpful information for the Barrows minigame",
 		tags = {"combat", "minigame", "minimap", "bosses", "pve", "pvm"}
 )
-public class BarrowsPlugin extends Plugin
-{
+public class BarrowsPlugin extends Plugin {
 	@Getter(AccessLevel.PACKAGE)
 	private static final Set<Integer> BARROWS_WALLS = Sets.newHashSet
 			(
@@ -344,6 +347,7 @@ public class BarrowsPlugin extends Plugin
 
 	private boolean isInCrypt()
 	{
-		return client.getLocalPlayer().getWorldLocation().getRegionID() == CRYPT_REGION_ID;
+		Player localPlayer = client.getLocalPlayer();
+		return localPlayer != null && localPlayer.getWorldLocation().getRegionID() == CRYPT_REGION_ID;
 	}
 }
