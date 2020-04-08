@@ -34,7 +34,7 @@ import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.Keybind;
 import net.runelite.client.config.ModifierlessKeybind;
 
-@ConfigGroup("antiDrag")
+@ConfigGroup(AntiDragPlugin.CONFIG_GROUP)
 public interface AntiDragConfig extends Config
 {
 	@ConfigItem(
