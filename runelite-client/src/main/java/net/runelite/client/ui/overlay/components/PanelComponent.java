@@ -44,6 +44,7 @@ public class PanelComponent implements LayoutableRenderableEntity {
 	private Point preferredLocation = new Point();
 
 	@Setter
+	@Getter
 	private Dimension preferredSize = new Dimension(ComponentConstants.STANDARD_WIDTH, 0);
 
 	@Setter
@@ -57,10 +58,7 @@ public class PanelComponent implements LayoutableRenderableEntity {
 	private ComponentOrientation orientation = ComponentOrientation.VERTICAL;
 
 	@Setter
-	public static ComponentOrientation Orientation = ComponentOrientation.HORIZONTAL;//danny
-
-	@Setter
-	private int wrapping = -1;
+	private boolean wrap = false;
 
 	@Setter
 	private Rectangle border = new Rectangle(
@@ -111,10 +109,23 @@ public class PanelComponent implements LayoutableRenderableEntity {
 		int totalWidth = 0;
 
 		// Render all children
-		for (int i = 0; i < children.size(); i++) {
-			final LayoutableRenderableEntity child = children.get(i);
+		for (final LayoutableRenderableEntity child : children)
+		{
+			// Correctly propagate child dimensions based on orientation and wrapping
+			if (!wrap)
+			{
+				switch (orientation)
+				{
+					case VERTICAL:
+						child.setPreferredSize(new Dimension(childPreferredSize.width, 0));
+						break;
+					case HORIZONTAL:
+						child.setPreferredSize(new Dimension(0, childPreferredSize.height));
+						break;
+				}
+			}
+
 			child.setPreferredLocation(new Point(x, y));
-			child.setPreferredSize(childPreferredSize);
 			final Dimension childDimension = child.render(graphics);
 
 			switch (orientation) {
@@ -134,24 +145,38 @@ public class PanelComponent implements LayoutableRenderableEntity {
 			totalWidth = Math.max(totalWidth, width);
 			totalHeight = Math.max(totalHeight, height);
 
-			if (wrapping > 0 && i < children.size() - 1 && (i + 1) % wrapping == 0) {
-				switch (orientation) {
-					case VERTICAL: {
+			if (!wrap)
+			{
+				continue;
+			}
+
+			switch (orientation)
+			{
+				case VERTICAL:
+				{
+					if (childPreferredSize.height > 0 && height >= childPreferredSize.height)
+					{
 						height = 0;
 						y = baseY;
 						int diff = childDimension.width + gap.x;
 						x += diff;
 						width += diff;
-						break;
 					}
-					case HORIZONTAL: {
+
+					break;
+				}
+				case HORIZONTAL:
+				{
+					if (childPreferredSize.width > 0 && width >= childPreferredSize.width)
+					{
 						width = 0;
 						x = baseX;
 						int diff = childDimension.height + gap.y;
 						y += diff;
 						height += diff;
-						break;
 					}
+
+					break;
 				}
 			}
 		}
