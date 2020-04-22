@@ -110,6 +110,7 @@ public interface BankConfig extends Config
 	}
 
 	@ConfigItem(
+
 			keyName = "largePinNumbers",
 			name = "Large bank pin numbers",
 			description = "Enlarges and centers the numbers inside the bank pin buttons",
@@ -118,5 +119,15 @@ public interface BankConfig extends Config
 	default boolean largePinNumbers()
 	{
 		return true;
+
+		keyName = "bankPinKeyboard",
+		name = "Keyboard Bankpin",
+		description = "Allows using the keyboard keys for bank pin input",
+		position = 9
+	)
+	default boolean bankPinKeyboard()
+	{
+		return false;
+
 	}
 }
