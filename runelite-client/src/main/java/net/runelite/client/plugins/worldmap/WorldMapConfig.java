@@ -251,4 +251,26 @@ public interface WorldMapConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+		keyName = WorldMapPlugin.CONFIG_KEY_HUNTER_AREA_TOOLTIPS,
+		name = "Show hunter area tooltips",
+		description = "Indicates the creatures inside a hunting area",
+		position = 21
+	)
+	default boolean hunterAreaTooltips()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = WorldMapPlugin.CONFIG_KEY_FISHING_SPOT_TOOLTIPS,
+		name = "Show fishing spot tooltips",
+		description = "Indicates the type of fish fishable at the fishing spot",
+		position = 22
+	)
+	default boolean fishingSpotTooltips()
+	{
+		return true;
+	}
 }

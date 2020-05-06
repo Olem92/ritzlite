@@ -83,6 +83,8 @@ public class WorldMapPlugin extends Plugin
 	static final String CONFIG_KEY_RUNECRAFTING_ALTAR_ICON = "runecraftingAltarIcon";
 	static final String CONFIG_KEY_MINING_SITE_TOOLTIPS = "miningSiteTooltips";
 	static final String CONFIG_KEY_DUNGEON_TOOLTIPS = "dungeonTooltips";
+	static final String CONFIG_KEY_HUNTER_AREA_TOOLTIPS = "hunterAreaTooltips";
+	static final String CONFIG_KEY_FISHING_SPOT_TOOLTIPS = "fishingSpotTooltips";
 
 	static
 	{
@@ -161,6 +163,7 @@ public class WorldMapPlugin extends Plugin
 		worldMapPointManager.removeIf(RareTreePoint.class::isInstance);
 		worldMapPointManager.removeIf(RunecraftingAltarPoint.class::isInstance);
 		worldMapPointManager.removeIf(DungeonPoint.class::isInstance);
+		worldMapPointManager.removeIf(FishingSpotPoint.class::isInstance);
 		agilityLevel = 0;
 		woodcuttingLevel = 0;
 	}
@@ -337,6 +340,24 @@ public class WorldMapPlugin extends Plugin
 			Arrays.stream(DungeonLocation.values())
 				.map(value -> new DungeonPoint(value, BLANK_ICON))
 				.forEach(worldMapPointManager::add);
+		}
+
+		worldMapPointManager.removeIf(HunterAreaPoint.class::isInstance);
+		if (config.hunterAreaTooltips())
+		{
+			Arrays.stream(HunterAreaLocation.values())
+				.map(value -> new HunterAreaPoint(value, BLANK_ICON))
+				.forEach(worldMapPointManager::add);
+		}
+
+		worldMapPointManager.removeIf(FishingSpotPoint.class::isInstance);
+		if (config.fishingSpotTooltips())
+		{
+			Arrays.stream(FishingSpotLocation.values()).forEach(location ->
+				Arrays.stream(location.getLocations())
+					.map(point -> new FishingSpotPoint(point, location.getTooltip(), BLANK_ICON))
+					.forEach(worldMapPointManager::add)
+			);
 		}
 	}
 
