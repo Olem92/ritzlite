@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Tim Lehner <Timothy.Lehner.2011@live.rhul.ac.uk>
+ * Copyright (c) 2020, chestnut1693 <chestnut1693@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,57 +22,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.raidsthieving;
+package net.runelite.client.plugins.batslocator;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.runelite.api.GameObject;
 import net.runelite.api.coords.WorldPoint;
 
-/**
- * Wrapper class for a GameObject that represents a chest in the thieving room of Chambers of Xeric.
- */
-@Getter
-public class ThievingChest
-{
-	/**
-	 * If the chest has never been opened, it could have bats.
-	 */
-	@Setter
-	private boolean everOpened;
+public class Chest {
+    public enum State {
+        UNVISITED,
+        GRUBS,
+        POISON,
+        BATS;
+    }
 
-	/**
-	 * If the chest is empty, it could have bats.
-	 */
-	@Setter
-	private boolean empty;
+    @Getter
+    @Setter
+    private State state = State.UNVISITED;
 
-	/**
-	 * If the chest contains a poison trap instead.
-	 */
-	@Setter
-	private boolean poison;
+    @Getter
+    @Setter
+    private long tickPoison = -1;
 
+    @Getter
+    @Setter
+    private int number = -1;
 
-	@Setter
-	private int chestId;
+    @Getter
+    @Setter
+    private int solutionSetCount = -1;
 
-	private final WorldPoint localPoint;
-	private final InstancePoint instancePoint;
+    @Getter
+    private WorldPoint location;
 
-	/**
-	 * Constructor for a ThievingChest object
-	 *
-	 * @param gameObject The gameobject thats corresponds with this trap.
-	 */
-	ThievingChest(GameObject gameObject, InstancePoint instancePoint)
-	{
-		this.everOpened = false;
-		this.poison = false;
-		this.empty = false;
-		localPoint = gameObject.getWorldLocation();
-		this.instancePoint = instancePoint;
-		this.chestId = -1;
-	}
-
+    public Chest(WorldPoint location) {
+        this.location = location;
+    }
 }
