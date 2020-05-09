@@ -53,7 +53,7 @@ import java.util.List;
 		name = "Crab Stun Timers",
 		description = "Show crab stun timers",
 		tags = {"overlay", "raid", "pvm", "timers", "cox", "ritzlite"},
-		enabledByDefault = false
+		enabledByDefault = true
 )
 public class CrabStunPlugin extends Plugin {
 	@Inject
