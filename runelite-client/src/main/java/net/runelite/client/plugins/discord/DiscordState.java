@@ -174,6 +174,7 @@ class DiscordState
 		final DiscordPresence.DiscordPresenceBuilder presenceBuilder = DiscordPresence.builder()
 			.state(MoreObjects.firstNonNull(state, ""))
 			.details(MoreObjects.firstNonNull(details, ""))
+				.largeImageKey("ritzliteicon")
 			.largeImageText(RuneLiteProperties.getTitle() + " v" + versionShortHand)
 			.startTimestamp(config.hideElapsedTime() ? null : event.getStart())
 			.smallImageKey(imageKey)
