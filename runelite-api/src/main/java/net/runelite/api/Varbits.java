@@ -574,6 +574,28 @@ public enum Varbits
 	TWISTED_LEAGUE_RELIC_5(10053),
 
 	/**
+	 * Minimap state
+	 * 0 = visible
+	 * 2 = hidden
+	 */
+	MINIMAP(6719),
+
+	/**
+	 * 0 = false
+	 * 1 = true
+	 */
+	CAMERA_BOBBING(4814),
+
+	/**
+	 * Viewport overlay
+	 * 0 = Normal visibility, no damage
+	 * 1 = Darkened, 200 opacity, no damage
+	 * 2 = Darkened, 150 opacity, no damage
+	 * 3 = Darkened, 50 opacity, player will take damage
+	 */
+	DUNGEON(278),
+
+	/**
 	 * Whether the Special Attack orb is disabled due to being in a PvP area
 	 *
 	 * 0 = Enabled (player is not in PvP)
