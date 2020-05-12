@@ -26,7 +26,6 @@ public class LightningOverlay extends Overlay {
 
     @Override
     public Dimension render(Graphics2D graphics) {
-        //System.out.println("lighteningOverlay: " + config.lightning());
         if (!config.lightning()) {
             return null;
         }
@@ -34,8 +33,6 @@ public class LightningOverlay extends Overlay {
         if (!client.isInInstancedRegion() || client.getMapRegions()[0] != OLM_REGION_ID) {
             return null;
         }
-
-        // TODO: Awaiting GraphicsObjectDespawn event to be tracked to make this more efficient.
         for (GraphicsObject graphicsObject : client.getGraphicsObjects()) {
             Color color = null;
 
