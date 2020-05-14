@@ -26,7 +26,6 @@
 package net.runelite.client.plugins.grounditems;
 
 import java.awt.Color;
-
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -38,15 +37,16 @@ import net.runelite.client.plugins.grounditems.config.PriceDisplayMode;
 import net.runelite.client.plugins.grounditems.config.ValueCalculationMode;
 
 @ConfigGroup("grounditems")
-
-public interface GroundItemsConfig extends Config {
+public interface GroundItemsConfig extends Config
+{
     @ConfigItem(
             keyName = "highlightedItems",
             name = "Highlighted Items",
             description = "Configures specifically highlighted ground items. Format: (item), (item)",
             position = 0
     )
-    default String getHighlightItems() {
+    default String getHighlightItems()
+    {
         return "";
     }
 
@@ -63,7 +63,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures hidden ground items. Format: (item), (item)",
             position = 1
     )
-    default String getHiddenItems() {
+    default String getHiddenItems()
+    {
         return "Vial, Ashes, Coins, Bones, Bucket, Jug, Seaweed";
     }
 
@@ -80,7 +81,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures whether or not to draw items only on your highlighted list",
             position = 2
     )
-    default boolean showHighlightedOnly() {
+    default boolean showHighlightedOnly()
+    {
         return false;
     }
 
@@ -90,7 +92,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures whether or not untradeable items ignore hiding under settings",
             position = 3
     )
-    default boolean dontHideUntradeables() {
+    default boolean dontHideUntradeables()
+    {
         return true;
     }
 
@@ -100,7 +103,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures whether or not to show the item quantities in the menu",
             position = 4
     )
-    default boolean showMenuItemQuantities() {
+    default boolean showMenuItemQuantities()
+    {
         return true;
     }
 
@@ -110,7 +114,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures whether or not hidden items in right click menu will be recolored",
             position = 5
     )
-    default boolean recolorMenuHiddenItems() {
+    default boolean recolorMenuHiddenItems()
+    {
         return false;
     }
 
@@ -120,7 +125,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures whether or not to highlight tiles containing ground items",
             position = 6
     )
-    default boolean highlightTiles() {
+    default boolean highlightTiles()
+    {
         return false;
     }
 
@@ -130,17 +136,30 @@ public interface GroundItemsConfig extends Config {
             description = "Configures whether or not to notify for drops on your highlighted list",
             position = 7
     )
-    default boolean notifyHighlightedDrops() {
+    default boolean notifyHighlightedDrops()
+    {
         return false;
+    }
+
+    @ConfigItem(
+            keyName = "notifyTier",
+            name = "Notify >= Tier",
+            description = "Configures what tier of highlight will cause a drop",
+            position = 8
+    )
+    default HighlightTier notifyTier()
+    {
+        return HighlightTier.OFF;
     }
 
     @ConfigItem(
             keyName = "priceDisplayMode",
             name = "Price Display Mode",
             description = "Configures what price types are shown alongside of ground item name",
-            position = 8
+            position = 9
     )
-    default PriceDisplayMode priceDisplayMode() {
+    default PriceDisplayMode priceDisplayMode()
+    {
         return PriceDisplayMode.BOTH;
     }
 
@@ -148,9 +167,10 @@ public interface GroundItemsConfig extends Config {
             keyName = "itemHighlightMode",
             name = "Item Highlight Mode",
             description = "Configures how ground items will be highlighted",
-            position = 9
+            position = 10
     )
-    default ItemHighlightMode itemHighlightMode() {
+    default ItemHighlightMode itemHighlightMode()
+    {
         return ItemHighlightMode.BOTH;
     }
 
@@ -158,9 +178,10 @@ public interface GroundItemsConfig extends Config {
             keyName = "menuHighlightMode",
             name = "Menu Highlight Mode",
             description = "Configures what to highlight in right-click menu",
-            position = 10
+            position = 11
     )
-    default MenuHighlightMode menuHighlightMode() {
+    default MenuHighlightMode menuHighlightMode()
+    {
         return MenuHighlightMode.NAME;
     }
 
@@ -168,20 +189,11 @@ public interface GroundItemsConfig extends Config {
             keyName = "highlightValueCalculation",
             name = "Highlight Value Calculation",
             description = "Configures which coin value is used to determine highlight color",
-            position = 11
-    )
-    default ValueCalculationMode valueCalculationMode() {
-        return ValueCalculationMode.HIGHEST;
-    }
-
-    @ConfigItem(
-            keyName = "highlightOverValue2",
-            name = "Highlight > Value",
-            description = "Configures highlighted ground items over either GE or HA value",
             position = 12
     )
-    default int getHighlightOverValue() {
-        return 0;
+    default ValueCalculationMode valueCalculationMode()
+    {
+        return ValueCalculationMode.HIGHEST;
     }
 
     @ConfigItem(
@@ -190,7 +202,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures hidden ground items under both GE and HA value",
             position = 13
     )
-    default int getHideUnderValue() {
+    default int getHideUnderValue()
+    {
         return 0;
     }
 
@@ -200,7 +213,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the color for default, non-highlighted items",
             position = 14
     )
-    default Color defaultColor() {
+    default Color defaultColor()
+    {
         return Color.WHITE;
     }
 
@@ -210,7 +224,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the color for highlighted items",
             position = 15
     )
-    default Color highlightedColor() {
+    default Color highlightedColor()
+    {
         return Color.decode("#AA00FF");
     }
 
@@ -220,7 +235,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the color for hidden items in right-click menu and when holding ALT",
             position = 16
     )
-    default Color hiddenColor() {
+    default Color hiddenColor()
+    {
         return Color.GRAY;
     }
 
@@ -230,7 +246,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the color for low value items",
             position = 17
     )
-    default Color lowValueColor() {
+    default Color lowValueColor()
+    {
         return Color.decode("#66B2FF");
     }
 
@@ -240,7 +257,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the start price for low value items",
             position = 18
     )
-    default int lowValuePrice() {
+    default int lowValuePrice()
+    {
         return 20000;
     }
 
@@ -250,7 +268,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the color for medium value items",
             position = 19
     )
-    default Color mediumValueColor() {
+    default Color mediumValueColor()
+    {
         return Color.decode("#99FF99");
     }
 
@@ -260,7 +279,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the start price for medium value items",
             position = 20
     )
-    default int mediumValuePrice() {
+    default int mediumValuePrice()
+    {
         return 100000;
     }
 
@@ -270,7 +290,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the color for high value items",
             position = 21
     )
-    default Color highValueColor() {
+    default Color highValueColor()
+    {
         return Color.decode("#FF9600");
     }
 
@@ -280,7 +301,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the start price for high value items",
             position = 22
     )
-    default int highValuePrice() {
+    default int highValuePrice()
+    {
         return 1000000;
     }
 
@@ -290,7 +312,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the color for insane value items",
             position = 23
     )
-    default Color insaneValueColor() {
+    default Color insaneValueColor()
+    {
         return Color.decode("#FF66B2");
     }
 
@@ -300,7 +323,8 @@ public interface GroundItemsConfig extends Config {
             description = "Configures the start price for insane value items",
             position = 24
     )
-    default int insaneValuePrice() {
+    default int insaneValuePrice()
+    {
         return 10000000;
     }
 
@@ -310,7 +334,8 @@ public interface GroundItemsConfig extends Config {
             description = "Only shows drops from NPCs and players",
             position = 25
     )
-    default boolean onlyShowLoot() {
+    default boolean onlyShowLoot()
+    {
         return false;
     }
 
@@ -320,7 +345,9 @@ public interface GroundItemsConfig extends Config {
             description = "Decrease this number if you accidentally hide ground items often. (0 = Disabled)",
             position = 26
     )
-    default int doubleTapDelay() {
+    @Units(Units.MILLISECONDS)
+    default int doubleTapDelay()
+    {
         return 250;
     }
 
@@ -330,7 +357,8 @@ public interface GroundItemsConfig extends Config {
             description = "Collapses ground item menu entries together and appends count",
             position = 27
     )
-    default boolean collapseEntries() {
+    default boolean collapseEntries()
+    {
         return false;
     }
 
@@ -340,354 +368,8 @@ public interface GroundItemsConfig extends Config {
             description = "Shows despawn timers for items you've dropped and received as loot",
             position = 28
     )
-    default boolean groundItemTimers() {
+    default boolean groundItemTimers()
+    {
         return false;
     }
-
-    @ConfigItem(
-            keyName = "toggleOutline",
-            name = "[R] Text Outline",
-            description = "Use an outline around text instead of a text shadow",
-            position = 27
-    )
-    default boolean toggleOutline() {
-        return false;
-    }
-/*
-public interface GroundItemsConfig extends Config
-{
-	@ConfigItem(
-		keyName = "highlightedItems",
-		name = "Highlighted Items",
-		description = "Configures specifically highlighted ground items. Format: (item), (item)",
-		position = 0
-	)
-	default String getHighlightItems()
-	{
-		return "";
-	}
-
-	@ConfigItem(
-		keyName = "highlightedItems",
-		name = "",
-		description = ""
-	)
-	void setHighlightedItem(String key);
-
-	@ConfigItem(
-		keyName = "hiddenItems",
-		name = "Hidden Items",
-		description = "Configures hidden ground items. Format: (item), (item)",
-		position = 1
-	)
-	default String getHiddenItems()
-	{
-		return "Vial, Ashes, Coins, Bones, Bucket, Jug, Seaweed";
-	}
-
-	@ConfigItem(
-		keyName = "hiddenItems",
-		name = "",
-		description = ""
-	)
-	void setHiddenItems(String key);
-
-	@ConfigItem(
-		keyName = "showHighlightedOnly",
-		name = "Show Highlighted items only",
-		description = "Configures whether or not to draw items only on your highlighted list",
-		position = 2
-	)
-	default boolean showHighlightedOnly()
-	{
-		return false;
-	}
-
-	@ConfigItem(
-		keyName = "dontHideUntradeables",
-		name = "Do not hide untradeables",
-		description = "Configures whether or not untradeable items ignore hiding under settings",
-		position = 3
-	)
-	default boolean dontHideUntradeables()
-	{
-		return true;
-	}
-
-	@ConfigItem(
-		keyName = "showMenuItemQuantities",
-		name = "Show Menu Item Quantities",
-		description = "Configures whether or not to show the item quantities in the menu",
-		position = 4
-	)
-	default boolean showMenuItemQuantities()
-	{
-		return true;
-	}
-
-	@ConfigItem(
-		keyName = "recolorMenuHiddenItems",
-		name = "Recolor Menu Hidden Items",
-		description = "Configures whether or not hidden items in right click menu will be recolored",
-		position = 5
-	)
-	default boolean recolorMenuHiddenItems()
-	{
-		return false;
-	}
-
-	@ConfigItem(
-		keyName = "highlightTiles",
-		name = "Highlight Tiles",
-		description = "Configures whether or not to highlight tiles containing ground items",
-		position = 6
-	)
-	default boolean highlightTiles()
-	{
-		return false;
-	}
-
-	@ConfigItem(
-		keyName = "notifyHighlightedDrops",
-		name = "Notify for Highlighted drops",
-		description = "Configures whether or not to notify for drops on your highlighted list",
-		position = 7
-	)
-	default boolean notifyHighlightedDrops()
-	{
-		return false;
-	}
-
-	@ConfigItem(
-		keyName = "notifyTier",
-		name = "Notify >= Tier",
-		description = "Configures what tier of highlight will cause a drop",
-		position = 8
-	)
-	default HighlightTier notifyTier()
-	{
-		return HighlightTier.OFF;
-	}
-
-	@ConfigItem(
-		keyName = "priceDisplayMode",
-		name = "Price Display Mode",
-		description = "Configures what price types are shown alongside of ground item name",
-		position = 9
-	)
-	default PriceDisplayMode priceDisplayMode()
-	{
-		return PriceDisplayMode.BOTH;
-	}
-
-	@ConfigItem(
-		keyName = "itemHighlightMode",
-		name = "Item Highlight Mode",
-		description = "Configures how ground items will be highlighted",
-		position = 10
-	)
-	default ItemHighlightMode itemHighlightMode()
-	{
-		return ItemHighlightMode.BOTH;
-	}
-
-	@ConfigItem(
-		keyName = "menuHighlightMode",
-		name = "Menu Highlight Mode",
-		description = "Configures what to highlight in right-click menu",
-		position = 11
-	)
-	default MenuHighlightMode menuHighlightMode()
-	{
-		return MenuHighlightMode.NAME;
-	}
-
-	@ConfigItem(
-		keyName = "highlightValueCalculation",
-		name = "Highlight Value Calculation",
-		description = "Configures which coin value is used to determine highlight color",
-		position = 12
-	)
-	default ValueCalculationMode valueCalculationMode()
-	{
-		return ValueCalculationMode.HIGHEST;
-	}
-
-	@ConfigItem(
-		keyName = "hideUnderValue",
-		name = "Hide < Value",
-		description = "Configures hidden ground items under both GE and HA value",
-		position = 13
-	)
-	default int getHideUnderValue()
-	{
-		return 0;
-	}
-
-	@ConfigItem(
-		keyName = "defaultColor",
-		name = "Default items color",
-		description = "Configures the color for default, non-highlighted items",
-		position = 14
-	)
-	default Color defaultColor()
-	{
-		return Color.WHITE;
-	}
-
-	@ConfigItem(
-		keyName = "highlightedColor",
-		name = "Highlighted items color",
-		description = "Configures the color for highlighted items",
-		position = 15
-	)
-	default Color highlightedColor()
-	{
-		return Color.decode("#AA00FF");
-	}
-
-	@ConfigItem(
-		keyName = "hiddenColor",
-		name = "Hidden items color",
-		description = "Configures the color for hidden items in right-click menu and when holding ALT",
-		position = 16
-	)
-	default Color hiddenColor()
-	{
-		return Color.GRAY;
-	}
-
-	@ConfigItem(
-		keyName = "lowValueColor",
-		name = "Low value items color",
-		description = "Configures the color for low value items",
-		position = 17
-	)
-	default Color lowValueColor()
-	{
-		return Color.decode("#66B2FF");
-	}
-
-	@ConfigItem(
-		keyName = "lowValuePrice",
-		name = "Low value price",
-		description = "Configures the start price for low value items",
-		position = 18
-	)
-	default int lowValuePrice()
-	{
-		return 20000;
-	}
-
-	@ConfigItem(
-		keyName = "mediumValueColor",
-		name = "Medium value items color",
-		description = "Configures the color for medium value items",
-		position = 19
-	)
-	default Color mediumValueColor()
-	{
-		return Color.decode("#99FF99");
-	}
-
-	@ConfigItem(
-		keyName = "mediumValuePrice",
-		name = "Medium value price",
-		description = "Configures the start price for medium value items",
-		position = 20
-	)
-	default int mediumValuePrice()
-	{
-		return 100000;
-	}
-
-	@ConfigItem(
-		keyName = "highValueColor",
-		name = "High value items color",
-		description = "Configures the color for high value items",
-		position = 21
-	)
-	default Color highValueColor()
-	{
-		return Color.decode("#FF9600");
-	}
-
-	@ConfigItem(
-		keyName = "highValuePrice",
-		name = "High value price",
-		description = "Configures the start price for high value items",
-		position = 22
-	)
-	default int highValuePrice()
-	{
-		return 1000000;
-	}
-
-	@ConfigItem(
-		keyName = "insaneValueColor",
-		name = "Insane value items color",
-		description = "Configures the color for insane value items",
-		position = 23
-	)
-	default Color insaneValueColor()
-	{
-		return Color.decode("#FF66B2");
-	}
-
-	@ConfigItem(
-		keyName = "insaneValuePrice",
-		name = "Insane value price",
-		description = "Configures the start price for insane value items",
-		position = 24
-	)
-	default int insaneValuePrice()
-	{
-		return 10000000;
-	}
-
-	@ConfigItem(
-		keyName = "onlyShowLoot",
-		name = "Only show loot",
-		description = "Only shows drops from NPCs and players",
-		position = 25
-	)
-	default boolean onlyShowLoot()
-	{
-		return false;
-	}
-
-	@ConfigItem(
-		keyName = "doubleTapDelay",
-		name = "Delay for double-tap ALT to hide",
-		description = "Decrease this number if you accidentally hide ground items often. (0 = Disabled)",
-		position = 26
-	)
-	@Units(Units.MILLISECONDS)
-	default int doubleTapDelay()
-	{
-		return 250;
-	}
-
-	@ConfigItem(
-		keyName = "collapseEntries",
-		name = "Collapse ground item menu entries",
-		description = "Collapses ground item menu entries together and appends count",
-		position = 27
-	)
-	default boolean collapseEntries()
-	{
-		return false;
-	}
-
-	@ConfigItem(
-		keyName = "groundItemTimers",
-		name = "Show despawn timers",
-		description = "Shows despawn timers for items you've dropped and received as loot",
-		position = 28
-	)
-	default boolean groundItemTimers()
-	{
-		return false;
-	}
-*/
 }
