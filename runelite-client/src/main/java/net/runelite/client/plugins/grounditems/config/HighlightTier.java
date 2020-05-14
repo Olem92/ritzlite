@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Mitchell <https://github.com/Mitchell-Kovacs>
+ * Copyright (c) 2020, Hydrox6 <ikada@protonmail.ch>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,25 +22,32 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.itemcharges;
+package net.runelite.client.plugins.grounditems.config;
 
-enum ItemChargeType
+import net.runelite.client.plugins.grounditems.GroundItemsConfig;
+
+public enum HighlightTier
 {
-	ABYSSAL_BRACELET,
-	AMULET_OF_CHEMISTRY,
-	AMULET_OF_BOUNTY,
-	BELLOWS,
-	FUNGICIDE_SPRAY,
-	IMPBOX,
-	TELEPORT,
-	WATERCAN,
-	WATERSKIN,
-	DODGY_NECKLACE,
-	BINDING_NECKLACE,
-	EXPLORER_RING,
-	FRUIT_BASKET,
-	SACK,
-	RING_OF_FORGING,
-	GUTHIX_REST,
-	POTION,
+	OFF,
+	LOW,
+	MEDIUM,
+	HIGH,
+	INSANE;
+
+	public int getValueFromTier(GroundItemsConfig config)
+	{
+		switch (this)
+		{
+			case LOW:
+				return config.lowValuePrice();
+			case MEDIUM:
+				return config.mediumValuePrice();
+			case HIGH:
+				return config.highValuePrice();
+			case INSANE:
+				return config.insaneValuePrice();
+			default:
+				throw new UnsupportedOperationException();
+		}
+	}
 }
