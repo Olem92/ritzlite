@@ -36,30 +36,29 @@ import net.runelite.client.config.Units;
 import net.runelite.client.plugins.wintertodt.config.WintertodtNotifyDamage;
 
 @ConfigGroup("wintertodt")
-public interface WintertodtConfig extends Config {
-    @ConfigItem(
-            position = 1,
-            keyName = "damageNotificationColor",
-            name = "Damage Notification Color",
-            description = "Color of damage notification text in chat"
-    )
-    default Color damageNotificationColor() {
-        return Color.CYAN;
-    }
+public interface WintertodtConfig extends Config
+{
+	@ConfigItem(
+		position = 0,
+		keyName = "showOverlay",
+		name = "Show Overlay",
+		description = "Toggles the status overlay"
+	)
+	default boolean showOverlay()
+	{
+		return true;
+	}
 
-    @ConfigItem(
-            position = 2,
-            keyName = "roundNotification",
-            name = "Wintertodt round notification",
-            description = "Notifies you before the round starts (in seconds)"
-    )
-    @Range(
-            max = 60
-    )
-    @Units(Units.SECONDS)
-    default int roundNotification() {
-        return 5;
-    }
+	@ConfigItem(
+		position = 1,
+		keyName = "damageNotificationColor",
+		name = "Damage Notification Color",
+		description = "Color of damage notification text in chat"
+	)
+	default Color damageNotificationColor()
+	{
+		return Color.CYAN;
+	}
 
     @ConfigItem(
             position = 4,

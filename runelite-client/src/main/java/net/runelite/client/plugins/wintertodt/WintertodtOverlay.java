@@ -42,20 +42,25 @@ import net.runelite.client.ui.overlay.components.TitleComponent;
 class WintertodtOverlay extends OverlayPanel
 {
 	private final WintertodtPlugin plugin;
+	private final WintertodtConfig wintertodtConfig;
 
-    @Inject
-    private WintertodtOverlay(WintertodtPlugin plugin) {
-        super(plugin);
-        this.plugin = plugin;
-        setPosition(OverlayPosition.BOTTOM_LEFT);
-        getMenuEntries().add(new OverlayMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "Wintertodt overlay"));
-    }
+	@Inject
+	private WintertodtOverlay(WintertodtPlugin plugin, WintertodtConfig wintertodtConfig)
+	{
+		super(plugin);
+		this.plugin = plugin;
+		this.wintertodtConfig = wintertodtConfig;
+		setPosition(OverlayPosition.BOTTOM_LEFT);
+		getMenuEntries().add(new OverlayMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "Wintertodt overlay"));
+	}
 
-    @Override
-    public Dimension render(Graphics2D graphics) {
-        if (!plugin.isInWintertodt()) {
-            return null;
-        }
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		if (!plugin.isInWintertodt() || !wintertodtConfig.showOverlay())
+		{
+			return null;
+		}
 
 		panelComponent.getChildren().add(TitleComponent.builder()
 			.text(plugin.getCurrentActivity().getActionString())
