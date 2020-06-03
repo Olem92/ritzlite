@@ -32,9 +32,11 @@ class Trade
 {
 	private boolean buy;
 	private boolean cancel;
+	private boolean login;
 	private int itemId;
 	private int quantity;
-	private int price;
+	private int total;
+	private int spent;
 	private int offer;
 	private int time;
 	private String machineId;

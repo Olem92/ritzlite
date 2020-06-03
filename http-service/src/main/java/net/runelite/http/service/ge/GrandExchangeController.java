@@ -79,7 +79,9 @@ public class GrandExchangeController
 		Integer userId = session == null ? null : session.getUser();
 
 		// We don't keep track of pending trades in the web UI, so only add cancelled or completed trades
-		if (userId != null && (grandExchangeTrade.isCancel() || grandExchangeTrade.getQuantity() == grandExchangeTrade.getTotal()))
+		if (userId != null &&
+			grandExchangeTrade.getQuantity() > 0 &&
+			(grandExchangeTrade.isCancel() || grandExchangeTrade.getQuantity() == grandExchangeTrade.getTotal()))
 		{
 			grandExchangeService.add(userId, grandExchangeTrade);
 		}
@@ -87,9 +89,11 @@ public class GrandExchangeController
 		Trade trade = new Trade();
 		trade.setBuy(grandExchangeTrade.isBuy());
 		trade.setCancel(grandExchangeTrade.isCancel());
+		trade.setLogin(grandExchangeTrade.isLogin());
 		trade.setItemId(grandExchangeTrade.getItemId());
 		trade.setQuantity(grandExchangeTrade.getQuantity());
-		trade.setPrice(grandExchangeTrade.getPrice());
+		trade.setTotal(grandExchangeTrade.getTotal());
+		trade.setSpent(grandExchangeTrade.getSpent());
 		trade.setOffer(grandExchangeTrade.getOffer());
 		trade.setTime((int) (System.currentTimeMillis() / 1000L));
 		trade.setMachineId(request.getHeader(RuneLiteAPI.RUNELITE_MACHINEID));
