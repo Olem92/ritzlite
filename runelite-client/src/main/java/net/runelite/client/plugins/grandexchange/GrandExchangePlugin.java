@@ -412,10 +412,10 @@ public class GrandExchangePlugin extends Plugin
 			GrandExchangeTrade grandExchangeTrade = new GrandExchangeTrade();
 			grandExchangeTrade.setBuy(state == GrandExchangeOfferState.BUYING);
 			grandExchangeTrade.setItemId(offer.getItemId());
-			grandExchangeTrade.setQuantity(0);
 			grandExchangeTrade.setTotal(offer.getTotalQuantity());
 			grandExchangeTrade.setSpent(0);
 			grandExchangeTrade.setOffer(offer.getPrice());
+			grandExchangeTrade.setSlot(slot);
 			grandExchangeTrade.setWorldType(getGeWorldType());
 			grandExchangeTrade.setLogin(loginBurstGeUpdates);
 
@@ -442,10 +442,11 @@ public class GrandExchangePlugin extends Plugin
 			grandExchangeTrade.setBuy(state == GrandExchangeOfferState.CANCELLED_BUY);
 			grandExchangeTrade.setCancel(true);
 			grandExchangeTrade.setItemId(offer.getItemId());
-			grandExchangeTrade.setQuantity(offer.getQuantitySold());
+			grandExchangeTrade.setQty(offer.getQuantitySold());
 			grandExchangeTrade.setTotal(offer.getTotalQuantity());
 			grandExchangeTrade.setSpent(offer.getSpent());
 			grandExchangeTrade.setOffer(offer.getPrice());
+			grandExchangeTrade.setSlot(slot);
 			grandExchangeTrade.setWorldType(getGeWorldType());
 			grandExchangeTrade.setLogin(loginBurstGeUpdates);
 
@@ -464,10 +465,12 @@ public class GrandExchangePlugin extends Plugin
 		GrandExchangeTrade grandExchangeTrade = new GrandExchangeTrade();
 		grandExchangeTrade.setBuy(state == GrandExchangeOfferState.BUYING);
 		grandExchangeTrade.setItemId(offer.getItemId());
-		grandExchangeTrade.setQuantity(qty);
+		grandExchangeTrade.setQty(offer.getQuantitySold());
+		grandExchangeTrade.setDqty(qty);
 		grandExchangeTrade.setTotal(offer.getTotalQuantity());
 		grandExchangeTrade.setSpent(dspent);
 		grandExchangeTrade.setOffer(offer.getPrice());
+		grandExchangeTrade.setSlot(slot);
 		grandExchangeTrade.setWorldType(getGeWorldType());
 		grandExchangeTrade.setLogin(loginBurstGeUpdates);
 
