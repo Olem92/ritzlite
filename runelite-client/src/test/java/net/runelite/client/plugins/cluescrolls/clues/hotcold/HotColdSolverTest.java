@@ -212,7 +212,7 @@ public class HotColdSolverTest
 	}
 
 	/**
-	 * Tests a hot-cold solver by signalling a test point, temperature, and temperature change to it and asserting the
+	 * Tests a hot-cold solver by signalling a petoptions point, temperature, and temperature change to it and asserting the
 	 * resulting possible location set is equal to that of a given set of expected locations.
 	 *
 	 * @param solver                             The hot-cold solver to signal to.
@@ -238,7 +238,7 @@ public class HotColdSolverTest
 	/**
 	 * @return A hot-cold solver with a starting set of master hot-cold locations nearby the KARAMJA_KHARAZI_NE
 	 *         location. {@link HotColdLocation#values()} is not used as it may change with future game updates, and
-	 *         such changes would break this test suite.
+	 *         such changes would break this petoptions suite.
 	 */
 	private static HotColdSolver createHotColdSolver()
 	{

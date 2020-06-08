@@ -144,7 +144,7 @@ public class ColorUtil
 	/**
 	 * Determines if the passed hex string is an alpha hex color.
 	 *
-	 * @param hex The hex to test.
+	 * @param hex The hex to petoptions.
 	 * @return    boolean
 	 */
 	public static boolean isAlphaHex(String hex)
@@ -155,7 +155,7 @@ public class ColorUtil
 	/**
 	 * Determines if the passed hex string is a hex color.
 	 *
-	 * @param hex The hex to test.
+	 * @param hex The hex to petoptions.
 	 * @return    boolean
 	 */
 	public static boolean isHex(String hex)

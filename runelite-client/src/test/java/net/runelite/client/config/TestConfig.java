@@ -24,7 +24,7 @@
  */
 package net.runelite.client.config;
 
-@ConfigGroup("test")
+@ConfigGroup("petoptions")
 public interface TestConfig extends Config
 {
 	@ConfigItem(

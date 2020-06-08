@@ -79,7 +79,7 @@ public class ChatNotificationsPluginTest
 	@Test
 	public void onChatMessage()
 	{
-		when(config.highlightWordsString()).thenReturn("Deathbeam, Deathbeam OSRS , test");
+		when(config.highlightWordsString()).thenReturn("Deathbeam, Deathbeam OSRS , petoptions");
 
 		MessageNode messageNode = mock(MessageNode.class);
 		when(messageNode.getValue()).thenReturn("Deathbeam, Deathbeam OSRS");
@@ -97,9 +97,9 @@ public class ChatNotificationsPluginTest
 	@Test
 	public void testLtGt()
 	{
-		when(config.highlightWordsString()).thenReturn("<test>");
+		when(config.highlightWordsString()).thenReturn("<petoptions>");
 
-		String message = "test <lt>test<gt> test";
+		String message = "petoptions <lt>petoptions<gt> petoptions";
 		MessageNode messageNode = mock(MessageNode.class);
 		when(messageNode.getValue()).thenReturn(message);
 
@@ -110,15 +110,15 @@ public class ChatNotificationsPluginTest
 		chatNotificationsPlugin.startUp(); // load highlight config
 		chatNotificationsPlugin.onChatMessage(chatMessage);
 
-		verify(messageNode).setValue("test <colHIGHLIGHT><lt>test<gt><colNORMAL> test");
+		verify(messageNode).setValue("petoptions <colHIGHLIGHT><lt>petoptions<gt><colNORMAL> petoptions");
 	}
 
 	@Test
 	public void testFullStop()
 	{
-		when(config.highlightWordsString()).thenReturn("test");
+		when(config.highlightWordsString()).thenReturn("petoptions");
 
-		String message = "foo test. bar";
+		String message = "foo petoptions. bar";
 		MessageNode messageNode = mock(MessageNode.class);
 		when(messageNode.getValue()).thenReturn(message);
 
@@ -129,7 +129,7 @@ public class ChatNotificationsPluginTest
 		chatNotificationsPlugin.startUp(); // load highlight config
 		chatNotificationsPlugin.onChatMessage(chatMessage);
 
-		verify(messageNode).setValue("foo <colHIGHLIGHT>test<colNORMAL>. bar");
+		verify(messageNode).setValue("foo <colHIGHLIGHT>petoptions<colNORMAL>. bar");
 	}
 
 	@Test
@@ -173,9 +173,9 @@ public class ChatNotificationsPluginTest
 	@Test
 	public void testEmoji()
 	{
-		when(config.highlightWordsString()).thenReturn("test");
+		when(config.highlightWordsString()).thenReturn("petoptions");
 
-		String message = "emoji test <img=29>";
+		String message = "emoji petoptions <img=29>";
 		MessageNode messageNode = mock(MessageNode.class);
 		when(messageNode.getValue()).thenReturn(message);
 
@@ -186,15 +186,15 @@ public class ChatNotificationsPluginTest
 		chatNotificationsPlugin.startUp(); // load highlight config
 		chatNotificationsPlugin.onChatMessage(chatMessage);
 
-		verify(messageNode).setValue("emoji <colHIGHLIGHT>test<colNORMAL> <img=29>");
+		verify(messageNode).setValue("emoji <colHIGHLIGHT>petoptions<colNORMAL> <img=29>");
 	}
 
 	@Test
 	public void testNonMatchedColors()
 	{
-		when(config.highlightWordsString()).thenReturn("test");
+		when(config.highlightWordsString()).thenReturn("petoptions");
 
-		String message = "<col=ff0000>color</col> test <img=29>";
+		String message = "<col=ff0000>color</col> petoptions <img=29>";
 		MessageNode messageNode = mock(MessageNode.class);
 		when(messageNode.getValue()).thenReturn(message);
 
@@ -205,13 +205,13 @@ public class ChatNotificationsPluginTest
 		chatNotificationsPlugin.startUp(); // load highlight config
 		chatNotificationsPlugin.onChatMessage(chatMessage);
 
-		verify(messageNode).setValue("<col=ff0000>color</col> <colHIGHLIGHT>test<colNORMAL> <img=29>");
+		verify(messageNode).setValue("<col=ff0000>color</col> <colHIGHLIGHT>petoptions<colNORMAL> <img=29>");
 	}
 
 	@Test
 	public void highlightListTest()
 	{
-		when(config.highlightWordsString()).thenReturn("this,is, a                   , test, ");
+		when(config.highlightWordsString()).thenReturn("this,is, a                   , petoptions, ");
 		final List<String> higlights = Text.fromCSV(config.highlightWordsString());
 		assertEquals(4, higlights.size());
 
@@ -219,7 +219,7 @@ public class ChatNotificationsPluginTest
 		assertEquals("this", iterator.next());
 		assertEquals("is", iterator.next());
 		assertEquals("a", iterator.next());
-		assertEquals("test", iterator.next());
+		assertEquals("petoptions", iterator.next());
 	}
 
 	@Test

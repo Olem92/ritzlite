@@ -60,7 +60,7 @@ public class ColorUtilTest
 	{
 		COLOR_HEXSTRING_MAP.forEach((color, hex) ->
 		{
-			assertEquals("<col=" + hex + ">test", ColorUtil.prependColorTag("test", color));
+			assertEquals("<col=" + hex + ">petoptions", ColorUtil.prependColorTag("petoptions", color));
 			assertEquals("<col=" + hex + ">", ColorUtil.prependColorTag("", color));
 		});
 
@@ -72,7 +72,7 @@ public class ColorUtilTest
 	{
 		COLOR_HEXSTRING_MAP.forEach((color, hex) ->
 		{
-			assertEquals("<col=" + hex + ">test</col>", ColorUtil.wrapWithColorTag("test", color));
+			assertEquals("<col=" + hex + ">petoptions</col>", ColorUtil.wrapWithColorTag("petoptions", color));
 			assertEquals("<col=" + hex + "></col>", ColorUtil.wrapWithColorTag("", color));
 		});
 	}

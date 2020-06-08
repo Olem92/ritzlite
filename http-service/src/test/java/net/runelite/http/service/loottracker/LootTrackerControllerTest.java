@@ -58,7 +58,7 @@ import redis.clients.jedis.Jedis;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(LootTrackerController.class)
-@ActiveProfiles("test")
+@ActiveProfiles("petoptions")
 public class LootTrackerControllerTest
 {
 	@Autowired

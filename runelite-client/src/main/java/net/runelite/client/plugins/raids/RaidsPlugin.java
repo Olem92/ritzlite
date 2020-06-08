@@ -191,7 +191,7 @@ public class RaidsPlugin extends Plugin
 	@Getter
 	private final Set<String> layoutWhitelist = new HashSet<String>();
 
-	@Setter(AccessLevel.PACKAGE) // for the test
+	@Setter(AccessLevel.PACKAGE) // for the petoptions
 	@Getter
 	private Raid raid;
 

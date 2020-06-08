@@ -36,7 +36,7 @@ import net.runelite.api.coords.WorldPoint;
 /**
  * Solution finder for hot-cold style puzzles.
  * <p>
- * These puzzles are established by having some way to test the distance from the solution via "warmth", where being
+ * These puzzles are established by having some way to petoptions the distance from the solution via "warmth", where being
  * colder means one is farther away from the target, and being warmer means one is closer to it, with the goal being to
  * reach the most warm value to discover the solution point. Hot-cold puzzles in Old School RuneScape are implemented
  * with specific set of solution points, so this solver will filter from a provided set of possible solutions as new
@@ -116,8 +116,8 @@ public class HotColdSolver
 	/**
 	 * Determines whether the first point passed is closer to each corner of the given rectangle than the second point.
 	 *
-	 * @param firstPoint  First point to test. Return result will be relating to this point's location.
-	 * @param secondPoint Second point to test
+	 * @param firstPoint  First point to petoptions. Return result will be relating to this point's location.
+	 * @param secondPoint Second point to petoptions
 	 * @param rect        Rectangle, whose corner points will be compared to the first and second points passed
 	 * @return {@code true} if {@code firstPoint} is closer to each of {@code rect}'s four corner points than
 	 *         {@code secondPoint}, {@code false} otherwise.
@@ -154,8 +154,8 @@ public class HotColdSolver
 	/**
 	 * Determines whether the first point passed is closer to the given point of comparison than the second point.
 	 *
-	 * @param firstPoint  First point to test. Return result will be relating to this point's location.
-	 * @param secondPoint Second point to test
+	 * @param firstPoint  First point to petoptions. Return result will be relating to this point's location.
+	 * @param secondPoint Second point to petoptions
 	 * @param worldPoint  Point to compare to the first and second points passed
 	 * @return {@code true} if {@code firstPoint} is closer to {@code worldPoint} than {@code secondPoint},
 	 *         {@code false} otherwise.

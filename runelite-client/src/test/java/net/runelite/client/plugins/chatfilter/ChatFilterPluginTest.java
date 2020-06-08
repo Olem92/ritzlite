@@ -158,7 +158,7 @@ public class ChatFilterPluginTest
 	public void testNonPrintableCharacters()
 	{
 		when(chatFilterConfig.filterType()).thenReturn(ChatFilterType.REMOVE_MESSAGE);
-		when(chatFilterConfig.filteredWords()).thenReturn("test");
+		when(chatFilterConfig.filteredWords()).thenReturn("petoptions");
 
 		chatFilterPlugin.updateFilteredPatterns();
 		assertNull(chatFilterPlugin.censorMessage("Blue", "te\u008Cst"));

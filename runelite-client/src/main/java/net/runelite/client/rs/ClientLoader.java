@@ -326,8 +326,8 @@ public class ClientLoader implements Supplier<Applet>
 					TeeInputStream copyStream = new TeeInputStream(new CountingInputStream(response.body().byteStream(),
 						read -> SplashScreen.stage(.05, .35, null, "Downloading Old School RuneScape", read, flength, true)));
 
-					// Save the bytes from the mtime test so we can write it to disk
-					// if the test fails, or the cache doesn't verify
+					// Save the bytes from the mtime petoptions so we can write it to disk
+					// if the petoptions fails, or the cache doesn't verify
 					ByteArrayOutputStream preRead = new ByteArrayOutputStream();
 					copyStream.setOut(preRead);
 
