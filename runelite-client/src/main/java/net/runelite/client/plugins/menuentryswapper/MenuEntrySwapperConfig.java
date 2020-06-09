@@ -27,15 +27,49 @@ package net.runelite.client.plugins.menuentryswapper;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
 
 @ConfigGroup("menuentryswapper")
 public interface MenuEntrySwapperConfig extends Config
 {
+	@ConfigSection(
+		name = "Item Swaps",
+		description = "All options that swap item menu entries",
+		position = 0,
+		closedByDefault = true
+	)
+	String itemSection = "items";
+
+	@ConfigSection(
+		name = "NPC Swaps",
+		description = "All options that swap NPC menu entries",
+		position = 1,
+		closedByDefault = true
+	)
+	String npcSection = "npcs";
+
+	@ConfigSection(
+		name = "Object Swaps",
+		description = "All options that swap object menu entries",
+		position = 2,
+		closedByDefault = true
+	)
+	String objectSection = "objects";
+
+	@ConfigSection(
+		name = "UI Swaps",
+		description = "All options that swap entries in the UI (except Items)",
+		position = 3,
+		closedByDefault = true
+	)
+	String uiSection = "ui";
+
 	@ConfigItem(
-			position = -2,
-			keyName = "shiftClickCustomization",
-			name = "Customizable shift-click",
-			description = "Allows customization of shift-clicks on items"
+		position = -2,
+		keyName = "shiftClickCustomization",
+		name = "Customizable shift-click",
+		description = "Allows customization of shift-clicks on items",
+		section = itemSection
 	)
 	default boolean shiftClickCustomization()
 	{
@@ -43,9 +77,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapAdmire",
-			name = "Admire",
-			description = "Swap Admire with Teleport, Spellbook and Perks (max cape) for mounted skill capes."
+		keyName = "swapAdmire",
+		name = "Admire",
+		description = "Swap Admire with Teleport, Spellbook and Perks (max cape) for mounted skill capes.",
+		section = objectSection
 	)
 	default boolean swapAdmire()
 	{
@@ -53,9 +88,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapAssignment",
-			name = "Assignment",
-			description = "Swap Talk-to with Assignment for Slayer Masters. This will take priority over swapping Trade."
+		keyName = "swapAssignment",
+		name = "Assignment",
+		description = "Swap Talk-to with Assignment for Slayer Masters. This will take priority over swapping Trade.",
+		section = npcSection
 	)
 	default boolean swapAssignment()
 	{
@@ -63,9 +99,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapBanker",
-			name = "Bank",
-			description = "Swap Talk-to with Bank on Bank NPC<br>Example: Banker"
+		keyName = "swapBanker",
+		name = "Bank",
+		description = "Swap Talk-to with Bank on Bank NPC<br>Example: Banker",
+		section = npcSection
 	)
 	default boolean swapBank()
 	{
@@ -73,9 +110,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapBirdhouseEmpty",
-			name = "Birdhouse",
-			description = "Swap Interact with Empty for birdhouses on Fossil Island"
+		keyName = "swapBirdhouseEmpty",
+		name = "Birdhouse",
+		description = "Swap Interact with Empty for birdhouses on Fossil Island",
+		section = objectSection
 	)
 	default boolean swapBirdhouseEmpty()
 	{
@@ -83,9 +121,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapBones",
-			name = "Bury",
-			description = "Swap Bury with Use on Bones"
+		keyName = "swapBones",
+		name = "Bury",
+		description = "Swap Bury with Use on Bones",
+		section = itemSection
 	)
 	default boolean swapBones()
 	{
@@ -93,9 +132,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapContract",
-			name = "Contract",
-			description = "Swap Talk-to with Contract on Guildmaster Jane"
+		keyName = "swapContract",
+		name = "Contract",
+		description = "Swap Talk-to with Contract on Guildmaster Jane",
+		section = npcSection
 	)
 	default boolean swapContract()
 	{
@@ -103,9 +143,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapChase",
-			name = "Chase",
-			description = "Allows to left click your cat to chase"
+		keyName = "swapChase",
+		name = "Chase",
+		description = "Allows to left click your cat to chase",
+		section = npcSection
 	)
 	default boolean swapChase()
 	{
@@ -113,9 +154,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "claimSlime",
-			name = "Claim Slime",
-			description = "Swap Talk-to with Claim Slime from Morytania diaries"
+		keyName = "claimSlime",
+		name = "Claim Slime",
+		description = "Swap Talk-to with Claim Slime from Morytania diaries",
+		section = npcSection
 	)
 	default boolean claimSlime()
 	{
@@ -123,9 +165,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapDarkMage",
-			name = "Repairs",
-			description = "Swap Talk-to with Repairs for Dark Mage"
+		keyName = "swapDarkMage",
+		name = "Repairs",
+		description = "Swap Talk-to with Repairs for Dark Mage",
+		section = npcSection
 	)
 	default boolean swapDarkMage()
 	{
@@ -133,9 +176,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapCaptainKhaled",
-			name = "Task",
-			description = "Swap Talk-to with Task for Captain Khaled in Port Piscarilius"
+		keyName = "swapCaptainKhaled",
+		name = "Task",
+		description = "Swap Talk-to with Task for Captain Khaled in Port Piscarilius",
+		section = npcSection
 	)
 	default boolean swapCaptainKhaled()
 	{
@@ -143,9 +187,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapDecant",
-			name = "Decant",
-			description = "Swap Talk-to with Decant for Bob Barter and Murky Matt at the Grand Exchange."
+		keyName = "swapDecant",
+		name = "Decant",
+		description = "Swap Talk-to with Decant for Bob Barter and Murky Matt at the Grand Exchange.",
+		section = npcSection
 	)
 	default boolean swapDecant()
 	{
@@ -153,9 +198,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapExchange",
-			name = "Exchange",
-			description = "Swap Talk-to with Exchange on NPC<br>Example: Grand Exchange Clerk, Tool Leprechaun, Void Knight"
+		keyName = "swapExchange",
+		name = "Exchange",
+		description = "Swap Talk-to with Exchange on NPC<br>Example: Grand Exchange Clerk, Tool Leprechaun, Void Knight",
+		section = npcSection
 	)
 	default boolean swapExchange()
 	{
@@ -163,9 +209,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapFairyRing",
-			name = "Fairy ring",
-			description = "Swap Zanaris with Last-destination or Configure on Fairy rings"
+		keyName = "swapFairyRing",
+		name = "Fairy ring",
+		description = "Swap Zanaris with Last-destination or Configure on Fairy rings",
+		section = objectSection
 	)
 	default FairyRingMode swapFairyRing()
 	{
@@ -173,9 +220,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapHardWoodGrove",
-			name = "Hardwood Grove",
-			description = "Swap Quick-Pay(100) and Send-Parcel at Hardwood Grove"
+		keyName = "swapHardWoodGrove",
+		name = "Hardwood Grove Quick-Pay",
+		description = "Swap Quick-Pay(100) at the Hardwood Grove",
+		section = objectSection
 	)
 	default boolean swapHardWoodGrove()
 	{
@@ -183,9 +231,21 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapHarpoon",
-			name = "Harpoon",
-			description = "Swap Cage, Big Net with Harpoon on Fishing spot"
+		keyName = "swapHardWoodGroveParcel",
+		name = "Hardwood Grove Send-Parcel",
+		description = "Swap Send-Parcel at the Hardwood Grove",
+		section = npcSection
+	)
+	default boolean swapHardWoodGroveParcel()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "swapHarpoon",
+		name = "Harpoon",
+		description = "Swap Cage, Big Net with Harpoon on Fishing spot",
+		section = objectSection
 	)
 	default boolean swapHarpoon()
 	{
@@ -193,9 +253,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapHelp",
-			name = "Help",
-			description = "Swap Talk-to with Help on Arceuus library customers"
+		keyName = "swapHelp",
+		name = "Help",
+		description = "Swap Talk-to with Help on Arceuus library customers",
+		section = npcSection
 	)
 	default boolean swapHelp()
 	{
@@ -203,9 +264,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapHomePortal",
-			name = "Home",
-			description = "Swap Enter with Home or Build or Friend's house on Portal"
+		keyName = "swapHomePortal",
+		name = "Home",
+		description = "Swap Enter with Home or Build or Friend's house on Portal",
+		section = objectSection
 	)
 	default HouseMode swapHomePortal()
 	{
@@ -213,9 +275,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapHouseAdvertisement",
-			name = "House Advertisement",
-			description = "Swap View with Add-House or Visit-Last on House Advertisement board"
+		keyName = "swapHouseAdvertisement",
+		name = "House Advertisement",
+		description = "Swap View with Add-House or Visit-Last on House Advertisement board",
+		section = objectSection
 	)
 	default HouseAdvertisementMode swapHouseAdvertisement()
 	{
@@ -223,9 +286,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapPay",
-			name = "Pay",
-			description = "Swap Talk-to with Pay on NPC<br>Example: Elstan, Heskel, Fayeth"
+		keyName = "swapPay",
+		name = "Pay",
+		description = "Swap Talk-to with Pay on NPC<br>Example: Elstan, Heskel, Fayeth",
+		section = npcSection
 	)
 	default boolean swapPay()
 	{
@@ -233,9 +297,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapJewelleryBox",
-			name = "Jewellery Box",
-			description = "Swap Teleport Menu with previous destination on Jewellery Box"
+		keyName = "swapJewelleryBox",
+		name = "Jewellery Box",
+		description = "Swap Teleport Menu with previous destination on Jewellery Box",
+		section = objectSection
 	)
 	default boolean swapJewelleryBox()
 	{
@@ -243,9 +308,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapPrivate",
-			name = "Private",
-			description = "Swap Shared with Private on the Chambers of Xeric storage units."
+		keyName = "swapPrivate",
+		name = "Private",
+		description = "Swap Shared with Private on the Chambers of Xeric storage units.",
+		section = objectSection
 	)
 	default boolean swapPrivate()
 	{
@@ -253,9 +319,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapPick",
-			name = "Pick",
-			description = "Swap Pick with Pick-lots of the Gourd tree in the Chambers of Xeric"
+		keyName = "swapPick",
+		name = "Pick",
+		description = "Swap Pick with Pick-lots of the Gourd tree in the Chambers of Xeric",
+		section = objectSection
 	)
 	default boolean swapPick()
 	{
@@ -263,9 +330,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapQuick",
-			name = "Quick Pass/Open/Start/Travel",
-			description = "Swap Pass with Quick-Pass, Open with Quick-Open, Ring with Quick-Start and Talk-to with Quick-Travel"
+		keyName = "swapQuick",
+		name = "Quick Pass/Open/Start/Travel",
+		description = "Swap Pass with Quick-Pass, Open with Quick-Open, Ring with Quick-Start and Talk-to with Quick-Travel",
+		section = objectSection
 	)
 	default boolean swapQuick()
 	{
@@ -273,9 +341,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapBoxTrap",
-			name = "Reset",
-			description = "Swap Check with Reset on box trap"
+		keyName = "swapBoxTrap",
+		name = "Reset",
+		description = "Swap Check with Reset on box trap",
+		section = objectSection
 	)
 	default boolean swapBoxTrap()
 	{
@@ -283,9 +352,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapTeleportItem",
-			name = "Teleport item",
-			description = "Swap Wear, Wield with Rub, Teleport on teleport item<br>Example: Amulet of glory, Explorer's ring, Chronicle"
+		keyName = "swapTeleportItem",
+		name = "Teleport item",
+		description = "Swap Wear, Wield with Rub, Teleport on teleport item<br>Example: Amulet of glory, Explorer's ring, Chronicle",
+		section = itemSection
 	)
 	default boolean swapTeleportItem()
 	{
@@ -293,9 +363,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapAbyssTeleport",
-			name = "Teleport to Abyss",
-			description = "Swap Talk-to with Teleport for the Mage of Zamorak"
+		keyName = "swapAbyssTeleport",
+		name = "Teleport to Abyss",
+		description = "Swap Talk-to with Teleport for the Mage of Zamorak",
+		section = npcSection
 	)
 	default boolean swapAbyssTeleport()
 	{
@@ -303,9 +374,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapTrade",
-			name = "Trade",
-			description = "Swap Talk-to with Trade on NPC<br>Example: Shop keeper, Shop assistant"
+		keyName = "swapTrade",
+		name = "Trade",
+		description = "Swap Talk-to with Trade on NPC<br>Example: Shop keeper, Shop assistant",
+		section = npcSection
 	)
 	default boolean swapTrade()
 	{
@@ -313,9 +385,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapTravel",
-			name = "Travel",
-			description = "Swap Talk-to with Travel, Take-boat, Pay-fare, Charter on NPC<br>Example: Squire, Monk of Entrana, Customs officer, Trader Crewmember"
+		keyName = "swapTravel",
+		name = "Travel",
+		description = "Swap Talk-to with Travel, Take-boat, Pay-fare, Charter on NPC<br>Example: Squire, Monk of Entrana, Customs officer, Trader Crewmember",
+		section = npcSection
 	)
 	default boolean swapTravel()
 	{
@@ -323,9 +396,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapEnchant",
-			name = "Enchant",
-			description = "Swap Talk-to with Enchant for Eluned"
+		keyName = "swapEnchant",
+		name = "Enchant",
+		description = "Swap Talk-to with Enchant for Eluned",
+		section = npcSection
 	)
 	default boolean swapEnchant()
 	{
@@ -333,9 +407,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapTeleportSpell",
-			name = "Shift-click teleport spells",
-			description = "Swap teleport spells that have a second destination on shift"
+		keyName = "swapTeleportSpell",
+		name = "Shift-click teleport spells",
+		description = "Swap teleport spells that have a second destination on shift",
+		section = uiSection
 	)
 	default boolean swapTeleportSpell()
 	{
@@ -343,9 +418,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapStartMinigame",
-			name = "Pyramid Plunder Start-minigame",
-			description = "Swap Talk-to with Start-minigame at the Guardian Mummy"
+		keyName = "swapStartMinigame",
+		name = "Pyramid Plunder Start-minigame",
+		description = "Swap Talk-to with Start-minigame at the Guardian Mummy",
+		section = npcSection
 	)
 	default boolean swapStartMinigame()
 	{
@@ -353,9 +429,10 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "swapQuickleave",
-			name = "Quick-Leave",
-			description = "Swap Leave Tomb with Quick-Leave at Pyramid Plunder"
+		keyName = "swapQuickleave",
+		name = "Quick-Leave",
+		description = "Swap Leave Tomb with Quick-Leave at Pyramid Plunder",
+		section = objectSection
 	)
 	default boolean swapQuickLeave()
 	{
@@ -365,7 +442,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "swapGEItemCollect",
 		name = "GE Item Collect",
-		description = "Swap Collect-notes, Collect-items, or Bank options from GE offer"
+		description = "Swap Collect-notes, Collect-items, or Bank options from GE offer",
+		section = uiSection
 	)
 	default GEItemCollectMode swapGEItemCollect()
 	{
@@ -376,6 +454,8 @@ public interface MenuEntrySwapperConfig extends Config
 		keyName = "swapGEAbort",
 		name = "GE Abort",
 		description = "Swap abort offer on Grand Exchange offers when shift-clicking"
+		,
+		section = uiSection
 	)
 	default boolean swapGEAbort()
 	{
@@ -385,7 +465,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "swapNpcContact",
 		name = "NPC Contact",
-		description = "Swap NPC Contact with last contacted NPC when shift-clicking"
+		description = "Swap NPC Contact with last contacted NPC when shift-clicking",
+		section = uiSection
 	)
 	default boolean swapNpcContact()
 	{
@@ -395,7 +476,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "bankWithdrawShiftClick",
 		name = "Bank Withdraw Shift-Click",
-		description = "Swaps the behavior of shift-click when withdrawing from bank."
+		description = "Swaps the behavior of shift-click when withdrawing from bank.",
+		section = itemSection
 	)
 	default ShiftWithdrawMode bankWithdrawShiftClick()
 	{
@@ -405,7 +487,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "bankDepositShiftClick",
 		name = "Bank Deposit Shift-Click",
-		description = "Swaps the behavior of shift-click when depositing to bank."
+		description = "Swaps the behavior of shift-click when depositing to bank.",
+		section = itemSection
 	)
 	default ShiftDepositMode bankDepositShiftClick()
 	{
@@ -415,7 +498,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "shopBuy",
 		name = "Shop Buy Shift-Click",
-		description = "Swaps the Buy options with Value on items in shops when shift is held."
+		description = "Swaps the Buy options with Value on items in shops when shift is held.",
+		section = uiSection
 	)
 	default BuyMode shopBuy()
 	{
@@ -425,7 +509,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "shopSell",
 		name = "Shop Sell Shift-Click",
-		description = "Swaps the Sell options with Value on items in your inventory when selling to shops when shift is held."
+		description = "Swaps the Sell options with Value on items in your inventory when selling to shops when shift is held.",
+		section = uiSection
 	)
 	default SellMode shopSell()
 	{
@@ -435,7 +520,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "swapEssenceMineTeleport",
 		name = "Essence Mine Teleport",
-		description = "Swaps Talk-To with Teleport for NPCs which teleport you to the essence mine"
+		description = "Swaps Talk-To with Teleport for NPCs which teleport you to the essence mine",
+		section = npcSection
 	)
 	default boolean swapEssenceMineTeleport()
 	{
@@ -445,7 +531,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "swapNets",
 		name = "Nets",
-		description = "Swap Talk-to with Nets on Annette"
+		description = "Swap Talk-to with Nets on Annette",
+		section = npcSection
 	)
 	default boolean swapNets()
 	{
@@ -455,7 +542,8 @@ public interface MenuEntrySwapperConfig extends Config
 	@ConfigItem(
 		keyName = "swapGauntlet",
 		name = "Corrupted Gauntlet",
-		description = "Swap Enter with Enter-corrupted when entering The Gauntlet"
+		description = "Swap Enter with Enter-corrupted when entering The Gauntlet",
+		section = objectSection
 	)
 	default boolean swapGauntlet()
 	{
