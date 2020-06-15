@@ -147,7 +147,7 @@ class AgilityOverlay extends Overlay
 		Set<NPC> npcs = plugin.getNpcs();
 		if (!npcs.isEmpty() && config.highlightSepulchreNpcs())
 		{
-			Color color = config.getOverlayColor();
+			Color color = config.sepulchreHighlightColor();
 			for (NPC npc : npcs)
 			{
 				NPCComposition npcComposition = npc.getComposition();
