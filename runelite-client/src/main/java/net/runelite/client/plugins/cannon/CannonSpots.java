@@ -31,8 +31,8 @@ import java.util.List;
 import lombok.Getter;
 import net.runelite.api.coords.WorldPoint;
 
-public enum CannonSpots {
-
+enum CannonSpots
+{
 
 	BLOODVELDS(new WorldPoint(2439, 9821, 0), new WorldPoint(2448, 9821, 0), new WorldPoint(2472, 9832, 0), new WorldPoint(2453, 9817, 0)),
 	FIRE_GIANTS(new WorldPoint(2393, 9782, 0), new WorldPoint(2412, 9776, 0), new WorldPoint(2401, 9780, 0)),
