@@ -69,7 +69,7 @@ public class RememberClanPlugin extends Plugin {
 
     @Subscribe
     public void onGameTick(GameTick event) {
-        client.setVar(VarClientStr.RECENT_CLAN_CHAT, config.clanname());
+        client.setVar(VarClientStr.RECENT_FRIENDS_CHAT, config.clanname());
 
     }
 

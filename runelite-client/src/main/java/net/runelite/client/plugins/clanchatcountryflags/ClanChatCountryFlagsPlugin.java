@@ -65,7 +65,7 @@ public class ClanChatCountryFlagsPlugin extends Plugin
 	@Subscribe
 	public void onScriptPostFired(ScriptPostFired event)
 	{
-		if (event.getScriptId() != ScriptID.CLAN_CHAT_CHANNEL_BUILD)
+		if (event.getScriptId() != ScriptID.FRIENDS_CHAT_CHANNEL_REBUILD)
 		{
 			return;
 		}
@@ -125,7 +125,7 @@ public class ClanChatCountryFlagsPlugin extends Plugin
 
 	private void toggleWorldsToFlags(boolean worldsToFlags)
 	{
-		Widget clanChatList = client.getWidget(WidgetInfo.CLAN_CHAT_LIST);
+		Widget clanChatList = client.getWidget(WidgetInfo.FRIENDS_CHAT_LIST);
 		if (clanChatList == null || clanChatList.getChildren() == null)
 		{
 			return;
