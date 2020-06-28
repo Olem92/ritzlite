@@ -206,7 +206,6 @@ public class ClientUI
 					currentButton.setSelected(false);
 					currentNavButton.setSelected(false);
 					currentButton = null;
-					currentNavButton = null;
 				}
 				else
 				{
@@ -383,7 +382,6 @@ public class ClientUI
 					toggleSidebar();
 				}
 			};
-
 			sidebarListener.setEnabledOnLogin(true);
 			keyManager.registerKeyListener(sidebarListener);
 
@@ -395,7 +393,7 @@ public class ClientUI
 					togglePluginPanel();
 				}
 			};
-
+			pluginPanelListener.setEnabledOnLogin(true);
 			keyManager.registerKeyListener(pluginPanelListener);
 
 			// Add mouse listener
@@ -413,7 +411,6 @@ public class ClientUI
 					return mouseEvent;
 				}
 			};
-
 			mouseManager.registerMouseListener(mouseListener);
 
 			// Decorate window with custom chrome and titlebar if needed

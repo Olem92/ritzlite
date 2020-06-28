@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2018, TheLonelyDev <https://github.com/TheLonelyDev>
- * Copyright (c) 2018, Adam <Adam@sigterm.info>
+ * Copyright (c) 2020, Adam <Adam@sigterm.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,45 +22,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.groundmarkers;
+package net.runelite.api;
 
-import java.awt.event.KeyEvent;
-import javax.inject.Inject;
-import net.runelite.client.input.KeyListener;
-
-public class GroundMarkerInputListener implements KeyListener
+/**
+ * Jagex key codes
+ */
+public final class KeyCode
 {
-	private static final int HOTKEY = KeyEvent.VK_SHIFT;
-
-	private final GroundMarkerPlugin plugin;
-
-	@Inject
-	private GroundMarkerInputListener(GroundMarkerPlugin plugin)
-	{
-		this.plugin = plugin;
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e)
-	{
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e)
-	{
-		if (e.getKeyCode() == HOTKEY)
-		{
-			plugin.setHotKeyPressed(true);
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		if (e.getKeyCode() == HOTKEY)
-		{
-			plugin.setHotKeyPressed(false);
-		}
-	}
+	public static final int KC_SHIFT = 81;
 }
