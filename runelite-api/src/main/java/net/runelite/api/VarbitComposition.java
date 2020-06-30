@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017, Adam <Adam@sigterm.info>
+ * Copyright (c) 2020, Adam <Adam@sigterm.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,46 +22,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.cache.util;
+package net.runelite.api;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import net.runelite.http.api.RuneLiteAPI;
-import net.runelite.http.api.xtea.XteaClient;
-import net.runelite.http.api.xtea.XteaKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class XteaKeyManager
+public interface VarbitComposition
 {
-	private static final Logger logger = LoggerFactory.getLogger(XteaKeyManager.class);
+	/**
+	 * The varp index for this varbit
+	 *
+	 * @return
+	 */
+	int getIndex();
 
-	private final Map<Integer, int[]> keys = new HashMap<>();
+	/**
+	 * The least significant bit of the varbit
+	 *
+	 * @return
+	 */
+	int getLeastSignificantBit();
 
-	public void loadKeys()
-	{
-		XteaClient xteaClient = new XteaClient(RuneLiteAPI.CLIENT);
-
-		try
-		{
-			for (XteaKey key : xteaClient.get())
-			{
-				keys.put(key.getRegion(), key.getKeys());
-			}
-		}
-		catch (IOException ex)
-		{
-			// happens on release when it is not deployed yet
-			logger.debug("unable to load xtea keys", ex);
-			return;
-		}
-
-		logger.info("Loaded {} keys", keys.size());
-	}
-
-	public int[] getKeys(int region)
-	{
-		return keys.get(region);
-	}
+	/**
+	 * The most significant bit of the varbit (inclusive)
+	 *
+	 * @return
+	 */
+	int getMostSignificantBit();
 }
