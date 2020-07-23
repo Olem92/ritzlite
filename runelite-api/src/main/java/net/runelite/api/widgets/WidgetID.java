@@ -155,7 +155,6 @@ public class WidgetID
 	public static final int GENERIC_SCROLL_GROUP_ID = 625;
 	public static final int GAUNTLET_TIMER_GROUP_ID = 637;
 	public static final int HALLOWED_SEPULCHRE_TIMER_GROUP_ID = 668;
-	public static final int BANK_PIN_GROUP_ID = 213;
 	public static final int HEALTH_OVERLAY_BAR_GROUP_ID = 303;
 
 	static class WorldMap
@@ -932,11 +931,6 @@ public class WidgetID
 	static class HallowedSepulchreTimer
 	{
 		static final int CONTAINER = 2;
-	}
-
-	static class BankPin
-	{
-		static final int CONTAINER = 0;
 	}
 
 	static class EncounterHealthBar

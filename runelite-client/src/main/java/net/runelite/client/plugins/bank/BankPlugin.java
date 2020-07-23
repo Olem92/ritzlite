@@ -67,9 +67,9 @@ import net.runelite.client.plugins.banktags.tabs.BankSearch;
 import net.runelite.client.util.QuantityFormatter;
 
 @PluginDescriptor(
-	name = "Bank",
-	description = "Modifications to the banking interface",
-	tags = {"grand", "exchange", "high", "alchemy", "prices", "deposit"}
+		name = "Bank",
+		description = "Modifications to the banking interface",
+		tags = {"grand", "exchange", "high", "alchemy", "prices", "deposit"}
 )
 @Slf4j
 public class BankPlugin extends Plugin
@@ -78,12 +78,11 @@ public class BankPlugin extends Plugin
 	private static final String DEPOSIT_INVENTORY = "Deposit inventory";
 	private static final String DEPOSIT_LOOT = "Deposit loot";
 	private static final String SEED_VAULT_TITLE = "Seed Vault";
-	private static final int PIN_FONT_OFFSET = 5;
 
 	private static final String NUMBER_REGEX = "[0-9]+(\\.[0-9]+)?[kmb]?";
 	private static final Pattern VALUE_SEARCH_PATTERN = Pattern.compile("^(?<mode>ge|ha|alch)?" +
-		" *(((?<op>[<>=]|>=|<=) *(?<num>" + NUMBER_REGEX + "))|" +
-		"((?<num1>" + NUMBER_REGEX + ") *- *(?<num2>" + NUMBER_REGEX + ")))$", Pattern.CASE_INSENSITIVE);
+			" *(((?<op>[<>=]|>=|<=) *(?<num>" + NUMBER_REGEX + "))|" +
+			"((?<num1>" + NUMBER_REGEX + ") *- *(?<num2>" + NUMBER_REGEX + ")))$", Pattern.CASE_INSENSITIVE);
 
 	@Inject
 	private Client client;
@@ -132,8 +131,8 @@ public class BankPlugin extends Plugin
 		for (MenuEntry entry : menuEntries)
 		{
 			if ((entry.getOption().equals(DEPOSIT_WORN) && config.rightClickBankEquip())
-				|| (entry.getOption().equals(DEPOSIT_INVENTORY) && config.rightClickBankInventory())
-				|| (entry.getOption().equals(DEPOSIT_LOOT) && config.rightClickBankLoot()))
+					|| (entry.getOption().equals(DEPOSIT_INVENTORY) && config.rightClickBankInventory())
+					|| (entry.getOption().equals(DEPOSIT_LOOT) && config.rightClickBankLoot()))
 			{
 				event.setForceRightClick(true);
 				return;
@@ -145,8 +144,8 @@ public class BankPlugin extends Plugin
 	public void onMenuEntryAdded(MenuEntryAdded event)
 	{
 		if ((event.getOption().equals(DEPOSIT_WORN) && config.rightClickBankEquip())
-			|| (event.getOption().equals(DEPOSIT_INVENTORY) && config.rightClickBankInventory())
-			|| (event.getOption().equals(DEPOSIT_LOOT) && config.rightClickBankLoot()))
+				|| (event.getOption().equals(DEPOSIT_INVENTORY) && config.rightClickBankInventory())
+				|| (event.getOption().equals(DEPOSIT_LOOT) && config.rightClickBankLoot()))
 		{
 			forceRightClickFlag = true;
 		}
@@ -155,10 +154,6 @@ public class BankPlugin extends Plugin
 	@Subscribe
 	public void onScriptCallbackEvent(ScriptCallbackEvent event)
 	{
-		if (event.getEventName().equals("bankPinButtons") && config.largePinNumbers())
-		{
-			updateBankPinSizes();
-		}
 		int[] intStack = client.getIntStack();
 		String[] stringStack = client.getStringStack();
 		int intStackSize = client.getIntStackSize();
@@ -362,39 +357,6 @@ public class BankPlugin extends Plugin
 		}
 
 		return itemContainer.getItems();
-	}
-	private void updateBankPinSizes()
-	{
-		for (final WidgetInfo widgetInfo : BANK_PINS)
-		{
-			final Widget pin = client.getWidget(widgetInfo);
-			if (pin == null)
-			{
-				continue;
-			}
-
-			final Widget[] children = pin.getDynamicChildren();
-			if (children.length < 2)
-			{
-				continue;
-			}
-
-			final Widget button = children[0];
-			final Widget number = children[1];
-
-			// Change to a bigger font size
-			number.setFontId(FontID.QUILL_CAPS_LARGE);
-			number.setYTextAlignment(0);
-
-			// Change size to match container widths
-			number.setOriginalWidth(button.getWidth());
-			// The large font id text isn't centered, we need to offset it slightly
-			number.setOriginalHeight(button.getHeight() + PIN_FONT_OFFSET);
-			number.setOriginalY(-PIN_FONT_OFFSET);
-			number.setOriginalX(0);
-
-			number.revalidate();
-		}
 	}
 
 
