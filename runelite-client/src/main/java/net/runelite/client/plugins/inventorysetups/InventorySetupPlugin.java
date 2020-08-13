@@ -263,7 +263,7 @@ public class InventorySetupPlugin extends Plugin
 		if (currentSelectedSetup != null && currentSelectedSetup.isFilterBank())
 		{
 			client.setVarbit(Varbits.CURRENT_BANK_TAB, 0);
-			bankSearch.search(InputType.SEARCH, INV_SEARCH + currentSelectedSetup.getName(), true);
+			//bankSearch.search(InputType.SEARCH, INV_SEARCH + currentSelectedSetup.getName(), true);
 		}
 	}
 
