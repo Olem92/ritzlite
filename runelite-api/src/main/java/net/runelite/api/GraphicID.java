@@ -61,4 +61,5 @@ public class GraphicID {
     public static final int TEKTON = 659;
     public static final int FALLING_SNOW = 1311;
     public static final int BROKEN_BRAZIER = 502;
+    public static final int GRAPHICS_OBJECT_ROCKFALL = 1727;
 }
