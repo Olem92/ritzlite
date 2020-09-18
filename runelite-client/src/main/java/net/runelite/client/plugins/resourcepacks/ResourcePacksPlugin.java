@@ -28,7 +28,8 @@ import net.runelite.client.util.ImageUtil;
 import okhttp3.HttpUrl;
 
 @PluginDescriptor(
-	name = "Resource packs"
+	name = "Resource packs",
+		tags = {"ritzlite", "cox"}
 )
 public class ResourcePacksPlugin extends Plugin
 {
