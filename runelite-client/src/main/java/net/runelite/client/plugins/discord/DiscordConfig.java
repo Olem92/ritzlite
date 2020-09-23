@@ -43,6 +43,17 @@ public interface DiscordConfig extends Config {
     }
 
 	@ConfigItem(
+			keyName = "hideElapsedTime",
+			name = "Hide elapsed time",
+			description = "Configures if the elapsed time of your activity should be hidden.",
+			position = 2
+	)
+	default boolean hideElapsedTime()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "showSkillActivity",
 		name = "Skilling",
 		description = "Show your activity while training skills",
