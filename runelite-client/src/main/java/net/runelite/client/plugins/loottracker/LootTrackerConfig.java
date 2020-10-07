@@ -77,14 +77,15 @@ public interface LootTrackerConfig extends Config
         return false;
     }
 
-    @ConfigItem(
-            keyName = "saveLoot",
-            name = "Submit loot tracker data",
-            description = "Submit loot tracker data (requires being logged in)"
-    )
-    default boolean saveLoot() {
-        return true;
-    }
+	@ConfigItem(
+		keyName = "saveLoot",
+		name = "Submit loot tracker data",
+		description = "Submit loot tracker data"
+	)
+	default boolean saveLoot()
+	{
+		return true;
+	}
 
 	@ConfigItem(
 		keyName = "syncPanel",
