@@ -41,15 +41,13 @@ import net.runelite.client.plugins.cluescrolls.clues.item.AnyRequirementCollecti
 import net.runelite.client.plugins.cluescrolls.clues.item.ItemRequirement;
 import static net.runelite.client.plugins.cluescrolls.clues.item.ItemRequirements.item;
 import net.runelite.client.plugins.cluescrolls.clues.item.SingleItemRequirement;
-import net.runelite.client.ui.overlay.Overlay;
 import static net.runelite.client.ui.overlay.OverlayManager.OPTION_CONFIGURE;
 import net.runelite.client.ui.overlay.OverlayMenuEntry;
+import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPriority;
-import net.runelite.client.ui.overlay.components.ComponentConstants;
 import net.runelite.client.ui.overlay.components.LineComponent;
-import net.runelite.client.ui.overlay.components.PanelComponent;
 
-public class ClueScrollOverlay extends Overlay
+public class ClueScrollOverlay extends OverlayPanel
 {
 	private static final ItemRequirement HAS_SPADE = new SingleItemRequirement(SPADE);
 	private static final ItemRequirement HAS_LIGHT = new AnyRequirementCollection("Light Source",
@@ -65,7 +63,6 @@ public class ClueScrollOverlay extends Overlay
 		item(EMERALD_LANTERN_9065),
 		item(MINING_HELMET),
 		item(FIREMAKING_CAPE),
-		item(FIREMAKING_CAPE_10659),
 		item(FIREMAKING_CAPET),
 		item(KANDARIN_HEADGEAR_1),
 		item(KANDARIN_HEADGEAR_2),
@@ -73,13 +70,11 @@ public class ClueScrollOverlay extends Overlay
 		item(KANDARIN_HEADGEAR_4),
 		item(BRUMA_TORCH),
 		item(MAX_CAPE),
-		item(MAX_CAPE_13282),
 		item(MAX_CAPE_13342));
 
 	public static final Color TITLED_CONTENT_COLOR = new Color(190, 190, 190);
 
 	private final ClueScrollPlugin plugin;
-	private final PanelComponent panelComponent = new PanelComponent();
 	private final Client client;
 
 	@Inject
@@ -102,9 +97,6 @@ public class ClueScrollOverlay extends Overlay
 		{
 			return null;
 		}
-
-		panelComponent.getChildren().clear();
-		panelComponent.setPreferredSize(new Dimension(ComponentConstants.STANDARD_WIDTH, 0));
 
 		clue.makeOverlayHint(panelComponent, plugin);
 
@@ -129,6 +121,15 @@ public class ClueScrollOverlay extends Overlay
 			panelComponent.getChildren().add(LineComponent.builder().left("Requires Light Source!").leftColor(Color.RED).build());
 		}
 
-		return panelComponent.render(graphics);
+		if (clue.getEnemy() != null)
+		{
+			panelComponent.getChildren().add(LineComponent.builder().left("").build());
+			panelComponent.getChildren().add(LineComponent.builder()
+				.left(clue.getEnemy().getText())
+				.leftColor(Color.YELLOW)
+				.build());
+		}
+
+		return super.render(graphics);
 	}
 }

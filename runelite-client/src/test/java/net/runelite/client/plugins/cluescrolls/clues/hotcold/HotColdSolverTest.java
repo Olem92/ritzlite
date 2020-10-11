@@ -109,11 +109,13 @@ public class HotColdSolverTest
 		final HotColdSolver solver = createHotColdSolver();
 		final Set<HotColdLocation> firstLocationsSet = Sets.immutableEnumSet(
 			HotColdLocation.FELDIP_HILLS_GNOME_GLITER,
+			HotColdLocation.FELDIP_HILLS_RANTZ,
 			HotColdLocation.FELDIP_HILLS_RED_CHIN,
 			HotColdLocation.KARAMJA_KHARAZI_NE,
 			HotColdLocation.KARAMJA_CRASH_ISLAND);
 		final Set<HotColdLocation> secondLocationsSet = firstLocationsSet.stream()
-			.filter(location -> location != HotColdLocation.FELDIP_HILLS_GNOME_GLITER)
+			.filter(location -> location != HotColdLocation.FELDIP_HILLS_GNOME_GLITER
+				&& location != HotColdLocation.FELDIP_HILLS_RANTZ)
 			.collect(Collectors.toSet());
 		final Set<HotColdLocation> thirdLocationSet = secondLocationsSet.stream()
 			.filter(location -> location != HotColdLocation.FELDIP_HILLS_RED_CHIN)
@@ -139,7 +141,6 @@ public class HotColdSolverTest
 				HotColdLocation.KARAMJA_KHARAZI_SW,
 				HotColdLocation.KARAMJA_CRASH_ISLAND,
 				HotColdLocation.FELDIP_HILLS_SW,
-				HotColdLocation.FELDIP_HILLS_RANTZ,
 				HotColdLocation.FELDIP_HILLS_RED_CHIN,
 				HotColdLocation.FELDIP_HILLS_SE));
 
@@ -211,7 +212,7 @@ public class HotColdSolverTest
 	}
 
 	/**
-	 * Tests a hot-cold solver by signalling a test point, temperature, and temperature change to it and asserting the
+	 * Tests a hot-cold solver by signalling a petoptions point, temperature, and temperature change to it and asserting the
 	 * resulting possible location set is equal to that of a given set of expected locations.
 	 *
 	 * @param solver                             The hot-cold solver to signal to.
@@ -237,7 +238,7 @@ public class HotColdSolverTest
 	/**
 	 * @return A hot-cold solver with a starting set of master hot-cold locations nearby the KARAMJA_KHARAZI_NE
 	 *         location. {@link HotColdLocation#values()} is not used as it may change with future game updates, and
-	 *         such changes would break this test suite.
+	 *         such changes would break this petoptions suite.
 	 */
 	private static HotColdSolver createHotColdSolver()
 	{

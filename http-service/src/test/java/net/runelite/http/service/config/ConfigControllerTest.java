@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ConfigController.class)
-@ActiveProfiles("test")
+@ActiveProfiles("petoptions")
 public class ConfigControllerTest
 {
 	@Autowired

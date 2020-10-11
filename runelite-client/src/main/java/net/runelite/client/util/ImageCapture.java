@@ -25,6 +25,7 @@
  */
 package net.runelite.client.util;
 
+import com.google.common.base.Strings;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.datatransfer.Clipboard;
@@ -34,12 +35,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.EnumSet;
+import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -56,6 +59,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -74,16 +78,20 @@ public class ImageCapture
 	@Inject
 	private Notifier notifier;
 
+	@Inject
+	private OkHttpClient okHttpClient;
+
 	/**
 	 * Saves a screenshot of the client window to the screenshot folder as a PNG,
 	 * and optionally uploads it to an image-hosting service.
 	 *
 	 * @param screenshot BufferedImage to capture.
 	 * @param fileName Filename to use, without file extension.
+	 * @param subDir Directory within the player screenshots dir to store the captured screenshot to.
 	 * @param notify Send a notification to the system tray when the image is captured.
 	 * @param imageUploadStyle which method to use to upload the screenshot (Imgur or directly to clipboard).
 	 */
-	public void takeScreenshot(BufferedImage screenshot, String fileName, boolean notify, ImageUploadStyle imageUploadStyle)
+	public void takeScreenshot(BufferedImage screenshot, String fileName, @Nullable String subDir, boolean notify, ImageUploadStyle imageUploadStyle)
 	{
 		if (client.getGameState() == GameState.LOGIN_SCREEN)
 		{
@@ -106,6 +114,12 @@ public class ImageCapture
 			{
 				playerDir += "-League";
 			}
+
+			if (!Strings.isNullOrEmpty(subDir))
+			{
+				playerDir += File.separator + subDir;
+			}
+
 			playerFolder = new File(SCREENSHOT_DIR, playerDir);
 		}
 		else
@@ -158,6 +172,20 @@ public class ImageCapture
 	}
 
 	/**
+	 * Saves a screenshot of the client window to the screenshot folder as a PNG,
+	 * and optionally uploads it to an image-hosting service.
+	 *
+	 * @param screenshot BufferedImage to capture.
+	 * @param fileName Filename to use, without file extension.
+	 * @param notify Send a notification to the system tray when the image is captured.
+	 * @param imageUploadStyle which method to use to upload the screenshot (Imgur or directly to clipboard).
+	 */
+	public void takeScreenshot(BufferedImage screenshot, String fileName, boolean notify, ImageUploadStyle imageUploadStyle)
+	{
+		takeScreenshot(screenshot, fileName, null, notify, imageUploadStyle);
+	}
+
+	/**
 	 * Uploads a screenshot to the Imgur image-hosting service,
 	 * and copies the image link to the clipboard.
 	 *
@@ -174,7 +202,7 @@ public class ImageCapture
 			.post(RequestBody.create(JSON, json))
 			.build();
 
-		RuneLiteAPI.CLIENT.newCall(request).enqueue(new Callback()
+		okHttpClient.newCall(request).enqueue(new Callback()
 		{
 			@Override
 			public void onFailure(Call call, IOException ex)
@@ -188,7 +216,7 @@ public class ImageCapture
 				try (InputStream in = response.body().byteStream())
 				{
 					ImageUploadResponse imageUploadResponse = RuneLiteAPI.GSON
-						.fromJson(new InputStreamReader(in), ImageUploadResponse.class);
+						.fromJson(new InputStreamReader(in, StandardCharsets.UTF_8), ImageUploadResponse.class);
 
 					if (imageUploadResponse.isSuccess())
 					{

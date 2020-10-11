@@ -29,6 +29,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import javax.inject.Inject;
 
 import lombok.AccessLevel;
@@ -46,62 +47,74 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 
-public class CannonSpotOverlay extends Overlay {
-    private static final int MAX_DISTANCE = 2350;
+class CannonSpotOverlay extends Overlay
+{
+	private static final int MAX_DISTANCE = 2350;
 
-    private final Client client;
-    private final CannonPlugin plugin;
-    private final CannonConfig config;
+	private final Client client;
+	private final CannonPlugin plugin;
+	private final CannonConfig config;
 
-    @Inject
-    private ItemManager itemManager;
+	@Inject
+	private ItemManager itemManager;
 
-    @Setter(AccessLevel.PACKAGE)
-    private boolean hidden;
+	@Setter(AccessLevel.PACKAGE)
+	private boolean hidden;
 
-    @Inject
-    CannonSpotOverlay(Client client, CannonPlugin plugin, CannonConfig config) {
-        setPosition(OverlayPosition.DYNAMIC);
-        this.client = client;
-        this.plugin = plugin;
-        this.config = config;
-    }
+	@Inject
+	CannonSpotOverlay(Client client, CannonPlugin plugin, CannonConfig config)
+	{
+		setPosition(OverlayPosition.DYNAMIC);
+		this.client = client;
+		this.plugin = plugin;
+		this.config = config;
+	}
 
-    @Override
-    public Dimension render(Graphics2D graphics) {
-        if (hidden || !config.showCannonSpots() || plugin.isCannonPlaced()) {
-            return null;
-        }
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		List<WorldPoint> spotPoints = plugin.getSpotPoints();
 
-        for (WorldPoint spot : plugin.getSpotPoints()) {
-            if (spot.getPlane() != client.getPlane()) {
-                continue;
-            }
+		if (hidden || spotPoints.isEmpty() || !config.showCannonSpots() || plugin.isCannonPlaced())
+		{
+			return null;
+		}
 
-            LocalPoint spotPoint = LocalPoint.fromWorld(client, spot);
-            LocalPoint localLocation = client.getLocalPlayer().getLocalLocation();
+		for (WorldPoint spot : spotPoints)
+		{
+			if (spot.getPlane() != client.getPlane())
+			{
+				continue;
+			}
 
-            if (spotPoint != null && localLocation.distanceTo(spotPoint) <= MAX_DISTANCE) {
-                renderCannonSpot(graphics, client, spotPoint, itemManager.getImage(CANNONBALL), Color.RED);
-            }
-        }
+			LocalPoint spotPoint = LocalPoint.fromWorld(client, spot);
+			LocalPoint localLocation = client.getLocalPlayer().getLocalLocation();
 
-        return null;
-    }
+			if (spotPoint != null && localLocation.distanceTo(spotPoint) <= MAX_DISTANCE)
+			{
+				renderCannonSpot(graphics, client, spotPoint, itemManager.getImage(CANNONBALL), Color.RED);
+			}
+		}
 
-    private void renderCannonSpot(Graphics2D graphics, Client client, LocalPoint point, BufferedImage image, Color color) {
-        //Render tile
-        Polygon poly = Perspective.getCanvasTilePoly(client, point);
+		return null;
+	}
 
-        if (poly != null) {
-            OverlayUtil.renderPolygon(graphics, poly, color);
-        }
+	private void renderCannonSpot(Graphics2D graphics, Client client, LocalPoint point, BufferedImage image, Color color)
+	{
+		//Render tile
+		Polygon poly = Perspective.getCanvasTilePoly(client, point);
 
-        //Render icon
-        Point imageLoc = Perspective.getCanvasImageLocation(client, point, image, 0);
+		if (poly != null)
+		{
+			OverlayUtil.renderPolygon(graphics, poly, color);
+		}
 
-        if (imageLoc != null) {
-            OverlayUtil.renderImageLocation(graphics, imageLoc, image);
-        }
-    }
+		//Render icon
+		Point imageLoc = Perspective.getCanvasImageLocation(client, point, image, 0);
+
+		if (imageLoc != null)
+		{
+			OverlayUtil.renderImageLocation(graphics, imageLoc, image);
+		}
+	}
 }

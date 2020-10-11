@@ -12,12 +12,30 @@ import net.runelite.client.plugins.easyscape.util.GloryMode;
 public interface EasySwapConfig extends Config {
 
     @ConfigItem(
+            keyName = "swapEasyDropRedwoods",
+            name = "Redwoods easy drop",
+            description = "Enables drop as the first option on the menu."
+    )
+    default boolean swapEasyDropRedwoods() {
+        return false;
+    }
+
+    @ConfigItem(
+            keyName = "swapEasyDropTeaks",
+            name = "Teaks easy drop",
+            description = "Enables drop as first option on the menu."
+    )
+    default boolean swapEasyDropTeaks() {
+        return false;
+    }
+
+    @ConfigItem(
             keyName = "swapEasyDropFish",
             name = "Barb fishing easy drop",
-            description = "Makes drop the first option in the menu"
+            description = "Enables drop as the first option on the menu."
     )
     default boolean swapEasyDropFish() {
-        return true;
+        return false;
     }
 
     @ConfigItem(
@@ -139,7 +157,7 @@ public interface EasySwapConfig extends Config {
     default EssenceMode getEssenceMode() {
         return EssenceMode.RUNECRAFTING;
     }
-
+/*
     @ConfigItem(
             keyName = "swapGamesNecklace",
             name = "Swap Games Necklace",
@@ -236,5 +254,5 @@ public interface EasySwapConfig extends Config {
 
     default GloryMode getSGloryMode() {
         return GloryMode.KARAMJA;
-    }
+    }*/
 }

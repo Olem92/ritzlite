@@ -30,93 +30,96 @@ import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
 @ConfigGroup("bank")
-public interface BankConfig extends Config
-{
-	@ConfigItem(
-		keyName = "showGE",
-		name = "Show Grand Exchange price",
-		description = "Show grand exchange price total (GE)",
-		position = 1
-	)
-	default boolean showGE()
-	{
-		return true;
-	}
+public interface BankConfig extends Config {
+    @ConfigItem(
+            keyName = "showGE",
+            name = "Show Grand Exchange price",
+            description = "Show grand exchange price total (GE)",
+            position = 1
+    )
+    default boolean showGE() {
+        return true;
+    }
 
-	@ConfigItem(
-		keyName = "showHA",
-		name = "Show high alchemy price",
-		description = "Show high alchemy price total (HA)",
-		position = 2
-	)
-	default boolean showHA()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "showHA",
+            name = "Show high alchemy price",
+            description = "Show high alchemy price total (HA)",
+            position = 2
+    )
+    default boolean showHA() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "showExact",
-		name = "Show exact bank value",
-		description = "Show exact bank value",
-		position = 3
-	)
-	default boolean showExact()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "showExact",
+            name = "Show exact bank value",
+            description = "Show exact bank value",
+            position = 3
+    )
+    default boolean showExact() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "rightClickBankInventory",
-		name = "Disable left click bank inventory",
-		description = "Configures whether the bank inventory button will bank your inventory on left click",
-		position = 4
-	)
-	default boolean rightClickBankInventory()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "rightClickBankInventory",
+            name = "Disable left click bank inventory",
+            description = "Configures whether the bank inventory button will bank your inventory on left click",
+            position = 4
+    )
+    default boolean rightClickBankInventory() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "rightClickBankEquip",
-		name = "Disable left click bank equipment",
-		description = "Configures whether the bank equipment button will bank your equipment on left click",
-		position = 5
-	)
-	default boolean rightClickBankEquip()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "rightClickBankEquip",
+            name = "Disable left click bank equipment",
+            description = "Configures whether the bank equipment button will bank your equipment on left click",
+            position = 5
+    )
+    default boolean rightClickBankEquip() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "rightClickBankLoot",
-		name = "Disable left click bank looting bag",
-		description = "Configures whether the bank looting bag button will bank your looting bag contents on left click",
-		position = 6
-	)
-	default boolean rightClickBankLoot()
-	{
-		return false;
-	}
+    @ConfigItem(
+            keyName = "rightClickBankLoot",
+            name = "Disable left click bank looting bag",
+            description = "Configures whether the bank looting bag button will bank your looting bag contents on left click",
+            position = 6
+    )
+    default boolean rightClickBankLoot() {
+        return false;
+    }
 
-	@ConfigItem(
-		keyName = "seedVaultValue",
-		name = "Show seed vault value",
-		description = "Adds the total value of all seeds inside the seed vault to the title",
-		position = 7
-	)
-	default boolean seedVaultValue()
-	{
-		return true;
-	}
+    @ConfigItem(
+            keyName = "seedVaultValue",
+            name = "Show seed vault value",
+            description = "Adds the total value of all seeds inside the seed vault to the title",
+            position = 7
+    )
+    default boolean seedVaultValue() {
+        return true;
+    }
 
-	@ConfigItem(
-			keyName = "largePinNumbers",
-			name = "Large bank pin numbers",
-			description = "Enlarges and centers the numbers inside the bank pin buttons",
-			position = 8
-	)
-	default boolean largePinNumbers()
-	{
-		return true;
-	}
+    @ConfigItem(
+
+            keyName = "largePinNumbers",
+            name = "Large bank pin numbers",
+            description = "Enlarges and centers the numbers inside the bank pin buttons",
+            position = 8
+    )
+    default boolean largePinNumbers() {
+        return true;
+    }
+
+    @ConfigItem(
+            keyName = "bankPinKeyboard",
+            name = "Keyboard Bankpin",
+            description = "Allows using the keyboard keys for bank pin input",
+            position = 9
+    )
+    default boolean bankPinKeyboard() {
+        return false;
+
+    }
 }

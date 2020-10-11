@@ -54,22 +54,22 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(3, combatLevel);
 
-		// test attack/strength
+		// petoptions attack/strength
 		assertEquals(2, meleeNeed);
 
-		// test defence/hitpoints
+		// petoptions defence/hitpoints
 		assertEquals(3, hpDefNeed);
 
-		// test ranged
+		// petoptions ranged
 		assertEquals(2, rangeNeed);
 
-		// test magic
+		// petoptions magic
 		assertEquals(2, magicNeed);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(5, prayerNeed);
 	}
 
@@ -97,22 +97,22 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(12, combatLevel);
 
-		// test attack/strength
+		// petoptions attack/strength
 		assertEquals(1, meleeNeed);
 
-		// test defence/hitpoints
+		// petoptions defence/hitpoints
 		assertEquals(1, hpDefNeed);
 
-		// test ranged
+		// petoptions ranged
 		assertEquals(4, rangeNeed);
 
-		// test magic
+		// petoptions magic
 		assertEquals(4, magicNeed);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(2, prayerNeed);
 	}
 
@@ -141,22 +141,22 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(83, combatLevel);
 
-		// test attack/strength
+		// petoptions attack/strength
 		assertEquals(2, meleeNeed);
 
-		// test defence/hitpoints
+		// petoptions defence/hitpoints
 		assertEquals(2, hpDefNeed);
 
-		// test ranged
+		// petoptions ranged
 		assertEquals(17, rangeNeed);
 
-		// test magic
+		// petoptions magic
 		assertEquals(19, magicNeed);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(4, prayerNeed);
 	}
 
@@ -185,22 +185,22 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(43, combatLevel);
 
-		// test attack/strength
+		// petoptions attack/strength
 		assertEquals(18, meleeNeed);
 
-		// test defence/hitpoints
+		// petoptions defence/hitpoints
 		assertEquals(2, hpDefNeed);
 
-		// test ranged
+		// petoptions ranged
 		assertEquals(14, rangeNeed);
 
-		// test magic
+		// petoptions magic
 		assertEquals(1, magicNeed);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(3, prayerNeed);
 	}
 
@@ -226,16 +226,16 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(90, combatLevel);
 
-		// test attack/strength
+		// petoptions attack/strength
 		assertEquals(2, meleeNeed);
 
-		// test defence/hitpoints
+		// petoptions defence/hitpoints
 		assertEquals(2, hpDefNeed);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(4, prayerNeed);
 	}
 
@@ -255,10 +255,10 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(124, combatLevel);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(1, prayerNeed);
 	}
 
@@ -278,10 +278,10 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(90, combatLevel);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(2, prayerNeed);
 	}
 
@@ -301,10 +301,10 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(90, combatLevel);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(1, prayerNeed);
 	}
 
@@ -332,22 +332,22 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(52, combatLevel);
 
-		// test attack/strength
+		// petoptions attack/strength
 		assertEquals(3, meleeNeed);
 
-		// test defence/hitpoints
+		// petoptions defence/hitpoints
 		assertEquals(3, hpDefNeed);
 
-		// test ranged
+		// petoptions ranged
 		assertEquals(18, rangeNeed);
 
-		// test magic
+		// petoptions magic
 		assertEquals(1, magicNeed);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(5, prayerNeed);
 	}
 
@@ -375,22 +375,22 @@ public class CombatLevelPluginTest
 		int prayerNeed = Experience.getNextCombatLevelPrayer(attackLevel, strengthLevel, defenceLevel, hitpointsLevel,
 			magicLevel, rangeLevel, prayerLevel);
 
-		// test combat level
+		// petoptions combat level
 		assertEquals(68, combatLevel);
 
-		// test attack/strength
+		// petoptions attack/strength
 		assertEquals(3, meleeNeed);
 
-		// test defence/hitpoints
+		// petoptions defence/hitpoints
 		assertEquals(4, hpDefNeed);
 
-		// test ranged
+		// petoptions ranged
 		assertEquals(3, rangeNeed);
 
-		// test magic
+		// petoptions magic
 		assertEquals(3, magicNeed);
 
-		// test prayer
+		// petoptions prayer
 		assertEquals(8, prayerNeed);
 	}
 }

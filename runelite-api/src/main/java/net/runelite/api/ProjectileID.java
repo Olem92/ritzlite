@@ -85,4 +85,6 @@ public class ProjectileID
 	public static final int VORKATH_VENOM = 1470;
 	public static final int VORKATH_ICE = 350;
 	public static final int VORKATH_FREEZE = 395;
+
+	public static final int ZALCANO_PROJECTILE_FIREBALL = 1728;
 }

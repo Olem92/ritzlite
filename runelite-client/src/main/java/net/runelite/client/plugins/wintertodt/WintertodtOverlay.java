@@ -31,42 +31,41 @@ import java.awt.Graphics2D;
 import javax.inject.Inject;
 
 import static net.runelite.api.MenuAction.RUNELITE_OVERLAY_CONFIG;
-
-import net.runelite.client.ui.overlay.Overlay;
-
 import static net.runelite.client.ui.overlay.OverlayManager.OPTION_CONFIGURE;
 
 import net.runelite.client.ui.overlay.OverlayMenuEntry;
+import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.components.LineComponent;
-import net.runelite.client.ui.overlay.components.PanelComponent;
 import net.runelite.client.ui.overlay.components.TitleComponent;
 
-class WintertodtOverlay extends Overlay {
-    private final WintertodtPlugin plugin;
-    private final PanelComponent panelComponent = new PanelComponent();
+class WintertodtOverlay extends OverlayPanel
+{
+	private final WintertodtPlugin plugin;
+	private final WintertodtConfig wintertodtConfig;
 
-    @Inject
-    private WintertodtOverlay(WintertodtPlugin plugin) {
-        super(plugin);
-        this.plugin = plugin;
-        setPosition(OverlayPosition.BOTTOM_LEFT);
-        getMenuEntries().add(new OverlayMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "Wintertodt overlay"));
-    }
+	@Inject
+	private WintertodtOverlay(WintertodtPlugin plugin, WintertodtConfig wintertodtConfig)
+	{
+		super(plugin);
+		this.plugin = plugin;
+		this.wintertodtConfig = wintertodtConfig;
+		setPosition(OverlayPosition.BOTTOM_LEFT);
+		getMenuEntries().add(new OverlayMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "Wintertodt overlay"));
+	}
 
-    @Override
-    public Dimension render(Graphics2D graphics) {
-        if (!plugin.isInWintertodt()) {
-            return null;
-        }
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		if (!plugin.isInWintertodt() || !wintertodtConfig.showOverlay())
+		{
+			return null;
+		}
 
-        panelComponent.getChildren().clear();
-        panelComponent.setPreferredSize(new Dimension(150, 0));
-
-        panelComponent.getChildren().add(TitleComponent.builder()
-                .text(plugin.getCurrentActivity().getActionString())
-                .color(plugin.getCurrentActivity() == WintertodtActivity.IDLE ? Color.RED : Color.GREEN)
-                .build());
+		panelComponent.getChildren().add(TitleComponent.builder()
+			.text(plugin.getCurrentActivity().getActionString())
+			.color(plugin.getCurrentActivity() == WintertodtActivity.IDLE ? Color.RED : Color.GREEN)
+			.build());
 
         String inventoryString = plugin.getNumLogs() > 0 ? plugin.getInventoryScore() + " (" + plugin.getTotalPotentialinventoryScore() + ") pts" : plugin.getInventoryScore() + " pts";
         panelComponent.getChildren().add(LineComponent.builder()
@@ -84,6 +83,6 @@ class WintertodtOverlay extends Overlay {
                 .rightColor(plugin.getNumKindling() + plugin.getNumLogs() > 0 ? Color.GREEN : Color.RED)
                 .build());
 
-        return panelComponent.render(graphics);
-    }
+		return super.render(graphics);
+	}
 }

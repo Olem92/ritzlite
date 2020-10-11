@@ -37,8 +37,8 @@ public class ConfigServiceTest
 		assertEquals(1, ConfigService.parseJsonString("1"));
 		assertEquals(3.14, ConfigService.parseJsonString("3.14"));
 		assertEquals(1L << 32, ConfigService.parseJsonString("4294967296"));
-		assertEquals("test", ConfigService.parseJsonString("test"));
-		assertEquals("test", ConfigService.parseJsonString("\"test\""));
+		assertEquals("petoptions", ConfigService.parseJsonString("petoptions"));
+		assertEquals("petoptions", ConfigService.parseJsonString("\"petoptions\""));
 		assertEquals(ImmutableMap.of("key", "value"), ConfigService.parseJsonString("{\"key\": \"value\"}"));
 	}
 
@@ -47,8 +47,8 @@ public class ConfigServiceTest
 	{
 		assertTrue(ConfigService.validateJson("1"));
 		assertTrue(ConfigService.validateJson("3.14"));
-		assertTrue(ConfigService.validateJson("test"));
-		assertTrue(ConfigService.validateJson("\"test\""));
+		assertTrue(ConfigService.validateJson("petoptions"));
+		assertTrue(ConfigService.validateJson("\"petoptions\""));
 		assertTrue(ConfigService.validateJson("key:value"));
 		assertTrue(ConfigService.validateJson("{\"key\": \"value\"}"));
 	}

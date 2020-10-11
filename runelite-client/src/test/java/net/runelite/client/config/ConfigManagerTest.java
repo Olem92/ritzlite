@@ -27,11 +27,14 @@ package net.runelite.client.config;
 import com.google.inject.Guice;
 import com.google.inject.testing.fieldbinder.Bind;
 import com.google.inject.testing.fieldbinder.BoundFieldModule;
+import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.inject.Inject;
+import javax.inject.Named;
+import net.runelite.client.RuneLite;
 import net.runelite.client.account.AccountSession;
 import net.runelite.client.eventbus.EventBus;
 import org.junit.Assert;
@@ -56,6 +59,14 @@ public class ConfigManagerTest
 	@Bind
 	RuneLiteConfig runeliteConfig;
 
+	@Bind
+	@Named("sessionfile")
+	File sessionfile = RuneLite.DEFAULT_SESSION_FILE;
+
+	@Bind
+	@Named("config")
+	File config = RuneLite.DEFAULT_CONFIG_FILE;
+
 	@Inject
 	ConfigManager manager;
 
@@ -69,9 +80,9 @@ public class ConfigManagerTest
 	public void testGetConfig() throws IOException
 	{
 		AccountSession accountSession = new AccountSession(UUID.randomUUID(), Instant.now());
-		accountSession.setUsername("test");
+		accountSession.setUsername("petoptions");
 
-		manager.setConfiguration("test", "key", "moo");
+		manager.setConfiguration("petoptions", "key", "moo");
 
 		TestConfig conf = manager.getConfig(TestConfig.class);
 		Assert.assertEquals("moo", conf.key());
@@ -81,7 +92,7 @@ public class ConfigManagerTest
 	public void testGetConfigDefault() throws IOException
 	{
 		AccountSession accountSession = new AccountSession(UUID.randomUUID(), Instant.now());
-		accountSession.setUsername("test");
+		accountSession.setUsername("petoptions");
 
 		TestConfig conf = manager.getConfig(TestConfig.class);
 		Assert.assertEquals("default", conf.key());
@@ -91,7 +102,7 @@ public class ConfigManagerTest
 	public void testSetConfig() throws IOException
 	{
 		AccountSession accountSession = new AccountSession(UUID.randomUUID(), Instant.now());
-		accountSession.setUsername("test");
+		accountSession.setUsername("petoptions");
 
 		TestConfig conf = manager.getConfig(TestConfig.class);
 		conf.key("new value");
@@ -103,7 +114,7 @@ public class ConfigManagerTest
 	public void testGetConfigDescriptor() throws IOException
 	{
 		AccountSession accountSession = new AccountSession(UUID.randomUUID(), Instant.now());
-		accountSession.setUsername("test");
+		accountSession.setUsername("petoptions");
 
 		TestConfig conf = manager.getConfig(TestConfig.class);
 		ConfigDescriptor descriptor = manager.getConfigDescriptor(conf);

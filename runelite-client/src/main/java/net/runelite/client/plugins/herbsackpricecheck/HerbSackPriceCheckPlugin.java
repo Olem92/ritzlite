@@ -1,133 +1,148 @@
-
 package net.runelite.client.plugins.herbsackpricecheck;
 
-import net.runelite.client.eventbus.Subscribe;
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Client;
+import javax.inject.Inject;
 import net.runelite.api.ChatMessageType;
+import net.runelite.api.Client;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.MenuOptionClicked;
 import net.runelite.client.chat.ChatColorType;
+import net.runelite.client.chat.ChatMessageBuilder;
 import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.chat.QueuedMessage;
-import net.runelite.client.game.ItemManager;
+import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.util.QuantityFormatter;
-import net.runelite.http.api.item.Item;
 import net.runelite.http.api.item.ItemPrice;
-import net.runelite.client.chat.ChatMessageBuilder;
+import net.runelite.client.game.ItemManager;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static net.runelite.api.ItemID.HERB_SACK;
+import static net.runelite.api.ItemID.*;
 
 @PluginDescriptor(
-        name = "Herb sack price check",
-        description = "Price checks the herbs in herb sack",
-        tags = {"herbs", "prices", "ritzlite"}
+		name = "Herb Sack Price Check",
+		description = "Price checks the herbs in herb sack",
+		tags = {"herbs", "prices", "ritzlite"}
 )
+public class HerbSackPriceCheckPlugin extends Plugin
+{
+	private boolean gettingHerbs = false;
+	private ArrayList<ChatMessage> herbsInChatMessage = new ArrayList<>();
 
-@Slf4j
-public class HerbSackPriceCheckPlugin extends Plugin {
-    private static boolean gettingHerbs = false;
-    private static ArrayList<ChatMessage> herbsInChatMessage = new ArrayList<>();
+	@Inject
+	private Client client;
 
-    @Inject
-    private ItemManager itemManager;
+	@Inject
+	private ItemManager itemManager;
 
-    @Inject
-    private ChatMessageManager chatMessageManager;
+	@Inject
+	private ChatMessageManager chatMessageManager;
 
-    @Inject
-    private Client client;
+	@Subscribe
+	private void onMenuOptionClicked(MenuOptionClicked event)
+	{
+		if (!event.getMenuOption().equals("Check") || (event.getId() != OPEN_HERB_SACK && event.getId() != HERB_SACK))
+		{
+			return;
+		}
+		gettingHerbs = true;
+	}
 
-    @Subscribe
-    private void onMenuOptionClicked(MenuOptionClicked event) {
-        if (!event.getMenuOption().equals("Check") || event.getId() != HERB_SACK) {
-            return;
-        }
-        gettingHerbs = true;
-    }
+	@Subscribe
+	public void onChatMessage(ChatMessage chatMessage)
+	{
+		if(!gettingHerbs || chatMessage.getType() != ChatMessageType.GAMEMESSAGE)
+		{
+			return;
+		}
 
-    @Subscribe
-    private void onChatMessage(ChatMessage message) {
-        if (message.getType() != ChatMessageType.GAMEMESSAGE)
-            return;
+		String messageString = chatMessage.getMessage();
+		if(messageString.contains("x Grimy"))
+		{
+			herbsInChatMessage.add(chatMessage);
+		}
 
-        if (message.getMessage().contains("x Grimy") && gettingHerbs) {
-            herbsInChatMessage.add(message);
-        }
-    }
+		if(messageString == "The herb sack is empty.")
+		{
+			herbsInChatMessage.clear();
+			gettingHerbs = false;
+		}
+	}
 
-    @Subscribe
-    private void onGameTick(GameTick event) {
-        if (gettingHerbs && !herbsInChatMessage.isEmpty()) {
-            HashMap<String, Integer> herbsWithQuantity = reformatHerbChatMessages();
-            int totalValue = herbPriceLookup(herbsWithQuantity);
+	private HashMap<String, Integer> reformatHerbChatMessages()
+	{
+		HashMap<String, Integer> herbsWithQuantity = new HashMap<>();
 
-            if (totalValue != -1) {
-                buildValueMessage(totalValue);
-            }
+		for (ChatMessage message : herbsInChatMessage)
+		{
+			String[] fullHerbName = message.getMessage().split(" x ");
+			if(fullHerbName.length == 2)
+			{
+				herbsWithQuantity.put(fullHerbName[1].trim(), Integer.parseInt(fullHerbName[0].trim(), 10));
+			}
+		}
 
-            gettingHerbs = false;
-            herbsInChatMessage = new ArrayList<>();
-        }
-    }
+		return herbsWithQuantity;
+	}
 
-    private HashMap<String, Integer> reformatHerbChatMessages() {
-        HashMap<String, Integer> herbsWithQuantity = new HashMap<>();
+	@Subscribe
+	private void onGameTick(GameTick event)
+	{
+		if (gettingHerbs && !herbsInChatMessage.isEmpty())
+		{
+			HashMap<String, Integer> herbsWithQuantity = reformatHerbChatMessages();
+			int totalValue = herbPriceLookup(herbsWithQuantity);
 
-        for (ChatMessage message : herbsInChatMessage) {
-            String[] fullHerbName = message.getMessage().split("x");
+			buildValueMessage(totalValue);
 
-            for (int i = 0; i < fullHerbName.length; i += 2) {
-                herbsWithQuantity.put(fullHerbName[i + 1].trim(), Integer.parseInt(fullHerbName[i].trim()));
-            }
-        }
+			gettingHerbs = false;
+			herbsInChatMessage = new ArrayList<>();
+		}
+	}
 
-        return herbsWithQuantity;
-    }
+	private int herbPriceLookup(HashMap<String, Integer> herbsWithQuantity)
+	{
+		int totalValue = 0;
+		for (HashMap.Entry<String, Integer> herbQuant : herbsWithQuantity.entrySet())
+		{
+			List<ItemPrice> results = itemManager.search(herbQuant.getKey());
 
-    private int herbPriceLookup(HashMap<String, Integer> herbsWithQuantity) {
-        int totalValue = 0;
-        for (Map.Entry<String, Integer> herbQuant : herbsWithQuantity.entrySet()) {
-            List<ItemPrice> results = itemManager.search(herbQuant.getKey());
+			if(results != null && !results.isEmpty())
+			{
+				for(ItemPrice result : results)
+				{
+					totalValue += result.getPrice() * herbQuant.getValue();
+				}
+			}
+		}
+		return totalValue;
+	}
 
-            if (results != null && !results.isEmpty()) {
-                for (ItemPrice result : results) {
-                    totalValue += result.getPrice() * herbQuant.getValue();
-                }
-            }
-        }
+	private void buildValueMessage(int totalValue)
+	{
+		final ChatMessageBuilder output = new ChatMessageBuilder()
+				.append(ChatColorType.NORMAL)
+				.append("Total value of herbs in sack: ")
+				.append(ChatColorType.HIGHLIGHT)
+				.append(QuantityFormatter.formatNumber(totalValue));
 
-        return totalValue;
-    }
+		chatMessageManager.queue(QueuedMessage.builder()
+				.type(ChatMessageType.ITEM_EXAMINE)
+				.runeLiteFormattedMessage(output.build())
+				.build());
+	}
 
-    private Item retrieveFromList(List<Item> items, String herbName) {
-        for (Item item : items) {
-            if (item.getName().toLowerCase().equals(herbName.toLowerCase())) {
-                return item;
-            }
-        }
-        return null;
-    }
+	@Override
+	protected void startUp() throws Exception
+	{
+		//log.info("Example started!");
+	}
 
-    private void buildValueMessage(int totalValue) {
-        final ChatMessageBuilder output = new ChatMessageBuilder()
-                .append(ChatColorType.NORMAL)
-                .append("Total value of herbs in sack: ")
-                .append(ChatColorType.HIGHLIGHT)
-                .append(QuantityFormatter.formatNumber(totalValue));
-
-        chatMessageManager.queue(QueuedMessage.builder()
-                .type(ChatMessageType.ITEM_EXAMINE)
-                .runeLiteFormattedMessage(output.build())
-                .build());
-    }
+	@Override
+	protected void shutDown() throws Exception
+	{
+		//log.info("Example stopped!");
+	}
 }

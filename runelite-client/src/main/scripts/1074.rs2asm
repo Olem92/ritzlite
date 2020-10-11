@@ -1,0 +1,131 @@
+.id                 1074
+.int_stack_count    3
+.string_stack_count 1
+.int_var_count      6
+.string_var_count   1
+   iconst                 19660801
+   cc_deleteall          
+   iconst                 19660816
+   cc_deleteall          
+   iconst                 19660817
+   cc_deleteall          
+   iconst                 19660801
+   sload                  0
+   iconst                 0
+   invoke                 228
+   pop_int               
+   iconst                 19660816
+   if_getwidth           
+   iconst                 8
+   iconst                 36
+   multiply              
+   sub                   
+   iconst                 7
+   div                   
+   iconst                 36
+   add                   
+   istore                 3
+   iload                  0
+   inv_size              
+   istore                 4
+   iconst                 0
+   istore                 5
+   iconst                 19660816
+   iconst                 5
+   iconst                 0
+   cc_create             
+LABEL31:
+   iload                  5
+   iload                  4
+   if_icmplt              LABEL35
+   jump                   LABEL94
+LABEL35:
+   iconst                 19660816
+   iconst                 5
+   iload                  5
+   iconst                 1
+   add                   
+   cc_create             
+   iconst                 36
+   iconst                 32
+   iconst                 0
+   iconst                 0
+   cc_setsize            
+   iload                  5
+   iconst                 8
+   mod                   
+   iload                  3
+   multiply              
+   iload                  5
+   iconst                 8
+   div                   
+   iload                  3
+   multiply              
+   iconst                 0
+   iconst                 0
+   cc_setposition        
+   iconst                 3355443
+   cc_setgraphicshadow   
+   iconst                 1
+   cc_setoutline         
+   iconst                 2
+   sconst                 "Buy 1"
+   cc_setop              
+   iconst                 3
+   sconst                 "Buy 5"
+   cc_setop              
+   iconst                 4
+   sconst                 "Buy 10"
+   cc_setop              
+   invoke                 2082
+   iconst                 0
+   if_icmpeq              LABEL76
+   jump                   LABEL79
+LABEL76:
+   iconst                 5
+   sconst                 "Buy 50"
+   cc_setop              
+LABEL79:
+   iconst                 10
+   sconst                 "Examine"
+   cc_setop              
+   iconst                 487
+   iconst                 -2147483645
+   iconst                 -2147483643
+   iconst                 125
+   iconst                 0
+   sconst                 "Iiii"
+   cc_setonop            
+   iload                  5
+   iconst                 1
+   add                   
+   istore                 5
+   jump                   LABEL31
+LABEL94:
+   iconst                 19660817
+   iconst                 19660816
+   iconst                 792
+   iconst                 789
+   iconst                 790
+   iconst                 791
+   iconst                 773
+   iconst                 788
+   invoke                 31
+   iconst                 19660816
+   iload                  4
+   iload                  0
+   iload                  1
+   iload                  2
+   invoke                 1076
+   iconst                 1075
+   iconst                 -2147483645
+   iload                  4
+   iload                  0
+   iload                  1
+   iload                  2
+   iload                  0
+   iconst                 1
+   sconst                 "IivoiY"
+   iconst                 19660816
+   if_setoninvtransmit   
+   return                
